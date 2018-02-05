@@ -5,6 +5,7 @@ import {
   BindUser,
   Register,
   TranSaction,
+  CurrentUser
 } from "src/pages";
 
 import { TimeSlideChoose } from "src/components";
@@ -21,6 +22,9 @@ export const RouteConfigs = {
   TranSaction: {
     screen: TranSaction //交易
   },
+  CurrentUser:{
+    screen:CurrentUser
+  }
 };
 
 export default StackNavigator(RouteConfigs, {

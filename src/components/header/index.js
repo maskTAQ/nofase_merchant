@@ -29,7 +29,7 @@ export default class Header extends Component {
     onLeftPress() {}
   };
   static propTypes = {
-    LeftComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+    LeftComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.func,null]),
     RightComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     style: PropTypes.object,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
