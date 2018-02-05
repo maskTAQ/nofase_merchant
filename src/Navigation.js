@@ -18,9 +18,6 @@ export const RouteConfigs = {
   BindUser: {
     screen: BindUser
   },
-  Recharge: {
-    screen: Recharge //充值
-  },
   TranSaction: {
     screen: TranSaction //交易
   },
