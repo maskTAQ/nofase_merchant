@@ -1,7 +1,7 @@
 import AppNavigator from "src/Navigation";
 
 const initialNav = AppNavigator.router.getStateForAction(
-  AppNavigator.router.getActionForPathAndParams("CurrentUser")
+  AppNavigator.router.getActionForPathAndParams("BusinessStatistics")
 );
 
 export default {

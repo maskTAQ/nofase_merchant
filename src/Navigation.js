@@ -5,7 +5,8 @@ import {
   BindUser,
   Register,
   TranSaction,
-  CurrentUser
+  CurrentUser,
+  BusinessStatistics
 } from "src/pages";
 
 import { TimeSlideChoose } from "src/components";
@@ -24,6 +25,9 @@ export const RouteConfigs = {
   },
   CurrentUser:{
     screen:CurrentUser
+  },
+  BusinessStatistics:{
+    screen:BusinessStatistics
   }
 };
 
