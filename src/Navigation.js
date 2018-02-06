@@ -6,10 +6,9 @@ import {
   Register,
   TranSaction,
   CurrentUser,
-  BusinessStatistics
+  BusinessStatistics,
+  AccountAdmin
 } from "src/pages";
-
-import { TimeSlideChoose } from "src/components";
 export const RouteConfigs = {
   Login: {
     screen: Login
@@ -23,11 +22,14 @@ export const RouteConfigs = {
   TranSaction: {
     screen: TranSaction //交易
   },
-  CurrentUser:{
-    screen:CurrentUser
+  CurrentUser: {
+    screen: CurrentUser
   },
-  BusinessStatistics:{
-    screen:BusinessStatistics
+  BusinessStatistics: {
+    screen: BusinessStatistics
+  },
+  AccountAdmin: {
+    screen: AccountAdmin
   }
 };
 
