@@ -7,7 +7,8 @@ import {
   TranSaction,
   CurrentUser,
   BusinessStatistics,
-  AccountAdmin
+  AccountAdmin,
+  Detail
 } from "src/pages";
 export const RouteConfigs = {
   Login: {
@@ -30,6 +31,9 @@ export const RouteConfigs = {
   },
   AccountAdmin: {
     screen: AccountAdmin
+  },
+  Detail: {
+    screen: Detail
   }
 };
 
