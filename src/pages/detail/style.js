@@ -61,7 +61,6 @@ export default {
   itemName: {
     fontSize: 14,
     fontWeight: "bold",
-
     color: "#333"
   },
   itemId: {

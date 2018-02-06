@@ -6,3 +6,4 @@ export { default as CurrentUser } from "./current-user";
 export { default as BusinessStatistics } from "./business-statistics";
 export { default as AccountAdmin } from "./account-admin";
 export { default as Detail } from "./detail";
+export { default as WithdrawDeposit } from "./withdraw-deposit";
