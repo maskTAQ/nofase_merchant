@@ -9,7 +9,8 @@ import {
   BusinessStatistics,
   AccountAdmin,
   Detail,
-  WithdrawDeposit
+  WithdrawDeposit,
+  StoreManage
 } from "src/pages";
 export const RouteConfigs = {
   Login: {
@@ -38,6 +39,9 @@ export const RouteConfigs = {
   },
   WithdrawDeposit: {
     screen: WithdrawDeposit
+  },
+  StoreManage: {
+    screen: StoreManage
   }
 };
 

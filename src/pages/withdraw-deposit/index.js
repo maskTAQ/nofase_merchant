@@ -39,11 +39,11 @@ export default class WithdrawDeposit extends Component {
               <Text style={styles.explain}>今日提现0次 每天仅支持1次提现</Text>
             </View>
           </View>
-        </View>
-        <View style={styles.nav}>
-          <Button textStyle={styles.navItemText}>每日1提</Button>
-          <View style={styles.navBorder} />
-          <Button textStyle={styles.navItemText}>常见问题</Button>
+          <View style={styles.nav}>
+            <Button textStyle={styles.navItemText}>每日1提</Button>
+            <View style={styles.navBorder} />
+            <Button textStyle={styles.navItemText}>常见问题</Button>
+          </View>
         </View>
       </Page>
     );
