@@ -1,7 +1,7 @@
 import Axios from "axios";
 import { Tip } from "src/commons";
 
-const apiBase = "";
+import { baseURL } from "src/config";
 
 /**
  * 请求拦截器
@@ -36,7 +36,7 @@ Axios.interceptors.request.use(
 
 const requestWrapper = (url, param = {}) => {
   return Axios.request({
-    baseURL: apiBase,
+    baseURL: baseURL,
     url,
     method: "post",
     timeout: 5000,
