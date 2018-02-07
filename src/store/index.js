@@ -1,7 +1,7 @@
 import AppNavigator from "src/Navigation";
 
 const initialNav = AppNavigator.router.getStateForAction(
-  AppNavigator.router.getActionForPathAndParams("Timetable")
+  AppNavigator.router.getActionForPathAndParams("DeviceManage")
 );
 
 export default {
