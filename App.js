@@ -5,7 +5,7 @@
  */
 
 import React, { Component } from 'react';
-import { BackHandler, Platform, ToastAndroid, NativeModules } from "react-native";
+import { BackHandler, Platform, ToastAndroid,View, NativeModules } from "react-native";
 import { Provider, connect } from "react-redux";
 import { addNavigationHelpers } from "react-navigation";
 import { createStore } from 'redux';
@@ -73,8 +73,10 @@ export default class Root extends Component {
   render() {
     return (
       <Provider store={this.store}>
+        <View style={{flex:1}}>
         <AppWithNavigationState />
         <Tip />
+        </View>
       </Provider>
     );
   }

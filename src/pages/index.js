@@ -8,3 +8,4 @@ export { default as AccountAdmin } from "./account-admin";
 export { default as Detail } from "./detail";
 export { default as WithdrawDeposit } from "./withdraw-deposit";
 export { default as StoreManage } from "./store-manage";
+export { default as BusinessHours } from "./business-hours";

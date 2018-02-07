@@ -2,8 +2,8 @@ import React from "react";
 import { Text, View, ActivityIndicator } from "react-native";
 import PropTypes from "prop-types";
 import styles from "./style";
-import { Icon } from "scr/components";
-import { EventHub } from "src/commons";
+import { Icon } from "src/components";
+import { EventHub } from "src/common";
 
 const defaultProps = {
   pointerEvents: false,

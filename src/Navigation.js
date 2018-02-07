@@ -10,7 +10,8 @@ import {
   AccountAdmin,
   Detail,
   WithdrawDeposit,
-  StoreManage
+  StoreManage,
+  BusinessHours
 } from "src/pages";
 export const RouteConfigs = {
   Login: {
@@ -42,6 +43,9 @@ export const RouteConfigs = {
   },
   StoreManage: {
     screen: StoreManage
+  },
+  BusinessHours: {
+    screen: BusinessHours
   }
 };
 
