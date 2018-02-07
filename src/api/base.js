@@ -53,7 +53,7 @@ const post = ({ url, params = {}, loading = true, handleCatch = true }) => {
     .catch(e => {
       loading && Tip.dismiss();
       if (handleCatch) {
-        Tip.fail(String(e));
+        return Tip.fail(String(e));
       }
       return Promise.reject(e);
     });

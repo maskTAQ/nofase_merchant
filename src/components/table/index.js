@@ -12,6 +12,7 @@ import styles from "./style";
 export default class Table extends Component {
   static defaultProps = {
     columns: [],
+    //dataSource:[],
     style: {
       thead: {}
     },
@@ -29,6 +30,7 @@ export default class Table extends Component {
     onItemPress() {}
   };
   static propTypes = {
+    dataSource: PropTypes.array,
     columns: PropTypes.array,
     style: PropTypes.object,
     loadingText: PropTypes.string,
@@ -55,11 +57,20 @@ export default class Table extends Component {
   };
   componentWillMount() {
     let { pageIndex } = this.state;
-    this.props
+    const { dataSource } = this.props;
+
+    //如果存在数据源则不获取数据
+    if (dataSource) {
+      return this.setState({
+        hasData: true,
+        loading: false,
+        dataSource
+      });
+    }
+    return this.props
       .getData(pageIndex)
       .then(res => {
         if (res.length) {
-          console.log(res);
           this.setState({
             hasData: true,
             loading: false,
@@ -233,6 +244,26 @@ export default class Table extends Component {
   renderBody() {
     const { style: customStyle } = this.props;
     const { dataSource, refreshing } = this.state;
+    if (this.props.dataSource) {
+      return (
+        <View style={[styles.tbody, customStyle.tbody]}>
+          <View>
+            <FlatList
+              style={{ height: "100%" }}
+              data={dataSource}
+              keyExtractor={(row, i) => i}
+              renderItem={({ item }) => this.renderBodyRow(item)}
+              //ItemSeparatorComponent={this.renderBorder}
+              ListEmptyComponent={({ item }) => (
+                <View style={styles.noData}>
+                  <Text style={styles.noDataText}>没有数据哦</Text>
+                </View>
+              )}
+            />
+          </View>
+        </View>
+      );
+    }
     return (
       <View style={[styles.tbody, customStyle.tbody]}>
         <View>
