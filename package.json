@@ -6,7 +6,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "precommit": "lint-staged",
-    "cleanCache": "watchman watch-del-all"
+    "cleanCache": "watchman watch-del-all && npm run start -- --reset-cache"
   },
   "dependencies": {
     "axios": "^0.17.1",

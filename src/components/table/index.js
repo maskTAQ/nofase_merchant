@@ -63,8 +63,8 @@ export default class Table extends Component {
     if (dataSource) {
       return this.setState({
         hasData: true,
-        loading: false,
-        dataSource
+        loading: false
+        //dataSource
       });
     }
     return this.props
@@ -209,13 +209,13 @@ export default class Table extends Component {
   renderBorder() {
     return <View style={styles.border} />;
   }
-  renderBodyRow = row => {
+  renderBodyRow = (row, rowIndex) => {
     const children = [],
       { renderRowRule } = this,
-      defaultRenderTd = (row, value, index) => {
+      defaultRenderTd = (row, value, columnsIndex, rowIndex) => {
         return <Text style={styles.tdText}>{value}</Text>;
       };
-    const { onItemPress } = this.props;
+    const { onItemPress, style: customStyle } = this.props;
     for (const item in row) {
       if (!renderRowRule[item]) {
         continue;
@@ -224,8 +224,8 @@ export default class Table extends Component {
         item
       ];
       children[index] = (
-        <View style={[styles.td, style, tdStyle]} key={item}>
-          {render(row, row[item], index, styles.tdText)}
+        <View style={[styles.td, customStyle.td, style, tdStyle]} key={item}>
+          {render(row, row[item], index, rowIndex, styles.tdText)}
         </View>
       );
     }
@@ -249,10 +249,9 @@ export default class Table extends Component {
         <View style={[styles.tbody, customStyle.tbody]}>
           <View>
             <FlatList
-              style={{ height: "100%" }}
-              data={dataSource}
+              data={this.props.dataSource || dataSource}
               keyExtractor={(row, i) => i}
-              renderItem={({ item }) => this.renderBodyRow(item)}
+              renderItem={({ item, index }) => this.renderBodyRow(item, index)}
               //ItemSeparatorComponent={this.renderBorder}
               ListEmptyComponent={({ item }) => (
                 <View style={styles.noData}>
@@ -268,12 +267,11 @@ export default class Table extends Component {
       <View style={[styles.tbody, customStyle.tbody]}>
         <View>
           <FlatList
-            style={{ height: "100%" }}
-            data={dataSource}
+            data={this.props.dataSource || dataSource}
             onRefresh={this.onRefresh}
             refreshing={refreshing}
             keyExtractor={(row, i) => i}
-            renderItem={({ item }) => this.renderBodyRow(item)}
+            renderItem={({ item, index }) => this.renderBodyRow(item, index)}
             //ItemSeparatorComponent={this.renderBorder}
             ListEmptyComponent={({ item }) => (
               <View style={styles.noData}>

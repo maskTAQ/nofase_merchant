@@ -9,3 +9,5 @@ export { default as Detail } from "./detail";
 export { default as WithdrawDeposit } from "./withdraw-deposit";
 export { default as StoreManage } from "./store-manage";
 export { default as BusinessHours } from "./business-hours";
+export { default as DeviceManage } from "./device-manage";
+export { default as Timetable } from "./timetable";
