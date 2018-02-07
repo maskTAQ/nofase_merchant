@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import Navigation from "src/Navigation";
 import AppReducer from 'src/reducers';
 import initStore from 'src/store';
+import {Tip} from 'src/components';
 
 const App = ({ dispatch, nav }) => (
   <Navigation navigation={addNavigationHelpers({ dispatch, state: nav })} />
@@ -35,6 +36,7 @@ export default class Root extends Component {
     return (
       <Provider store={this.store}>
         <AppWithNavigationState />
+        <Tip />
       </Provider>
     );
   }
