@@ -12,3 +12,4 @@ export { default as BusinessHours } from "./business-hours";
 export { default as DeviceManage } from "./device-manage";
 export { default as Timetable } from "./timetable";
 export { default as Home } from "./home";
+export { default as Setting } from "./setting";

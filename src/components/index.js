@@ -12,3 +12,4 @@ export { default as Map } from "./map";
 export { default as Alert } from "./alert";
 export { default as ShareModal } from "./share-modal";
 export { default as Tip } from "./tip";
+export { default as Tabbar } from "./tabbar";
