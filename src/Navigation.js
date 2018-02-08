@@ -14,7 +14,8 @@ import {
   BusinessHours,
   DeviceManage,
   Timetable,
-  Home
+  Home,
+  Feedback
 } from "src/pages";
 export const RouteConfigs = {
   Login: {
@@ -58,6 +59,9 @@ export const RouteConfigs = {
   },
   Home: {
     screen: Home
+  },
+  Feedback: {
+    screen: Feedback
   }
 };
 
