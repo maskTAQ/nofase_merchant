@@ -2,11 +2,11 @@ export default {
   tabBar: {
     flexDirection: "row",
     height: 50,
-    paddingTop: 20,
     backgroundColor: "#1b9be4"
   },
   tabBarItem: {
     flex: 1,
+    justifyContent: "center",
     alignItems: "center"
   },
   tabBarItemLabel: {
@@ -20,12 +20,17 @@ export default {
   },
   tabBarScanQR: {
     position: "absolute",
-    top: -40,
+    top: -20,
     bottom: 0,
     left: 0,
     borderRadius: 70,
     width: 70,
     height: 70,
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+    borderWidth: 1.5,
+    borderColor: "#1b9be4",
     backgroundColor: "#fff"
   }
 };

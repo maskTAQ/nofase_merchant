@@ -1,8 +1,8 @@
 import { TabNavigator } from "react-navigation";
 
 import { Tabbar } from "src/components";
-import { CurrentUser, AccountAdmin, StoreManage, Setting } from "src/pages";
-
+import { CurrentUser, AccountAdmin, StoreManage } from "src/pages";
+import Setting from "src/pages/setting";
 export default TabNavigator(
   {
     CurrentUser: {

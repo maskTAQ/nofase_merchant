@@ -5,7 +5,7 @@ import actionMap from "src/action";
 const tabNav = (state, action) => {
   const { type } = action;
   switch (type) {
-    case actionMap.NAVIGATE_GO: {
+    case actionMap.NAVIGATE_TAb_GO: {
       return TabNavigator.router.getStateForAction(
         NavigationActions.navigate({
           routeName: action.payload.routeName,

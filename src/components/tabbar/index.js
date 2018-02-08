@@ -2,31 +2,39 @@ import React, { Component } from "react";
 import { View, Text } from "react-native";
 import PropTypes from "prop-types";
 
+import action from "src/action";
 import styles from "./style";
-import { Button } from "src/components";
+import { Button, Icon } from "src/components";
 
 export default class Tabbar extends Component {
-  static defaultProps = {};
   static propTypes = {
-    navigationState: PropTypes.object
+    navigationState: PropTypes.object,
+    navigation: PropTypes.object
   };
-  state = {};
   store = {
     routeInfo: {
       CurrentUser: {
-        label: "当前用户"
+        label: "当前用户",
+        icon: require("./img/u8.png")
       },
       StoreManage: {
-        label: "商家管理"
+        label: "商家管理",
+        icon: require("./img/u10.png")
       },
       AccountAdmin: {
-        label: "账户管理"
+        label: "账户管理",
+        icon: require("./img/u12.png")
       },
       Setting: {
-        label: "设置"
+        label: "设置",
+        icon: require("./img/u14.png")
       }
     }
   };
+  go(routeName) {
+    this.props.navigation.dispatch(action.navigate.tabGo({ routeName }));
+  }
+  scan() {}
   render() {
     const { routes } = this.props.navigationState;
     const verifyRoutes = Object.assign([], routes);
@@ -39,13 +47,20 @@ export default class Tabbar extends Component {
             if (item === "scanQR") {
               return (
                 <View style={styles.tabBarScanQRWrapper} key={item}>
-                  <Button style={styles.tabBarScanQR} />
+                  <Button onPress={this.scan} style={styles.tabBarScanQR}>
+                    <Icon size={40} source={require("./img/u6.png")} />
+                  </Button>
                 </View>
               );
             }
             const { routeName } = item;
             return (
-              <Button style={styles.tabBarItem} key={routeName}>
+              <Button
+                onPress={() => this.go(routeName)}
+                style={styles.tabBarItem}
+                key={routeName}
+              >
+                <Icon size={30} source={routeInfo[routeName].icon} />
                 <Text style={styles.tabBarItemLabel}>
                   {routeInfo[routeName].label}
                 </Text>
