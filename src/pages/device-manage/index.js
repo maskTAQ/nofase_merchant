@@ -14,7 +14,7 @@ const CheckBox = ({ checked, onChangeChecked }) => (
   >
     <Image
       style={styles.checkboxImg}
-      source={checked ? require() : require()}
+      // source={checked ? require() : require()}
     />
   </TouchableOpacity>
 );

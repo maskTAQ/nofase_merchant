@@ -13,7 +13,8 @@ import {
   StoreManage,
   BusinessHours,
   DeviceManage,
-  Timetable
+  Timetable,
+  Home
 } from "src/pages";
 export const RouteConfigs = {
   Login: {
@@ -54,6 +55,9 @@ export const RouteConfigs = {
   },
   Timetable: {
     screen: Timetable
+  },
+  Home: {
+    screen: Home
   }
 };
 

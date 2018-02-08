@@ -11,3 +11,4 @@ export { default as StoreManage } from "./store-manage";
 export { default as BusinessHours } from "./business-hours";
 export { default as DeviceManage } from "./device-manage";
 export { default as Timetable } from "./timetable";
+export { default as Home } from "./home";
