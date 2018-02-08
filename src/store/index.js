@@ -5,7 +5,7 @@ const initialNav = AppNavigator.router.getStateForAction(
   AppNavigator.router.getActionForPathAndParams("Home")
 );
 const initialTabNav = TabNavigator.router.getStateForAction(
-  TabNavigator.router.getActionForPathAndParams("CurrentUser")
+  TabNavigator.router.getActionForPathAndParams("Setting")
 );
 export default {
   nav: initialNav,
