@@ -1,4 +1,8 @@
+import { Dimensions } from "react-native";
 export default {
+  tabBarWrapper: {
+    position: "relative"
+  },
   tabBar: {
     flexDirection: "row",
     height: 50,
@@ -15,14 +19,15 @@ export default {
   },
   tabBarScanQRWrapper: {
     position: "relative",
+    zIndex: 9,
     width: 70,
     height: 50
   },
   tabBarScanQR: {
     position: "absolute",
-    top: -20,
+    zIndex: 9,
     bottom: 0,
-    left: 0,
+    left: (Dimensions.get("window").width - 70) / 2,
     borderRadius: 70,
     width: 70,
     height: 70,

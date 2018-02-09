@@ -30,14 +30,16 @@ export default class Transacion extends Component {
         type: "营收明细",
         onPress: () => {
           this.props.navigation.dispatch(
-            action.navigate.go({ routeName: "Recharge" })
+            action.navigate.go({ routeName: "Detail" })
           );
         }
       },
       {
         type: "提现  (免手续费，次日到账)",
         onPress: () => {
-          //this.props.navigation.dispatch(action.go('Recharge'));
+          this.props.navigation.dispatch(
+            action.navigate.go({ routeName: "WithdrawDeposit" })
+          );
         }
       }
     ];

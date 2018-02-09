@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import { View, Image, Text, Switch } from "react-native";
-//import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 
 import { Page, Button } from "src/components";
 import styles from "./style";
+import action from "src/action";
 export default class Setting extends Component {
   static defaultProps = {};
-  static propTypes = {};
+  static propTypes = {
+    navigation: PropTypes.object
+  };
   state = {};
   renderHeader() {
     return (
@@ -31,7 +34,15 @@ export default class Setting extends Component {
         rightComponent: <Button textStyle={styles.itemValue}>更改</Button>
       },
       { type: "border" },
-      { label: "客服反馈", rightComponent: null, onPress: () => {} }
+      {
+        label: "客服反馈",
+        rightComponent: null,
+        onPress: () => {
+          this.props.navigation.dispatch(
+            action.navigate.go({ routeName: "Feedback" })
+          );
+        }
+      }
     ];
     return (
       <View style={styles.list}>
@@ -42,7 +53,7 @@ export default class Setting extends Component {
           }
           if (onPress) {
             return (
-              <Button style={styles.item} key={label}>
+              <Button onPress={onPress} style={styles.item} key={label}>
                 <Text style={styles.itemLabel}>{label}</Text>
                 {rightComponent}
               </Button>

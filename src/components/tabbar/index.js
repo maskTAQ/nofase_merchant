@@ -42,16 +42,13 @@ export default class Tabbar extends Component {
     const { routeInfo } = this.store;
     return (
       <View style={styles.tabBarWrapper}>
+        <Button onPress={this.scan} style={styles.tabBarScanQR}>
+          <Icon size={40} source={require("./img/u6.png")} />
+        </Button>
         <View style={styles.tabBar}>
           {verifyRoutes.map(item => {
             if (item === "scanQR") {
-              return (
-                <View style={styles.tabBarScanQRWrapper} key={item}>
-                  <Button onPress={this.scan} style={styles.tabBarScanQR}>
-                    <Icon size={40} source={require("./img/u6.png")} />
-                  </Button>
-                </View>
-              );
+              return <View style={styles.tabBarScanQRWrapper} key={item} />;
             }
             const { routeName } = item;
             return (

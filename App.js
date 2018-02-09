@@ -42,8 +42,8 @@ class App extends Component {
     }
     if (routeName === "Home") {
       if (this.lastBack && new Date().getTime() - this.lastBack < 2000) {
-        console.log("will exit app ......");
-        NativeModules.System.exitApp()
+        console.log(BackHandler);
+        BackHandler.exitApp()
       } else {
         this.lastBack = new Date().getTime();
         ToastAndroid.show("再按一次返回键退出程序", 2000);

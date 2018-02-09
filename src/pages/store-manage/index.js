@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import { View, FlatList, Text } from "react-native";
-//import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 
 import { Page, Button, Icon } from "src/components";
+import action from "src/action";
 import styles from "./style";
 export default class StoreManage extends Component {
   static defaultProps = {};
-  static propTypes = {};
-  state = {};
+  static propTypes = {
+    navigation: PropTypes.object
+  };
   store = {
     readonlyData: [
       { label: "店名", value: "优势健身工作室" },
@@ -17,9 +19,33 @@ export default class StoreManage extends Component {
     ],
     editable: [
       { label: "店铺图库", value: "", onPress: () => {} },
-      { label: "营业时间", value: "周一至周日 09:00022:30", onPress: () => {} },
-      { label: "设备管理", value: "", onPress: () => {} },
-      { label: "课程表", value: "", onPress: () => {} },
+      {
+        label: "营业时间",
+        value: "周一至周日 09:00022:30",
+        onPress: () => {
+          this.props.navigation.dispatch(
+            action.navigate.go({ routeName: "BusinessHours" })
+          );
+        }
+      },
+      {
+        label: "设备管理",
+        value: "",
+        onPress: () => {
+          this.props.navigation.dispatch(
+            action.navigate.go({ routeName: "DeviceManage" })
+          );
+        }
+      },
+      {
+        label: "课程表",
+        value: "",
+        onPress: () => {
+          this.props.navigation.dispatch(
+            action.navigate.go({ routeName: "Timetable" })
+          );
+        }
+      },
       { label: "客服电话", value: "10477-5666666", onPress: () => {} },
       { label: "商家介绍/留言", value: "", onPress: () => {} }
     ]
