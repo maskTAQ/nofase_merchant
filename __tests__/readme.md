@@ -1,0 +1,1 @@
+1. react-native-camera中引入的ViewPropTypes不存在要去掉。

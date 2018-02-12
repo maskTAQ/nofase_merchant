@@ -15,8 +15,10 @@ import {
   DeviceManage,
   Timetable,
   Home,
-  Feedback
+  Feedback,
+  QRScan
 } from "src/pages";
+
 export const RouteConfigs = {
   Login: {
     screen: Login
@@ -62,6 +64,9 @@ export const RouteConfigs = {
   },
   Feedback: {
     screen: Feedback
+  },
+  QRScan: {
+    screen: QRScan
   }
 };
 
