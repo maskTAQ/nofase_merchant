@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { View, Text, FlatList, TouchableOpacity, Image } from "react-native";
+import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
 
-import { Page, Button, Input } from "src/components";
+import { Page, Button, Input, Icon } from "src/components";
 import styles from "./style";
 
 const CheckBox = ({ checked, onChangeChecked }) => (
@@ -12,8 +12,8 @@ const CheckBox = ({ checked, onChangeChecked }) => (
     }}
     style={styles.checkbox}
   >
-    <Image
-      style={styles.checkboxImg}
+    <Icon
+      size={20}
       source={
         checked ? require("./img/dl_xz.png") : require("./img/dl_wxz.png")
       }
