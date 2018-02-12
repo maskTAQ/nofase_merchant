@@ -1,12 +1,58 @@
 import React, { Component } from "react";
-import { View, Text, FlatList } from "react-native";
-//import PropTypes from "prop-types";
+import {
+  View,
+  Text,
+  FlatList,
+  Modal,
+  TouchableWithoutFeedback
+} from "react-native";
+import PropTypes from "prop-types";
 
 import { Page, Button, Icon } from "src/components";
 import styles from "./style";
+
+const QAModal = ({ QA, isVisible, onRequestClose }) => {
+  if (!QA) {
+    return null;
+  }
+  const { q, a } = QA;
+  return (
+    <Modal
+      animationType={"slide"}
+      transparent={true}
+      visible={isVisible}
+      onRequestClose={() => {}}
+    >
+      <TouchableWithoutFeedback onPress={onRequestClose}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>{q}</Text>
+              <Button onPress={onRequestClose}>
+                <Icon size={20} source={require("./img/u284.png")} />
+              </Button>
+            </View>
+            <View style={styles.modalDetailsWrapper}>
+              <Text style={styles.modalDetails}>{a}</Text>
+            </View>
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
+    </Modal>
+  );
+};
+QAModal.propTypes = {
+  QA: PropTypes.object,
+  isVisible: PropTypes.bool,
+  onRequestClose: PropTypes.func
+};
 export default class Feedback extends Component {
   static defaultProps = {};
   static propTypes = {};
+  state = {
+    isQAModalVisible: false,
+    activeQA: null
+  };
   store = {
     data: [
       { q: "商家提现分成规则", a: "----" },
@@ -17,11 +63,18 @@ export default class Feedback extends Component {
       { q: "关于用户余额不足的提示", a: "----" }
     ]
   };
-  showModal(a) {
-    console.log("====================================");
-    console.log(a);
-    console.log("====================================");
+  showModal(item) {
+    this.setState({
+      isQAModalVisible: true,
+      activeQA: item
+    });
   }
+  closeModal = () => {
+    this.setState({
+      isQAModalVisible: false,
+      activeQA: null
+    });
+  };
   renderHeader() {
     return (
       <View style={styles.header}>
@@ -31,9 +84,9 @@ export default class Feedback extends Component {
     );
   }
   renderItem(item) {
-    const { q, a } = item;
+    const { q } = item;
     return (
-      <Button onPress={() => this.showModal(a)} style={styles.item} key={q}>
+      <Button onPress={() => this.showModal(item)} style={styles.item} key={q}>
         <Text style={styles.itemLabel}>{q}</Text>
       </Button>
     );
@@ -55,9 +108,15 @@ export default class Feedback extends Component {
     );
   }
   render() {
+    const { isQAModalVisible, activeQA } = this.state;
     return (
       <Page title="客户反馈">
         <View style={styles.container}>
+          <QAModal
+            QA={activeQA}
+            isVisible={isQAModalVisible}
+            onRequestClose={this.closeModal}
+          />
           {this.renderHeader()}
           {this.renderList()}
           <Button style={styles.feedback} textStyle={styles.feedbackText}>

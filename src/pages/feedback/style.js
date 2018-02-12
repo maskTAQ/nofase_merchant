@@ -82,5 +82,39 @@ export default {
     fontSize: 14,
     fontWeight: "bold",
     color: "#039DEC"
+  },
+
+  //modal
+  modalContainer: {
+    flex: 1,
+    justifyContent: "flex-end"
+  },
+  modalContent: {
+    borderWidth: 1,
+    borderColor: "#666",
+    borderTopLeftRadius: 6,
+    borderTopRightRadius: 6,
+    backgroundColor: "#fff"
+  },
+  modalHeader: {
+    height: 40,
+    padding: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderColor: "#666"
+  },
+  modalTitle: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#666"
+  },
+  modalDetailsWrapper: {
+    padding: 10,
+    paddingTop: 15
+  },
+  modalDetails: {
+    color: "#999"
   }
 };
