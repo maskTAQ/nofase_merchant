@@ -94,5 +94,31 @@ export default {
     lineHeight: 20,
     fontWeight: "bold",
     color: "#999"
+  },
+
+  switchWrapper: {
+    width: 60,
+    height: 30,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingLeft: 3,
+    paddingRight: 3,
+    borderRadius: 6,
+    backgroundColor: "#1b9ee7"
+  },
+  switchPoint: {
+    width: 28,
+    height: 24,
+    borderRadius: 4,
+    backgroundColor: "#fff"
+  },
+  switchLabel: {
+    flex: 1,
+    textAlign: "center",
+    lineHeight: 30,
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#fff"
   }
 };

@@ -16,7 +16,12 @@ export default {
     fontSize: 14,
     color: "#666666"
   },
+  itemRight: {
+    flexDirection: "row",
+    alignItems: "center"
+  },
   itemValue: {
+    width: 50,
     fontSize: 13,
     color: "#333333"
   },

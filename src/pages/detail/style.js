@@ -1,13 +1,14 @@
 export default {
   container: {
     flex: 1,
-    paddingLeft: 10,
-    paddingRight: 10,
+
     backgroundColor: "#fff"
   },
   tabContainer: {
     flexDirection: "row",
-    height: 40
+    height: 40,
+    paddingLeft: 10,
+    paddingRight: 10
   },
   tabItem: {
     flex: 1,
@@ -36,7 +37,9 @@ export default {
   },
   item: {
     height: 60,
-    flexDirection: "row"
+    flexDirection: "row",
+    paddingLeft: 10,
+    paddingRight: 10
   },
   itemBorder: {
     marginTop: 6,

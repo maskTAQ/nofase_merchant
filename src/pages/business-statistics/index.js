@@ -11,15 +11,19 @@ export default class BusinessStatistics extends Component {
     activeIndex: 0
   };
   renderChooseDay() {
-    //const { activeIndex } = this.state;
+    const { activeIndex } = this.state;
     const days = ["所有", "当日", "上一日", "三日", "十日", "本月"];
     return (
       <View style={styles.chooseDay}>
-        {days.map(day => {
+        {days.map((day, i) => {
+          const isActive = activeIndex === i;
           return (
             <Button
-              style={styles.dayItem}
-              textStyle={styles.dayItemText}
+              style={[styles.dayItem, isActive ? styles.dayActiveItem : null]}
+              textStyle={[
+                styles.dayItemText,
+                isActive ? styles.dayActiveItemText : null
+              ]}
               key={day}
             >
               {day}
@@ -34,7 +38,7 @@ export default class BusinessStatistics extends Component {
       <View style={styles.chooseTime}>
         <Text style={styles.chooseTimeLabel}>自定义时间区:</Text>
         <View style={styles.inputWrapper}>
-          <Text>2017-11-15 至 2017-12-15</Text>
+          <Text style={styles.inputText}>2017-11-15 至 2017-12-15</Text>
         </View>
         <Button style={styles.chooseTimeButton}>
           <Icon size={24} source={require("./img/u33.png")} />
@@ -170,7 +174,7 @@ export default class BusinessStatistics extends Component {
         <FlatList
           data={data}
           ItemSeparatorComponent={() => (
-            <View style={{ height: 1, backgroundColor: "#333" }} />
+            <View style={{ height: 1, backgroundColor: "#ccc" }} />
           )}
           renderItem={({ item }) => this.renderItem(item)}
           keyExtractor={item => item.name + item.startTime}

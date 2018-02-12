@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View } from "react-native";
+import { View, StatusBar } from "react-native";
 import { connect } from "react-redux";
 import TabNavigation from "src/TabNavigation";
 import { addNavigationHelpers } from "react-navigation";
@@ -18,6 +18,11 @@ class Home extends React.Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
+        <StatusBar
+          backgroundColor={"red"}
+          translucent={true}
+          barStyle="default"
+        />
         <TabNavigation
           navigation={{
             ...addNavigationHelpers({

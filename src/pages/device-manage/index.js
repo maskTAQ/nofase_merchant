@@ -14,7 +14,9 @@ const CheckBox = ({ checked, onChangeChecked }) => (
   >
     <Image
       style={styles.checkboxImg}
-      // source={checked ? require() : require()}
+      source={
+        checked ? require("./img/dl_xz.png") : require("./img/dl_wxz.png")
+      }
     />
   </TouchableOpacity>
 );
@@ -54,6 +56,7 @@ export default class DeviceManage extends Component {
             value={value}
             onChangeText={v => this.handleValueChange(v, i, "value")}
             style={styles.itemValue}
+            clearButtonMode="never"
           />
           <CheckBox
             checked={checked}

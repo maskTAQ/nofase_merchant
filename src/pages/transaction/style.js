@@ -2,13 +2,11 @@ export default {
   container: {
     flex: 1,
     position: "relative",
-    backgroundColor: "transparent"
+    backgroundColor: "red"
   },
-  containers: {
+  content: {
     flex: 1,
-    position: "relative",
-    backgroundColor: "transparent",
-    marginTop: 50
+    backgroundColor: "transparent"
   },
   bgContainer: {
     position: "absolute",
@@ -18,13 +16,20 @@ export default {
     height: "100%",
     backgroundColor: "rgb(3,159,238)"
   },
-  content: {
-    position: "absolute",
-    zIndex: 1,
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%"
+  balanceWrapper: {
+    padding: 6
+  },
+  balanceLabel: {
+    textAlign: "center",
+    fontSize: 14,
+    color: "#0399e7"
+  },
+  balanceValue: {
+    textAlign: "center",
+    fontWeight: "bold",
+    //lineHeight: 35,
+    fontSize: 30,
+    color: "#0399e7"
   },
   tabContainer: {
     flexDirection: "row",
@@ -37,18 +42,6 @@ export default {
     paddingRight: 40,
     borderRadius: 10
   },
-  titBalance: {
-    textAlign: "center",
-    fontSize: 18,
-    color: "#0399e7"
-  },
-  Balance: {
-    textAlign: "center",
-    width: "100%",
-    lineHeight: 35,
-    fontSize: 20,
-    color: "#0399e7"
-  },
   tabItem: {
     position: "relative",
     flex: 1,
@@ -56,9 +49,17 @@ export default {
     justifyContent: "center",
     alignItems: "center"
   },
-  Itemmoney: {
+  itemmoneyValue: {
     color: "#0399e7",
+    fontWeight: "bold",
+
+    lineHeight: 30,
     fontSize: 20
+  },
+  itemmoneyLabel: {
+    color: "#0399e7",
+    fontWeight: "bold",
+    fontSize: 12
   },
   tabItemBorder: {
     width: 1,
@@ -88,6 +89,11 @@ export default {
     height: 80,
     padding: 10,
     borderRadius: 10
+  },
+  itemText: {
+    color: "#0399e7",
+    fontWeight: "bold",
+    fontSize: 16
   },
   itemBottom: {
     flexDirection: "row",

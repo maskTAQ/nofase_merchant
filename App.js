@@ -36,9 +36,11 @@ class App extends Component {
   handleBack = () => {
     const { nav } = this.props;
     const routeName = nav.routes[nav.index].routeName;
+    console.log(nav,routeName)
     if (nav.routes.length > 1 && !["Home"].includes(routeName)) {
       this.props.dispatch(action.navigate.back());
-      return false;
+      //console.log(action.navigate.back())
+      return true;
     }
     if (routeName === "Home") {
       if (this.lastBack && new Date().getTime() - this.lastBack < 2000) {

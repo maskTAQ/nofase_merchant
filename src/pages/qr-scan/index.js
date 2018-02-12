@@ -38,7 +38,7 @@ export default class DefaultScreen extends Component {
 
   barcodeReceived(e) {
     console.log("Type: " + e.type + "\nData: " + e.data);
-    //console.log(e)
+    console.log(e);
   }
   render() {
     return (

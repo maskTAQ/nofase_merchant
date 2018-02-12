@@ -4,7 +4,8 @@ import {
   Text,
   FlatList,
   Modal,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Linking
 } from "react-native";
 import PropTypes from "prop-types";
 
@@ -75,6 +76,15 @@ export default class Feedback extends Component {
       activeQA: null
     });
   };
+  call(mobile) {
+    return Linking.openURL(`tel:${mobile}`)
+      .then(supported => {
+        console.log(supported);
+      })
+      .catch(err => {
+        console.error("An error occurred", err);
+      });
+  }
   renderHeader() {
     return (
       <View style={styles.header}>
@@ -127,7 +137,12 @@ export default class Feedback extends Component {
               <View style={styles.contactItemLabel}>
                 <Text style={styles.contactItemLabelText}>总站客服:</Text>
               </View>
-              <Button style={styles.call}>
+              <Button
+                onPress={() => {
+                  this.call("4008650152");
+                }}
+                style={styles.call}
+              >
                 <Text style={styles.callText}>4008-650-152</Text>
                 <Icon size={20} source={require("./img/u204.png")} />
               </Button>
@@ -139,7 +154,12 @@ export default class Feedback extends Component {
                 </Text>
                 <Text style={styles.contactItemLabelText}>分站客服:</Text>
               </View>
-              <Button style={styles.call}>
+              <Button
+                onPress={() => {
+                  this.call("150489218870");
+                }}
+                style={styles.call}
+              >
                 <Text style={styles.callText}>150489218870</Text>
                 <Icon size={20} source={require("./img/u204.png")} />
               </Button>

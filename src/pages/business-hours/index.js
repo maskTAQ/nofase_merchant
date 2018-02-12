@@ -1,9 +1,43 @@
 import React, { Component } from "react";
-import { View, Text, Switch } from "react-native";
-//import PropTypes from "prop-types";
+import { View, Text } from "react-native";
+import PropTypes from "prop-types";
 
 import { Page, Button } from "src/components";
 import styles from "./style";
+
+const Switch = ({ value, onValueChange = () => {} }) => {
+  const label = value ? "off" : "on";
+  let children;
+  if (value) {
+    children = [
+      <View style={styles.switchPoint} key="0" />,
+      <Text style={styles.switchLabel} key="1">
+        {label}
+      </Text>
+    ];
+  } else {
+    children = [
+      <Text style={styles.switchLabel} key="1">
+        {label}
+      </Text>,
+      <View style={styles.switchPoint} key="0" />
+    ];
+  }
+  return (
+    <Button
+      onPress={() => {
+        onValueChange(!value);
+      }}
+      style={styles.switchWrapper}
+    >
+      {children}
+    </Button>
+  );
+};
+Switch.propTypes = {
+  value: PropTypes.bool,
+  onValueChange: PropTypes.func
+};
 export default class BusinessHours extends Component {
   static defaultProps = {};
   static propTypes = {};

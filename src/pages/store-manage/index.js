@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, FlatList, Text } from "react-native";
+import { View, FlatList, Text, ScrollView, Linking } from "react-native";
 import PropTypes from "prop-types";
 
 import { Page, Button, Icon } from "src/components";
@@ -46,7 +46,19 @@ export default class StoreManage extends Component {
           );
         }
       },
-      { label: "客服电话", value: "10477-5666666", onPress: () => {} },
+      {
+        label: "客服电话",
+        value: "10477-5666666",
+        onPress: () => {
+          return Linking.openURL("tel:104775666666")
+            .then(supported => {
+              console.log(supported);
+            })
+            .catch(err => {
+              console.error("An error occurred", err);
+            });
+        }
+      },
       { label: "商家介绍/留言", value: "", onPress: () => {} }
     ]
   };
@@ -93,18 +105,20 @@ export default class StoreManage extends Component {
   }
   render() {
     return (
-      <Page title="店铺管理">
-        <View style={styles.container}>
-          <View style={styles.content}>
-            {this.renderTop()}
-            {this.renderBottom()}
+      <Page title="店铺管理" LeftComponent={<View />}>
+        <ScrollView>
+          <View style={styles.container}>
+            <View style={styles.content}>
+              {this.renderTop()}
+              {this.renderBottom()}
+            </View>
+            <View style={styles.nav}>
+              <Button textStyle={styles.navItemText}>某某健身</Button>
+              <View style={styles.navBorder} />
+              <Button textStyle={styles.navItemText}>常见问题</Button>
+            </View>
           </View>
-          <View style={styles.nav}>
-            <Button textStyle={styles.navItemText}>某某健身</Button>
-            <View style={styles.navBorder} />
-            <Button textStyle={styles.navItemText}>常见问题</Button>
-          </View>
-        </View>
+        </ScrollView>
       </Page>
     );
   }

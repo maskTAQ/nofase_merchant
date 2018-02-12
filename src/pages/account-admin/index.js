@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View, Text, FlatList, Image } from "react-native";
 import PropTypes from "prop-types";
 
-import { Page, Button, Icon } from "src/components";
+import { Page, Button } from "src/components";
 import styles from "./style";
 import action from "src/action";
 
@@ -66,11 +66,12 @@ export default class Transacion extends Component {
         </View>
         <Page
           title="交易管理"
-          LeftComponent={
-            <Button onPress={this.back}>
-              <Icon size={20} source={require("./img/u326.png")} />
-            </Button>
-          }
+          // LeftComponent={
+          //   <Button onPress={this.back}>
+          //     <Icon size={20} source={require("./img/u326.png")} />
+          //   </Button>
+          // }
+          LeftComponent={null}
           headerStyle={{ backgroundColor: "#fff" }}
           titleStyle={{ color: "#1ba0ea" }}
         >

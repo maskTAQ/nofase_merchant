@@ -4247,12 +4247,9 @@ react-devtools-core@3.0.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
-react-native-camera@^0.13.0:
-  version "0.13.0"
-  resolved "http://npm.hengxifintech.com/react-native-camera/-/react-native-camera-0.13.0.tgz#7a612eb0de14978c53c22d2211a44a9e4a6ee618"
-  dependencies:
-    lodash "^4.17.4"
-    prop-types "^15.5.10"
+react-native-camera@0.6:
+  version "0.6.0"
+  resolved "http://npm.hengxifintech.com/react-native-camera/-/react-native-camera-0.6.0.tgz#dd2760b7857d660761c78f2da575b494fdc8dcb5"
 
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"

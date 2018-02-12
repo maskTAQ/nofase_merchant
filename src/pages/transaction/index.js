@@ -14,12 +14,17 @@ export default class Transacion extends Component {
   back = () => {
     this.props.navigation.dispatch(action.navigate.back());
   };
-  renderItem(row) {
+  renderItem(row, i) {
     const { type, onPress } = row;
     return (
       <Button onPress={onPress}>
         <View style={styles.item}>
-          <Text style={{ color: "#0399e7", fontSize: 15 }}>{type}</Text>
+          <Text style={styles.itemText}>
+            {type}
+            {i === 1 ? (
+              <Text style={{ fontSize: 12 }}>(免手续费，次日到账)</Text>
+            ) : null}
+          </Text>
         </View>
       </Button>
     );
@@ -27,24 +32,18 @@ export default class Transacion extends Component {
   renderList() {
     const data = [
       {
-        type: "充值",
+        type: "营收明细",
         onPress: () => {
           this.props.navigation.dispatch(
-            action.navigate.go({ routeName: "Recharge" })
+            action.navigate.go({ routeName: "Detail" })
           );
         }
       },
       {
-        type: "退押金/提现 (秒到)",
-        onPress: () => {
-          //this.props.navigation.dispatch(action.go('Recharge'));
-        }
-      },
-      {
-        type: " 钱包明细",
+        type: "提现",
         onPress: () => {
           this.props.navigation.dispatch(
-            action.navigate.go({ routeName: "Wallet" })
+            action.navigate.go({ routeName: "WithdrawDeposit" })
           );
         }
       }
@@ -55,20 +54,24 @@ export default class Transacion extends Component {
         ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
         keyExtractor={(item, index) => index}
         data={data}
-        renderItem={({ item }) => this.renderItem(item)}
+        renderItem={({ item, index }) => this.renderItem(item, index)}
       />
     );
   }
   render() {
     const tabMap = [
-      ["今日消费", "25.5", 0],
+      ["今日营收", "25.5", 0],
       "border",
       ["当前押金", "60.00", 1]
     ];
     return (
       <View style={styles.container}>
         <View style={styles.bgContainer}>
-          <Image source={require("./img/u3.png")} style={styles.bjimgs} />
+          <Image
+            resizeMode="stretch"
+            source={require("./img/u3.png")}
+            style={styles.bjimgs}
+          />
         </View>
         <Page
           title="交易管理"
@@ -78,11 +81,14 @@ export default class Transacion extends Component {
             </Button>
           }
           headerStyle={{ backgroundColor: "#fff" }}
+          barStyle="dark-content"
           titleStyle={{ color: "#1ba0ea" }}
         >
-          <Text style={styles.Balance}>123</Text>
-          <Text style={styles.titBalance}>(余额)</Text>
-          <View style={styles.containers}>
+          <View style={styles.content}>
+            <View style={styles.balanceWrapper}>
+              <Text style={styles.balanceValue}>123</Text>
+              <Text style={styles.balanceLabel}>(余额)</Text>
+            </View>
             <View style={styles.tabContainer}>
               {tabMap.map(tab => {
                 if (tab === "border") {
@@ -91,9 +97,9 @@ export default class Transacion extends Component {
                 const [label, money] = tab;
                 return (
                   <View style={styles.tabItem} key={label}>
-                    <Text style={styles.Itemmoney}>{money}</Text>
+                    <Text style={styles.itemmoneyValue}>{money}</Text>
 
-                    <Text style={{ color: "#0399e7" }}>{label}</Text>
+                    <Text style={styles.itemmoneyLabel}>{label}</Text>
                   </View>
                 );
               })}

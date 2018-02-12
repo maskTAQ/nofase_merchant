@@ -14,7 +14,7 @@ export default {
     alignItems: "center"
   },
   tabBarItemLabel: {
-    fontSize: 14,
+    fontSize: 12,
     color: "#fff"
   },
   tabBarScanQRWrapper: {

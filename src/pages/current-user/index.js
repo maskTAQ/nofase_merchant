@@ -23,33 +23,48 @@ export default class CurrentUser extends Component {
     ];
     return (
       <View style={styles.header}>
-        <Header
-          title=""
-          LeftComponent={<View />}
-          style={{ height: 40, backgroundColor: styles.header.backgroundColor }}
-        />
-        <View style={styles.headerTop}>
-          <View>
-            <Text style={styles.headerTime}>2017 12-20</Text>
-            <Text style={styles.turnoverLabel}>今日营业额：</Text>
-          </View>
-          <View style={styles.calendarWrapper}>
-            <Button onPress={() => this.go("BusinessStatistics")}>
-              <Icon size={30} source={require("./img/u85.png")} />
-            </Button>
-          </View>
+        <View style={styles.headerBG}>
+          <Image
+            style={{ flex: 1, width: "100%" }}
+            source={require("./img/u2.png")}
+            resizeMode="stretch"
+          />
         </View>
-        <Text style={styles.turnoverValue}>￥1400.00</Text>
-        <View style={styles.headerList}>
-          {data.map(item => {
-            const { label, value } = item;
-            return (
-              <View style={styles.headerListItem} key={label}>
-                <Text style={styles.headerListItemLabel}>{label}</Text>
-                <Text style={styles.headerListItemValue}>{value}</Text>
-              </View>
-            );
-          })}
+        <View style={styles.headerContent}>
+          <Header
+            title=""
+            LeftComponent={<View />}
+            style={{ height: 40, backgroundColor: "transparent" }}
+          />
+          <View style={styles.headerTop}>
+            <View>
+              <Text style={styles.headerTime}>2017 12-20</Text>
+              <Text style={styles.turnoverLabel}>今日营业额：</Text>
+            </View>
+            <View style={styles.calendarWrapper}>
+              <Button onPress={() => this.go("BusinessStatistics")}>
+                <Icon size={30} source={require("./img/u85.png")} />
+              </Button>
+            </View>
+          </View>
+          <Text style={styles.turnoverValue}>￥1400.00</Text>
+          <View style={styles.headerList}>
+            {data.map((item, i) => {
+              const { label, value } = item;
+              return (
+                <View
+                  style={[
+                    styles.headerListItem,
+                    i === 0 ? { alignItems: "flex-start" } : null
+                  ]}
+                  key={label}
+                >
+                  <Text style={styles.headerListItemLabel}>{label}</Text>
+                  <Text style={styles.headerListItemValue}>{value}</Text>
+                </View>
+              );
+            })}
+          </View>
         </View>
       </View>
     );

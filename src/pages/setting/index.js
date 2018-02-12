@@ -71,7 +71,7 @@ export default class Setting extends Component {
   }
   render() {
     return (
-      <Page title="设置">
+      <Page title="设置" LeftComponent={<View />}>
         <View style={styles.container}>
           <View>
             {this.renderHeader()}

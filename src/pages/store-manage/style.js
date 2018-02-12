@@ -10,7 +10,7 @@ export default {
     backgroundColor: "#fff"
   },
   item: {
-    height: 36,
+    height: 50,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center"
@@ -36,13 +36,14 @@ export default {
     color: "#666"
   },
   nav: {
+    marginTop: 10,
+    marginBottom: 30,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    paddingBottom: 10
+    justifyContent: "center"
   },
   navItemText: {
-    fontSize: 12,
+    fontSize: 14,
     color: "#3a9bfc"
   },
   navBorder: {
