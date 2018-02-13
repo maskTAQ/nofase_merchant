@@ -16,7 +16,8 @@ import {
   Timetable,
   Home,
   Feedback,
-  QRScan
+  QRScan,
+  QRScanTiming
 } from "src/pages";
 
 export const RouteConfigs = {
@@ -67,6 +68,9 @@ export const RouteConfigs = {
   },
   QRScan: {
     screen: QRScan
+  },
+  QRScanTiming: {
+    screen: QRScanTiming
   }
 };
 

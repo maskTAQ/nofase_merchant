@@ -15,3 +15,4 @@ export { default as Home } from "./home";
 export { default as Setting } from "./setting";
 export { default as Feedback } from "./feedback";
 export { default as QRScan } from "./qr-scan";
+export { default as QRScanTiming } from "./qrscan-timing";
