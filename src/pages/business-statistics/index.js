@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { View, Text, FlatList, Image } from "react-native";
+import DateTimePicker from "react-native-modal-datetime-picker";
+import moment from "moment";
 //import PropTypes from "prop-types";
 
 import { Page, Button, Icon } from "src/components";
@@ -8,8 +10,40 @@ export default class BusinessStatistics extends Component {
   static defaultProps = {};
   static propTypes = {};
   state = {
-    activeIndex: 0
+    activeIndex: 0,
+    isDateTimePickerVisible: false,
+    startTime: "请选择开始时间",
+    startTimeData: null,
+    endTime: "请选择结束时间",
+    endTimeData: null
   };
+  store = {
+    currentSelectedTimtType: ""
+  };
+  _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+
+  _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+  _handleDatePicked = date => {
+    const time = moment(date).format("YYYY-MM-DD");
+    const { currentSelectedTimtType } = this.store;
+    if (currentSelectedTimtType === "start") {
+      this.setState({
+        startTime: time,
+        startTimeData: date
+      });
+    } else {
+      this.setState({
+        endTime: time,
+        endTimeData: date
+      });
+    }
+    this._hideDateTimePicker();
+  };
+  selectTimt(type) {
+    this.store.currentSelectedTimtType = type;
+    this.setState({ isDateTimePickerVisible: true });
+  }
   renderChooseDay() {
     const { activeIndex } = this.state;
     const days = ["所有", "当日", "上一日", "三日", "十日", "本月"];
@@ -34,15 +68,30 @@ export default class BusinessStatistics extends Component {
     );
   }
   renderChooseTime() {
+    const { startTime, endTime } = this.state;
     return (
       <View style={styles.chooseTime}>
         <Text style={styles.chooseTimeLabel}>自定义时间区:</Text>
         <View style={styles.inputWrapper}>
-          <Text style={styles.inputText}>2017-11-15 至 2017-12-15</Text>
+          <Button
+            onPress={() => this.selectTimt("start")}
+            style={styles.inputButton}
+            textStyle={styles.inputText}
+          >
+            {startTime}
+          </Button>
+          <Text style={styles.zhi}>至</Text>
+          <Button
+            onPress={() => this.selectTimt("end")}
+            style={styles.inputButton}
+            textStyle={styles.inputText}
+          >
+            {endTime}
+          </Button>
         </View>
-        <Button style={styles.chooseTimeButton}>
+        <View style={styles.chooseTimeButton}>
           <Icon size={24} source={require("./img/u33.png")} />
-        </Button>
+        </View>
       </View>
     );
   }
@@ -190,6 +239,11 @@ export default class BusinessStatistics extends Component {
           {this.renderHeader()}
           {this.renderDetail()}
           {this.renderList()}
+          <DateTimePicker
+            isVisible={this.state.isDateTimePickerVisible}
+            onConfirm={this._handleDatePicked}
+            onCancel={this._hideDateTimePicker}
+          />
         </View>
       </Page>
     );

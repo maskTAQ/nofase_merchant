@@ -44,13 +44,22 @@ export default {
     flex: 1,
     margin: 6,
     height: 25,
+    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 6,
     borderWidth: 1,
     borderColor: "#039AE7"
   },
+  inputButton: {
+    flex: 1,
+    alignItems: "center"
+  },
   inputText: {
+    fontSize: 12,
+    color: "#999"
+  },
+  zhi: {
     fontSize: 12,
     color: "#999"
   },
