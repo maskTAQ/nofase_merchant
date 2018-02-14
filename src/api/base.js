@@ -52,9 +52,12 @@ const post = (
   return requestWrapper(url, params)
     .then(res => {
       const { data } = res;
+      loading && Tip.dismiss();
+      if (String(data).length === 6) {
+        return Promise.resolve(data);
+      }
       if (data.rCode > 0) {
-        loading && Tip.dismiss();
-        return Promise.resolve(res);
+        return Promise.resolve(data);
       } else {
         Tip.fail(data.message);
         return Promise.reject(data.message);

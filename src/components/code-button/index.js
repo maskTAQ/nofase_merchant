@@ -37,7 +37,7 @@ export default class CodeButton extends Component {
     //清除定时器
     clearInterval(this.intervalId);
   }
-  isGetCode = false;
+  1 = false;
   timer = () => {
     let count = 60;
     this.intervalId = null;
@@ -76,6 +76,7 @@ export default class CodeButton extends Component {
       api
         .sendCode(phone)
         .then(response => {
+          console.log(response);
           this.setState({ isRequestSmscode: false });
           const timer = this.timer();
           timer().then(() => {

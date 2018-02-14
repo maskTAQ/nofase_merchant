@@ -1,10 +1,17 @@
 import React, { Component } from "react";
 import { View, Text, Image } from "react-native";
+import PropTypes from "prop-types";
 
 import styles from "../login/style";
 import { Input, Button, CodeButton } from "src/components";
 import api from "src/api";
+import { Tip } from "src/common";
+import action from "src/action";
+
 export default class Register extends Component {
+  static propTypes = {
+    navigation: PropTypes.object
+  };
   state = {
     username: "user",
     phone: "13696526122",
@@ -17,10 +24,15 @@ export default class Register extends Component {
   }
   register = () => {
     const { username, phone, code } = this.state;
-    api
+    if (!this.codeRef.isGetCode) {
+      return Tip.fail("请先获取验证码");
+    }
+    return api
       .register({ NickName: username, Tel: phone, ExCode: code })
       .then(res => {
-        console.log(res);
+        this.props.navigation.dispatch(
+          action.navigate.go({ routeName: "Login" })
+        );
       })
       .catch(e => {
         console.log(e);
@@ -82,12 +94,15 @@ export default class Register extends Component {
               placeholder="验证码"
               placeholderTextColor="#fff"
             />
-            <CodeButton phone={phone}>验证码</CodeButton>
+            <CodeButton ref={e => (this.codeRef = e)} phone={phone}>
+              验证码
+            </CodeButton>
           </View>
           <Button
             onPress={this.register}
             style={styles.loginButton}
             textStyle={styles.loginText}
+            disabled={!username || !phone || !code}
           >
             完成注册
           </Button>

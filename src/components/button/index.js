@@ -1,21 +1,26 @@
 import React from "react";
-import { TouchableOpacity, View, Text } from "react-native";
+import { TouchableOpacity, Text } from "react-native";
 import PropTypes from "prop-types";
 
-const renderChildren = (children, textStyle) => {
+const renderChildren = (children, textStyle, disabled) => {
   const childrenType = typeof children;
   if (childrenType === "object") {
     return children;
   }
-  return <Text style={textStyle}>{children}</Text>;
-};
-const Button = ({ children, style, onPress, textStyle, disabled }) => {
-  if (disabled) {
-    return <View style={style}>{renderChildren(children, textStyle)}</View>;
-  }
   return (
-    <TouchableOpacity style={style} onPress={onPress}>
-      {renderChildren(children, textStyle)}
+    <Text style={[textStyle, disabled ? { color: "#fff" } : null]}>
+      {children}
+    </Text>
+  );
+};
+const Button = ({ children, style, onPress, textStyle, disabled = false }) => {
+  return (
+    <TouchableOpacity
+      style={[style, disabled ? { backgroundColor: "#ccc" } : null]}
+      onPress={onPress}
+      disabled={disabled}
+    >
+      {renderChildren(children, textStyle, disabled)}
     </TouchableOpacity>
   );
 };
