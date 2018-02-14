@@ -40,7 +40,7 @@ export default class BusinessStatistics extends Component {
     }
     this._hideDateTimePicker();
   };
-  selectTimt(type) {
+  selectTime(type) {
     this.store.currentSelectedTimtType = type;
     this.setState({ isDateTimePickerVisible: true });
   }
@@ -74,7 +74,7 @@ export default class BusinessStatistics extends Component {
         <Text style={styles.chooseTimeLabel}>自定义时间区:</Text>
         <View style={styles.inputWrapper}>
           <Button
-            onPress={() => this.selectTimt("start")}
+            onPress={() => this.selectTime("start")}
             style={styles.inputButton}
             textStyle={styles.inputText}
           >
@@ -82,7 +82,7 @@ export default class BusinessStatistics extends Component {
           </Button>
           <Text style={styles.zhi}>至</Text>
           <Button
-            onPress={() => this.selectTimt("end")}
+            onPress={() => this.selectTime("end")}
             style={styles.inputButton}
             textStyle={styles.inputText}
           >

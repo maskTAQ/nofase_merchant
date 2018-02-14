@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { View, Text } from "react-native";
 import PropTypes from "prop-types";
+import moment from "moment";
+import DateTimePicker from "react-native-modal-datetime-picker";
 
-import { Page, Button } from "src/components";
+import { Page, Button, Picker } from "src/components";
 import styles from "./style";
 
 const Switch = ({ value, onValueChange = () => {} }) => {
@@ -42,9 +44,58 @@ export default class BusinessHours extends Component {
   static defaultProps = {};
   static propTypes = {};
   state = {
-    activePickerIndex: 0,
-    timesRange: [0, 6]
+    isPickerVisible: false,
+    startWeek: "周一",
+    endWeek: "周二",
+    isDateTimePickerVisible: false,
+    startTime: "请选择开始时间",
+    startTimeData: null,
+    endTime: "请选择结束时间",
+    endTimeData: null
   };
+  store = {
+    weeks: [
+      { label: "周一", value: "周一" },
+      { label: "周二", value: "周二" },
+      { label: "周三", value: "周三" },
+      { label: "周四", value: "周四" },
+      { label: "周五", value: "周五" },
+      { label: "周六", value: "周六" },
+      { label: "周日", value: "周日" }
+    ],
+    selectedWeekType: "",
+    currentSelectedTimtType: ""
+  };
+  showWeekPickerModal = type => {
+    this.store.selectedWeekType = type;
+    this.setState({
+      isPickerVisible: true
+    });
+  };
+  _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+
+  _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+  _handleDatePicked = date => {
+    const time = moment(date).format("YYYY-MM-DD");
+    const { currentSelectedTimtType } = this.store;
+    if (currentSelectedTimtType === "start") {
+      this.setState({
+        startTime: time,
+        startTimeData: date
+      });
+    } else {
+      this.setState({
+        endTime: time,
+        endTimeData: date
+      });
+    }
+    this._hideDateTimePicker();
+  };
+  selectTime(type) {
+    this.store.currentSelectedTimtType = type;
+    this.setState({ isDateTimePickerVisible: true });
+  }
   renderHeader() {
     return (
       <View style={styles.header}>
@@ -54,52 +105,47 @@ export default class BusinessHours extends Component {
     );
   }
   renderPicker() {
-    const weeks = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
-    const { timesRange } = this.state;
-    const renderData = Object.assign([], timesRange);
-    renderData.splice(1, 0, "至");
-    console.log(renderData);
-
+    const { startWeek, endWeek } = this.state;
     return (
       <View style={styles.chooseDayWrapper}>
-        {renderData.map(i => {
-          if (i === "至") {
-            return (
-              <Text style={styles.zhi} key={i}>
-                至
-              </Text>
-            );
-          }
-          return (
-            <Button
-              style={styles.chooseDayButton}
-              textStyle={styles.chooseDayButtonText}
-              key={i}
-            >
-              {weeks[i]}
-            </Button>
-          );
-        })}
+        <Button
+          onPress={() => this.showWeekPickerModal("startWeek")}
+          style={styles.chooseDayButton}
+          textStyle={styles.chooseDayButtonText}
+        >
+          {startWeek}
+        </Button>
+        <Text style={styles.zhi}>至</Text>
+        <Button
+          onPress={() => this.showWeekPickerModal("endWeek")}
+          style={styles.chooseDayButton}
+          textStyle={styles.chooseDayButtonText}
+        >
+          {endWeek}
+        </Button>
       </View>
     );
   }
   renderCenter() {
+    const { startTime, endTime } = this.state;
     return (
       <View style={styles.center}>
         <Text style={styles.centerTitle}>营业时间</Text>
         {this.renderPicker()}
         <Button
+          onPress={() => this.selectTime("start")}
           style={styles.chooseTimeButton}
           textStyle={styles.chooseTimeButtonText}
         >
-          12:00
+          {startTime}
         </Button>
         <Text style={styles.timeZhi}>至</Text>
         <Button
+          onPress={() => this.selectTime("end")}
           style={styles.chooseTimeButton}
           textStyle={styles.chooseTimeButtonText}
         >
-          22:00
+          {endTime}
         </Button>
       </View>
     );
@@ -116,12 +162,37 @@ export default class BusinessHours extends Component {
     );
   }
   render() {
+    const { isPickerVisible } = this.state;
+    const { weeks } = this.store;
     return (
       <Page title="营业时间">
         <View style={styles.container}>
           {this.renderHeader()}
           {this.renderCenter()}
           {this.renderButton()}
+          <Picker
+            data={weeks}
+            visible={isPickerVisible}
+            onRequestClose={() => {
+              this.setState({
+                isPickerVisible: false
+              });
+            }}
+            onValueSelect={item => {
+              const { selectedWeekType } = this.store;
+              this.setState({
+                isPickerVisible: false,
+                [selectedWeekType]: item
+              });
+            }}
+          />
+          <DateTimePicker
+            is24Hour={true}
+            mode="time"
+            isVisible={this.state.isDateTimePickerVisible}
+            onConfirm={this._handleDatePicked}
+            onCancel={this._hideDateTimePicker}
+          />
         </View>
       </Page>
     );
