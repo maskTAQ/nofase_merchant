@@ -77,7 +77,7 @@ export default class BusinessHours extends Component {
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
   _handleDatePicked = date => {
-    const time = moment(date).format("YYYY-MM-DD");
+    const time = moment(date).format("hh:mm");
     const { currentSelectedTimtType } = this.store;
     if (currentSelectedTimtType === "start") {
       this.setState({

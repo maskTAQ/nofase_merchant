@@ -14,3 +14,4 @@ export { default as ShareModal } from "./share-modal";
 export { default as Tip } from "./tip";
 export { default as Tabbar } from "./tabbar";
 export { default as Picker } from "./picker";
+export { default as CodeButton } from "./code-button";
