@@ -76,7 +76,6 @@ export default class CodeButton extends Component {
       api
         .sendCode(phone)
         .then(response => {
-          console.log(response);
           this.setState({ isRequestSmscode: false });
           const timer = this.timer();
           timer().then(() => {
@@ -87,6 +86,10 @@ export default class CodeButton extends Component {
           });
           Tip.success("验证码发送成功，请注意查收");
           this.isGetCode = true;
+
+          setTimeout(() => {
+            Tip.success(`验证码:${response} ---for test`);
+          }, 1000);
         })
         .catch(e => {
           this.setState({ isRequestSmscode: false });

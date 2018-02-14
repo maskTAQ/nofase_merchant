@@ -4,8 +4,10 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import styles from "./style";
-import { Input, Button, ShareModal } from "src/components";
+import { Input, Button, ShareModal, CodeButton } from "src/components";
 import action from "src/action";
+import api from "src/api";
+import { Tip } from "src/common";
 
 @connect()
 export default class Login extends Component {
@@ -13,8 +15,8 @@ export default class Login extends Component {
     navigation: PropTypes.object
   };
   state = {
-    username: "",
-    password: ""
+    phone: "13696526122",
+    code: ""
   };
   handleValueChange(type, value) {
     this.setState({
@@ -24,13 +26,29 @@ export default class Login extends Component {
   login = () => {
     this.props.navigation.dispatch(action.navigate.go({ routeName: "Home" }));
   };
+  login = () => {
+    const { phone, code } = this.state;
+    if (!this.codeRef.isGetCode) {
+      return Tip.fail("请先获取验证码");
+    }
+    return api
+      .login({ Tel: phone, ExCode: code })
+      .then(res => {
+        this.props.navigation.dispatch(
+          action.navigate.go({ routeName: "Home" })
+        );
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
   register = () => {
     this.props.navigation.dispatch(
       action.navigate.go({ routeName: "Register" })
     );
   };
   render() {
-    const { username, password } = this.state;
+    const { phone, code } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.logo}>
@@ -47,12 +65,12 @@ export default class Login extends Component {
               style={styles.formItemImg}
             />
             <Input
-              value={username}
+              value={phone}
               onChangeText={v => {
-                this.handleValueChange("username", v);
+                this.handleValueChange("phone", v);
               }}
               style={styles.formItemInput}
-              placeholder="用户名"
+              placeholder="手机号"
               placeholderTextColor="#fff"
             />
           </View>
@@ -62,19 +80,20 @@ export default class Login extends Component {
               style={styles.formItemImg}
             />
             <Input
-              value={password}
+              value={code}
               onChangeText={v => {
-                this.handleValueChange("password", v);
+                this.handleValueChange("code", v);
               }}
               style={styles.formItemInput}
               placeholder="密码"
               placeholderTextColor="#fff"
             />
-            <Button style={styles.code} textStyle={styles.codeText}>
+            <CodeButton ref={e => (this.codeRef = e)} phone={phone}>
               验证码
-            </Button>
+            </CodeButton>
           </View>
           <Button
+            disabled={!phone || !code}
             onPress={this.login}
             style={styles.loginButton}
             textStyle={styles.loginText}

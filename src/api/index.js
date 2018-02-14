@@ -1,8 +1,9 @@
 import { post } from "./base";
 
 export default {
-  login({ username, password }) {
-    return post("/login", { username, password });
+  login({ Tel, ExCode }) {
+    console.log(Tel, ExCode, 9999);
+    return post("/User/UserLogin", { Tel, ExCode });
   },
 
   register({ NickName, Tel, ExCode }) {

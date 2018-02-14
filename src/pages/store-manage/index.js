@@ -66,7 +66,7 @@ export default class StoreManage extends Component {
     const icon = require("./img/u57.png");
     const { label, value, onPress } = item;
     return (
-      <Button disabled={isReadonly} onPress={onPress} style={styles.item}>
+      <Button onPress={onPress} style={styles.item}>
         <View style={styles.itemLabel}>
           <Text style={styles.itemLabelText}>{label}</Text>
           {isReadonly ? (
