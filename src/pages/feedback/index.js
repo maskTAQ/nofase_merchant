@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   Linking
 } from "react-native";
+import action from "src/action";
 import PropTypes from "prop-types";
 
 import { Page, Button, Icon } from "src/components";
@@ -49,7 +50,9 @@ QAModal.propTypes = {
 };
 export default class Feedback extends Component {
   static defaultProps = {};
-  static propTypes = {};
+  static propTypes = {
+    navigation: PropTypes.object
+  };
   state = {
     isQAModalVisible: false,
     activeQA: null
@@ -63,6 +66,11 @@ export default class Feedback extends Component {
       { q: "查看剩余额度", a: "----" },
       { q: "关于用户余额不足的提示", a: "----" }
     ]
+  };
+  feedback = () => {
+    this.props.navigation.dispatch(
+      action.navigate.go({ routeName: "FeedbackProblem" })
+    );
   };
   showModal(item) {
     this.setState({
@@ -129,7 +137,11 @@ export default class Feedback extends Component {
           />
           {this.renderHeader()}
           {this.renderList()}
-          <Button style={styles.feedback} textStyle={styles.feedbackText}>
+          <Button
+            onPress={this.feedback}
+            style={styles.feedback}
+            textStyle={styles.feedbackText}
+          >
             我要反馈
           </Button>
           <View style={styles.contact}>

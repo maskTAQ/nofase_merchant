@@ -17,7 +17,8 @@ import {
   Home,
   Feedback,
   QRScan,
-  QRScanTiming
+  QRScanTiming,
+  FeedbackProblem
 } from "src/pages";
 
 export const RouteConfigs = {
@@ -71,6 +72,9 @@ export const RouteConfigs = {
   },
   QRScanTiming: {
     screen: QRScanTiming
+  },
+  FeedbackProblem: {
+    screen: FeedbackProblem
   }
 };
 
