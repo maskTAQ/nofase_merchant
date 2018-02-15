@@ -24,9 +24,6 @@ export default class Login extends Component {
     });
   }
   login = () => {
-    this.props.navigation.dispatch(action.navigate.go({ routeName: "Home" }));
-  };
-  login = () => {
     const { phone, code } = this.state;
     if (!this.codeRef.isGetCode) {
       return Tip.fail("请先获取验证码");

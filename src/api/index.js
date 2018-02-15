@@ -2,7 +2,6 @@ import { post } from "./base";
 
 export default {
   login({ Tel, ExCode }) {
-    console.log(Tel, ExCode, 9999);
     return post("/User/UserLogin", { Tel, ExCode });
   },
 
@@ -10,6 +9,6 @@ export default {
     return post("/User/UserReg", { NickName, Tel, ExCode });
   },
   sendCode(Tel) {
-    return post("/User/GetExCode", { Tel });
+    return post("/User/GetExCode", { Tel }, { loading: false });
   }
 };

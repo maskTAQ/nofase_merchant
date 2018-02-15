@@ -56,17 +56,18 @@ const post = (
       if (String(data).length === 6) {
         return Promise.resolve(data);
       }
+
       if (data.rCode > 0) {
         return Promise.resolve(data);
       } else {
-        Tip.fail(data.message);
+        Tip.fail(`error:${data.message}`);
         return Promise.reject(data.message);
       }
     })
     .catch(e => {
       loading && Tip.dismiss();
       if (handleCatch) {
-        return Tip.fail(String(e));
+        Tip.fail(`error:${e}`);
       }
       return Promise.reject(e);
     });
