@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 
+import actionMap from "src/action";
 import tabNav from "./tabNav";
 import nav from "./nav";
 
@@ -14,9 +15,25 @@ function auth(state = {}, action) {
       return state;
   }
 }
+function storeBusInfo(state = {}, action) {
+  const { type, payload } = action;
+  if (type === actionMap.GETSTOREBUSINFO) {
+    return { ...state, ...payload };
+  }
+  return state;
+}
+function storeUserList(state = {}, action) {
+  const { type, payload } = action;
+  if (type === actionMap.GETSTOREUSERLIST) {
+    return { ...state, ...payload };
+  }
+  return state;
+}
 const appReducer = combineReducers({
-  auth: auth,
-  nav: nav,
-  tabNav: tabNav
+  auth,
+  nav,
+  tabNav,
+  storeBusInfo,
+  storeUserList
 });
 export default appReducer;

@@ -7,7 +7,7 @@ import styles from "./style";
 import { Input, Button, ShareModal, CodeButton } from "src/components";
 import action from "src/action";
 import api from "src/api";
-import { Tip } from "src/common";
+//import { Tip } from "src/common";
 
 @connect()
 export default class Login extends Component {
@@ -16,7 +16,7 @@ export default class Login extends Component {
   };
   state = {
     phone: "13696526122",
-    code: ""
+    code: "171426"
   };
   handleValueChange(type, value) {
     this.setState({
@@ -25,13 +25,12 @@ export default class Login extends Component {
   }
   login = () => {
     const { phone, code } = this.state;
-    if (!this.codeRef.isGetCode) {
-      return Tip.fail("请先获取验证码");
-    }
+    // if (!this.codeRef.isGetCode) {
+    //   return Tip.fail("请先获取验证码");
+    // }
     return api
       .login({ Tel: phone, ExCode: code })
       .then(res => {
-        console.log(res, 99);
         this.props.navigation.dispatch(
           action.navigate.go({ routeName: "Home" })
         );

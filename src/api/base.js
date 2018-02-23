@@ -39,7 +39,7 @@ const requestWrapper = (url, param = {}) => {
     baseURL: baseURL,
     url,
     method: "post",
-    timeout: 5000,
+    timeout: 50000,
     data: param
   });
 };
@@ -53,7 +53,11 @@ const post = (
     .then(res => {
       const { data } = res;
       loading && Tip.dismiss();
-      if (String(data).length === 6) {
+      if (["/Store/GetStoreBusInfo", "/Store/GetStoreUserList"].includes(url)) {
+        return Promise.resolve(data);
+      }
+
+      if (data.reason === "操作成功") {
         return Promise.resolve(data);
       }
 
