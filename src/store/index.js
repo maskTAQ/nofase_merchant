@@ -3,7 +3,7 @@ import TabNavigator from "src/TabNavigation";
 import { CreateReduxField } from "src/common";
 
 const initialNav = AppNavigator.router.getStateForAction(
-  AppNavigator.router.getActionForPathAndParams("BusinessStatistics")
+  AppNavigator.router.getActionForPathAndParams("StoreManage")
 );
 const initialTabNav = TabNavigator.router.getStateForAction(
   TabNavigator.router.getActionForPathAndParams("CurrentUser")

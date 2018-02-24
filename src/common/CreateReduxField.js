@@ -3,7 +3,8 @@ export default function CreateReduxField() {
     "storeBusInfo",
     "storeUserList",
     "storeBusInfoByDate",
-    "storeUserListByDate"
+    "storeUserListByDate",
+    "storeInfo"
   ];
   return {
     action(key, status, data) {
@@ -41,4 +42,3 @@ export default function CreateReduxField() {
   };
 }
 Object.assign(CreateReduxField, CreateReduxField());
-//CreateReduxField.prototype = CreateReduxField();

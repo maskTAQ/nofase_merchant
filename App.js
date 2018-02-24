@@ -31,6 +31,11 @@ class App extends Component {
     if (Platform.OS === "android") {
       BackHandler.addEventListener("hardwareBackPress", this.handleBack);
     }
+    EventHub.emit(
+      "dispatch",
+      "getStoreInfo",
+      "storeInfo"
+    );
   }
   componentWillUnmount() {
     if (Platform.OS === "android") {

@@ -57,7 +57,8 @@ const post = (
         [
           "/Store/GetStoreBusInfo",
           "/Store/GetStoreUserList",
-          "/Store/GetStoreBusInfoByDate"
+          "/Store/GetStoreBusInfoByDate",
+          "/Store/GetStoreInfo"
         ].includes(url)
       ) {
         return Promise.resolve(data);
@@ -70,6 +71,7 @@ const post = (
       if (data.rCode > 0) {
         return Promise.resolve(data);
       } else {
+        console.log(data);
         Tip.fail(`error:${data.message}`);
         return Promise.reject(data.message);
       }

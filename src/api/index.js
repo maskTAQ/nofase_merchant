@@ -22,5 +22,8 @@ export default {
   },
   getStoreUserListByDate({ SDate, EDate }) {
     return post("/Store/GetStoreUserListByDate", { SDate, EDate });
+  },
+  getStoreInfo() {
+    return post("/Store/GetStoreInfo");
   }
 };

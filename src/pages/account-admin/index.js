@@ -1,16 +1,23 @@
 import React, { Component } from "react";
 import { View, Text, FlatList, Image } from "react-native";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 import { Page, Button } from "src/components";
 import styles from "./style";
+
 import action from "src/action";
 
-export default class Transacion extends Component {
+@connect(state => {
+  const { storeInfo } = state;
+  return { storeInfo };
+})
+export default class AccountAdmin extends Component {
   static propTypes = {
     navigation: PropTypes.object
   };
   state = {};
+  componentWillMount() {}
   back = () => {
     this.props.navigation.dispatch(action.navigate.back());
   };
