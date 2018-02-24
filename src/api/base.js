@@ -53,7 +53,13 @@ const post = (
     .then(res => {
       const { data } = res;
       loading && Tip.dismiss();
-      if (["/Store/GetStoreBusInfo", "/Store/GetStoreUserList"].includes(url)) {
+      if (
+        [
+          "/Store/GetStoreBusInfo",
+          "/Store/GetStoreUserList",
+          "/Store/GetStoreBusInfoByDate"
+        ].includes(url)
+      ) {
         return Promise.resolve(data);
       }
 

@@ -5,7 +5,7 @@
  */
 
 import React, { Component } from 'react';
-import { BackHandler, Platform, ToastAndroid,View } from "react-native";
+import { BackHandler, Platform, ToastAndroid, View } from "react-native";
 import { Provider, connect } from "react-redux";
 import { addNavigationHelpers } from "react-navigation";
 import { createStore } from 'redux';
@@ -14,29 +14,47 @@ import PropTypes from 'prop-types';
 import Navigation from "src/Navigation";
 import AppReducer from 'src/reducers';
 import initStore from 'src/store';
+import api from "src/api";
 import { Tip } from 'src/components';
 import action from "src/action";
-
+import { EventHub,CreateReduxField } from "src/common";
 class App extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     nav: PropTypes.object.isRequired,
   };
+  componentWillMount() {
+    //监听dispatch事件 由onDispatch统一发送action
+    EventHub.on('dispatch', this.onDispatch);
+  }
   componentDidMount() {
     if (Platform.OS === "android") {
       BackHandler.addEventListener("hardwareBackPress", this.handleBack);
     }
-
   }
   componentWillUnmount() {
     if (Platform.OS === "android") {
       BackHandler.removeEventListener("hardwareBackPress", this.handleBack);
     }
+
+  }
+  onDispatch = (apiUrl,reduxStoreKey,params) => {
+    const { dispatch } = this.props;
+    dispatch(CreateReduxField.action(reduxStoreKey,"loading"));
+    api[apiUrl](params)
+      .then(res => {
+        dispatch(
+          CreateReduxField.action(reduxStoreKey,"success", res)
+        );
+      })
+      .catch(e => {
+        dispatch(CreateReduxField.action(reduxStoreKey,"error"));
+      });
+      return 1;
   }
   handleBack = () => {
     const { nav } = this.props;
     const routeName = nav.routes[nav.index].routeName;
-    console.log(nav,routeName)
     if (nav.routes.length > 1 && !["Home"].includes(routeName)) {
       this.props.dispatch(action.navigate.back());
       //console.log(action.navigate.back())
@@ -75,9 +93,9 @@ export default class Root extends Component {
   render() {
     return (
       <Provider store={this.store}>
-        <View style={{flex:1}}>
-        <AppWithNavigationState />
-        <Tip />
+        <View style={{ flex: 1 }}>
+          <AppWithNavigationState />
+          <Tip />
         </View>
       </Provider>
     );

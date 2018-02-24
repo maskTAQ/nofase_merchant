@@ -1,8 +1,9 @@
 import AppNavigator from "src/Navigation";
 import TabNavigator from "src/TabNavigation";
+import { CreateReduxField } from "src/common";
 
 const initialNav = AppNavigator.router.getStateForAction(
-  AppNavigator.router.getActionForPathAndParams("Home")
+  AppNavigator.router.getActionForPathAndParams("BusinessStatistics")
 );
 const initialTabNav = TabNavigator.router.getStateForAction(
   TabNavigator.router.getActionForPathAndParams("CurrentUser")
@@ -15,12 +16,5 @@ export default {
     username: "",
     mobile: ""
   },
-  storeBusInfo: {
-    status: "init",
-    data: null
-  },
-  storeUserList: {
-    status: "init",
-    data: null
-  }
+  ...CreateReduxField().store()
 };

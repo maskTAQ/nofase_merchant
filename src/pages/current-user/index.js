@@ -4,12 +4,13 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { Header, Button, Icon, Input } from "src/components";
+import { EventHub } from "src/common";
 import action from "src/action";
-import api from "src/api";
 import styles from "./style";
 
 @connect(state => {
-  return { ...state };
+  const { storeBusInfo, storeUserList } = state;
+  return { storeBusInfo, storeUserList };
 })
 export default class CurrentUser extends Component {
   static defaultProps = {};
@@ -26,69 +27,33 @@ export default class CurrentUser extends Component {
       AveAmont: "-",
       nowInPeople: "-"
     },
-    userList: []
+    storeUserList: []
   };
   componentWillMount() {
-    this.updateStoreData(this.props);
-    this.updateUserListData(this.props);
+    EventHub.emit("dispatch", "getStoreBusInfo", "storeBusInfo");
+    EventHub.emit("dispatch", "getStoreUserList", "storeUserList");
   }
   componentWillReceiveProps(nextProps) {
-    // this.updateStoreData(nextProps);
-    //this.updateUserListData(nextProps)
+    this.updateStoreData(nextProps);
+    this.updateUserListData(nextProps);
   }
   updateStoreData(props) {
     const { status, data } = props.storeBusInfo;
-    if (["loading", "success"].includes(status)) {
-      return;
-    }
     if (status === "success") {
       this.setState({
         storeBusInfo: { ...eval("(" + data + ")") }
       });
       return;
     }
-    this.props.navigation.dispatch(action.data.getStoreBusInfo("loading"));
-    api
-      .getStoreBusInfo()
-      .then(res => {
-        this.setState({
-          storeBusInfo: { ...eval("(" + res + ")") }
-        });
-        this.props.navigation.dispatch(
-          action.data.getStoreBusInfo("success", res)
-        );
-      })
-      .catch(e => {
-        console.log(e);
-        this.props.navigation.dispatch(action.data.getStoreBusInfo("error"));
-      });
   }
   updateUserListData(props) {
     const { status, data } = props.storeUserList;
-    if (["loading", "success"].includes(status)) {
-      return;
-    }
     if (status === "success") {
       this.setState({
-        userList: data
+        storeUserList: data
       });
       return;
     }
-    this.props.navigation.dispatch(action.data.getStoreUserList("loading"));
-    api
-      .getStoreUserList()
-      .then(res => {
-        this.setState({
-          userList: data
-        });
-        this.props.navigation.dispatch(
-          action.data.getStoreUserList("success", res)
-        );
-      })
-      .catch(e => {
-        console.log(e);
-        this.props.navigation.dispatch(action.data.getStoreUserList("error"));
-      });
   }
   go(routeName) {
     this.props.navigation.dispatch(action.navigate.go({ routeName }));
@@ -214,7 +179,7 @@ export default class CurrentUser extends Component {
     );
   }
   renderList() {
-    const { userList } = this.state;
+    const { storeUserList } = this.state;
     // const data = [
     //   {
     //     portraitSource: require("./img/u45.png"),
@@ -276,7 +241,7 @@ export default class CurrentUser extends Component {
 
     return (
       <FlatList
-        data={userList}
+        data={storeUserList}
         renderItem={({ item }) => this.renderItem(item)}
         keyExtractor={item => item.name + item.startTime}
         style={styles.listContainer}
@@ -284,7 +249,6 @@ export default class CurrentUser extends Component {
     );
   }
   render() {
-    console.log(this.props, 999);
     return (
       <View style={styles.container}>
         {this.renderHeader()}

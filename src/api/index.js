@@ -16,5 +16,11 @@ export default {
   },
   getStoreUserList() {
     return post("/Store/GetStoreUserList");
+  },
+  getStoreBusInfoByDate({ SDate, EDate }) {
+    return post("/Store/GetStoreBusInfoByDate", { SDate, EDate });
+  },
+  getStoreUserListByDate({ SDate, EDate }) {
+    return post("/Store/GetStoreUserListByDate", { SDate, EDate });
   }
 };

@@ -16,7 +16,7 @@ export default class Login extends Component {
   };
   state = {
     phone: "13696526122",
-    code: "171426"
+    code: "766195"
   };
   handleValueChange(type, value) {
     this.setState({
