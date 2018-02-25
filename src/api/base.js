@@ -52,6 +52,7 @@ const post = (
   return requestWrapper(url, params)
     .then(res => {
       const { data } = res;
+      console.log(data, url);
       loading && Tip.dismiss();
       if (
         [

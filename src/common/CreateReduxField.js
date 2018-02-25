@@ -4,7 +4,8 @@ export default function CreateReduxField() {
     "storeUserList",
     "storeBusInfoByDate",
     "storeUserListByDate",
-    "storeInfo"
+    "storeInfo",
+    "bankInfo"
   ];
   return {
     action(key, status, data) {

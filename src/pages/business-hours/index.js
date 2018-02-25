@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View, Text } from "react-native";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import moment from "moment";
 import DateTimePicker from "react-native-modal-datetime-picker";
 
@@ -40,9 +41,16 @@ Switch.propTypes = {
   value: PropTypes.bool,
   onValueChange: PropTypes.func
 };
+
+@connect(state => {
+  const { storeInfo } = state;
+  return { storeInfo };
+})
 export default class BusinessHours extends Component {
   static defaultProps = {};
-  static propTypes = {};
+  static propTypes = {
+    storeInfo: PropTypes.object
+  };
   state = {
     isPickerVisible: false,
     startWeek: "周一",
@@ -51,8 +59,16 @@ export default class BusinessHours extends Component {
     startTime: "请选择开始时间",
     startTimeData: null,
     endTime: "请选择结束时间",
-    endTimeData: null
+    endTimeData: null,
+    storeInfo: {
+      BusinessTimes: "-",
+      BusinessWeeks: ""
+    },
+    isClose: 1 //1营业 2未营业
   };
+  componentWillReceiveProps(nextProps) {
+    this.updateData(nextProps);
+  }
   store = {
     weeks: [
       { label: "周一", value: "周一" },
@@ -66,18 +82,32 @@ export default class BusinessHours extends Component {
     selectedWeekType: "",
     currentSelectedTimtType: ""
   };
+  updateData(props) {
+    const { status, data } = props.storeInfo;
+    if (status === "success") {
+      const { BusinessWeeks, BusinessTimes } = data;
+      const [startTime, endTime] = BusinessTimes.split("-");
+      const weeks = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
+      this.setState({
+        storeInfo: data,
+        startWeek: weeks[BusinessWeeks[0]],
+        endWeek: weeks[BusinessWeeks[BusinessWeeks.length - 1]],
+        startTime,
+        endTime
+      });
+      return;
+    }
+  }
   showWeekPickerModal = type => {
     this.store.selectedWeekType = type;
     this.setState({
       isPickerVisible: true
     });
   };
-  _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
-
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
   _handleDatePicked = date => {
-    const time = moment(date).format("hh:mm");
+    const time = moment(date).format("HH:mm");
     const { currentSelectedTimtType } = this.store;
     if (currentSelectedTimtType === "start") {
       this.setState({
@@ -96,16 +126,26 @@ export default class BusinessHours extends Component {
     this.store.currentSelectedTimtType = type;
     this.setState({ isDateTimePickerVisible: true });
   }
+  isCloseChange = v => {
+    this.setState({
+      isClose: v ? 1 : 2
+    });
+  };
+  save = () => {
+    console.log(this.state);
+  };
   renderHeader() {
+    const { isClose } = this.state;
     return (
       <View style={styles.header}>
         <Text style={styles.headerLabel}>店铺营业状态</Text>
-        <Switch />
+        <Switch value={isClose === 1} onValueChange={this.isCloseChange} />
       </View>
     );
   }
   renderPicker() {
     const { startWeek, endWeek } = this.state;
+
     return (
       <View style={styles.chooseDayWrapper}>
         <Button
@@ -153,7 +193,11 @@ export default class BusinessHours extends Component {
   renderButton() {
     return (
       <View style={styles.bottom}>
-        <Button style={styles.saveButton} textStyle={styles.saveButtonText}>
+        <Button
+          onPress={this.save}
+          style={styles.saveButton}
+          textStyle={styles.saveButtonText}
+        >
           保存
         </Button>
         <Text style={styles.info}>请您仔细填写，切勿随意更改</Text>

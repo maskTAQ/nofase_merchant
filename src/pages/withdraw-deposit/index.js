@@ -1,13 +1,39 @@
 import React, { Component } from "react";
 import { View, Text } from "react-native";
-//import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import { Page, Input, Button } from "src/components";
+import { EventHub } from "src/common";
 import styles from "./style";
+
+@connect(state => {
+  const { bankInfo } = state;
+  return { bankInfo };
+})
 export default class WithdrawDeposit extends Component {
   static defaultProps = {};
-  static propTypes = {};
+  static propTypes = {
+    navigation: PropTypes.object,
+    bankInfo: PropTypes.object
+  };
   state = {};
+  componentWillMount() {
+    EventHub.emit("dispatch", "getBankInfo", "bankInfo");
+  }
+  componentWillReceiveProps(nextProps) {
+    this.updateData(nextProps);
+  }
+  updateData(props) {
+    const { status, data } = props.bankInfo;
+    if (status === "success" && this.props.bankInfo.status !== "success") {
+      // this.setState({
+      //   storeBusInfoByDate: { ...eval("(" + data + ")") }
+      // });
+      console.log(data);
+      return;
+    }
+  }
   render() {
     return (
       <Page title="提现">

@@ -25,5 +25,11 @@ export default {
   },
   getStoreInfo() {
     return post("/Store/GetStoreInfo");
+  },
+  getBankInfo() {
+    return post("/Store/GetBankInfo");
+  },
+  saveStoreEquip(params) {
+    return post("/Store/SaveStoreEquip", params);
   }
 };
