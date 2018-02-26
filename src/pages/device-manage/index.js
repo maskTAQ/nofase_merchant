@@ -3,6 +3,8 @@ import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
 
 import { Page, Button, Input, Icon } from "src/components";
+// import api from 'src/api';
+// import { Tip } from 'src/common';
 import styles from "./style";
 
 const CheckBox = ({ checked, onChangeChecked }) => (
@@ -29,11 +31,29 @@ export default class DeviceManage extends Component {
   static propTypes = {};
   state = {
     data: [
-      { label: "淋浴", value: "", checked: true },
-      { label: "储物", value: "", checked: true },
-      { label: "有氧器材", value: "11", checked: true },
-      { label: "力量器材", value: "12", checked: true },
-      { label: "康体设备", value: "13", checked: true }
+      { label: "淋浴", value: "", key: "Bach", checked: true },
+      { label: "储物", value: "", key: "Storage", checked: true },
+      {
+        label: "有氧器材",
+        value: "11",
+        key: "IsAerobic",
+        valueKey: "Aerobic",
+        checked: true
+      },
+      {
+        label: "力量器材",
+        value: "12",
+        key: "IsPower",
+        valueKey: "Power",
+        checked: true
+      },
+      {
+        label: "康体设备",
+        value: "13",
+        key: "IsHealthCare",
+        valueKey: "HealthCare",
+        checked: true
+      }
     ]
   };
   handleValueChange(v, i, key) {
@@ -43,6 +63,25 @@ export default class DeviceManage extends Component {
       data: nextData
     });
   }
+  save = () => {
+    const { data } = this.state;
+    const result = {};
+    data.forEach(item => {
+      const { key, checked, value, valueKey } = item;
+      result[key] = checked;
+      if (valueKey) {
+        result[valueKey] = value;
+      }
+    });
+    console.log(result);
+    // api.saveStoreEquip(result)
+    // .then(res=>{
+    //   Tip.sucess('设备信息保存成功');
+    // })
+    // .catch(e=>{
+    //   Tip.error(`设备信息保存失败${e}`);
+    // })
+  };
 
   renderItem = (item, i) => {
     const { label, value, checked } = item;
@@ -78,7 +117,7 @@ export default class DeviceManage extends Component {
             renderItem={({ item, index }) => this.renderItem(item, index)}
           />
           <Button
-            onPress={this.saveRow}
+            onPress={this.save}
             style={styles.saveButton}
             textStyle={styles.saveButtonText}
           >
