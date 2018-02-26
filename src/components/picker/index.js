@@ -47,10 +47,10 @@ export default class Picker extends Component {
                   if (item === "border") {
                     return <View style={styles.itemBorder} key={i} />;
                   }
-                  const { label, value } = item;
+                  const { label } = item;
                   return (
                     <Button
-                      onPress={() => onValueSelect(value, item)}
+                      onPress={() => onValueSelect(item)}
                       style={styles.item}
                       key={label}
                     >

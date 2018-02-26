@@ -4,8 +4,9 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import moment from "moment";
 import DateTimePicker from "react-native-modal-datetime-picker";
-
+//import api from "src/api";
 import { Page, Button, Picker } from "src/components";
+import { Tip } from "src/common";
 import styles from "./style";
 
 const Switch = ({ value, onValueChange = () => {} }) => {
@@ -54,7 +55,9 @@ export default class BusinessHours extends Component {
   state = {
     isPickerVisible: false,
     startWeek: "周一",
+    startWeekValue: "1",
     endWeek: "周二",
+    endWeekValue: "2",
     isDateTimePickerVisible: false,
     startTime: "请选择开始时间",
     startTimeData: null,
@@ -71,23 +74,24 @@ export default class BusinessHours extends Component {
   }
   store = {
     weeks: [
-      { label: "周一", value: "周一" },
-      { label: "周二", value: "周二" },
-      { label: "周三", value: "周三" },
-      { label: "周四", value: "周四" },
-      { label: "周五", value: "周五" },
-      { label: "周六", value: "周六" },
-      { label: "周日", value: "周日" }
+      { label: "周一", value: "1" },
+      { label: "周二", value: "2" },
+      { label: "周三", value: "3" },
+      { label: "周四", value: "4" },
+      { label: "周五", value: "5" },
+      { label: "周六", value: "6" },
+      { label: "周日", value: "0" }
     ],
     selectedWeekType: "",
     currentSelectedTimtType: ""
   };
+
   updateData(props) {
     const { status, data } = props.storeInfo;
     if (status === "success") {
       const { BusinessWeeks, BusinessTimes } = data;
       const [startTime, endTime] = BusinessTimes.split("-");
-      const weeks = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
+      const weeks = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
       this.setState({
         storeInfo: data,
         startWeek: weeks[BusinessWeeks[0]],
@@ -132,7 +136,31 @@ export default class BusinessHours extends Component {
     });
   };
   save = () => {
-    console.log(this.state);
+    const { endWeekValue, startTimeData, endTimeData } = this.state;
+    if (!startTimeData || !endTimeData) {
+      return Tip.fail("请选择时间");
+    }
+
+    let { startWeekValue } = this.state;
+    const l = endWeekValue - startWeekValue + 1;
+    const a = new Array(l);
+    a.fill(0);
+    const Weeks = a
+      .map(item => {
+        return startWeekValue++;
+      })
+      .join(",");
+    const s = moment(startTimeData).format("HH:mm"),
+      e = moment(endTimeData).format("HH:mm");
+
+    // api.SaveCurriculum({ Weeks, Times: s + "-" + e })
+    //   .then(res => {
+    //     Tip.success("保存成功")
+    //   })
+    //   .catch(e => {
+    //     Tip.fail("保存失败")
+    //   })
+    return console.log(this.state, { Weeks, Times: s + "-" + e });
   };
   renderHeader() {
     const { isClose } = this.state;
@@ -224,9 +252,11 @@ export default class BusinessHours extends Component {
             }}
             onValueSelect={item => {
               const { selectedWeekType } = this.store;
+              const { label, value } = item;
               this.setState({
                 isPickerVisible: false,
-                [selectedWeekType]: item
+                [selectedWeekType]: label,
+                [`${selectedWeekType}Value`]: value
               });
             }}
           />

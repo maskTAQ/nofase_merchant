@@ -34,5 +34,8 @@ export default {
   },
   saveStoreEquip(params) {
     return post("/Store/SaveStoreEquip", params);
+  },
+  SaveCurriculum(params) {
+    return post("/Store/SaveCurriculum", params);
   }
 };
