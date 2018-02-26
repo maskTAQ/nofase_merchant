@@ -51,30 +51,31 @@ const post = (
   loading && Tip.loading();
   return requestWrapper(url, params)
     .then(res => {
-      const { data } = res;
-      console.log(data, url);
+      const { data: Data } = res;
+      const { rCode, message, data } = Data;
+      console.log(Data, data, url);
       loading && Tip.dismiss();
-      if (
-        [
-          "/Store/GetStoreBusInfo",
-          "/Store/GetStoreUserList",
-          "/Store/GetStoreBusInfoByDate",
-          "/Store/GetStoreInfo"
-        ].includes(url)
-      ) {
-        return Promise.resolve(data);
-      }
+      // if (
+      //   [
+      //     "/Store/GetStoreBusInfo",
+      //     "/Store/GetStoreUserList",
+      //     "/Store/GetStoreBusInfoByDate",
+      //     "/Store/GetStoreInfo"
+      //   ].includes(url)
+      // ) {
+      //   return Promise.resolve(data);
+      // }
 
-      if (data.reason === "操作成功") {
-        return Promise.resolve(data);
-      }
+      // if (data.reason === "操作成功") {
+      //   return Promise.resolve(data);
+      // }
 
-      if (data.rCode > 0) {
-        return Promise.resolve(data);
+      if (rCode > 0) {
+        const d = data || message;
+        return Promise.resolve(d);
       } else {
-        console.log(data);
-        Tip.fail(`error:${data.message}`);
-        return Promise.reject(data.message);
+        Tip.fail(`error:${message}`);
+        return Promise.reject(message);
       }
     })
     .catch(e => {

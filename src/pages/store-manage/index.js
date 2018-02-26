@@ -23,6 +23,7 @@ export default class StoreManage extends Component {
       Location: "-",
       PeopleNum: "-",
       Charge: "-",
+      BusinessTimes: "-",
       BusinessWeeks: "",
       CsTel: "-"
     }

@@ -29,6 +29,9 @@ export default {
   getBankInfo() {
     return post("/Store/GetBankInfo");
   },
+  bindBank({ BankName, CardNo }) {
+    return post("/Store/BindBank", { BankName, CardNo });
+  },
   saveStoreEquip(params) {
     return post("/Store/SaveStoreEquip", params);
   }
