@@ -18,10 +18,15 @@ import api from "src/api";
 import { Tip } from 'src/components';
 import action from "src/action";
 import { EventHub,CreateReduxField } from "src/common";
+
+@connect(state=>{
+  return {auth:state.auth}
+})
 class App extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     nav: PropTypes.object.isRequired,
+    auth:PropTypes.object
   };
   componentWillMount() {
     //监听dispatch事件 由onDispatch统一发送action
@@ -31,11 +36,18 @@ class App extends Component {
     if (Platform.OS === "android") {
       BackHandler.addEventListener("hardwareBackPress", this.handleBack);
     }
-    EventHub.emit(
-      "dispatch",
-      "getStoreInfo",
-      "storeInfo"
-    );
+    
+  }
+  componentWillReceiveProps(nextProps){
+    const {isLogin} = this.props.auth;
+    const {isLogin:nextIsLogin} = nextProps.auth;
+    if(!isLogin && nextIsLogin){
+      EventHub.emit(
+        "dispatch",
+        "getStoreInfo",
+        "storeInfo"
+      );
+    }
   }
   componentWillUnmount() {
     if (Platform.OS === "android") {

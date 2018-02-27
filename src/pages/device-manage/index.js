@@ -3,8 +3,8 @@ import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
 
 import { Page, Button, Input, Icon } from "src/components";
-// import api from 'src/api';
-// import { Tip } from 'src/common';
+import api from "src/api";
+import { Tip } from "src/common";
 import styles from "./style";
 
 const CheckBox = ({ checked, onChangeChecked }) => (
@@ -68,19 +68,20 @@ export default class DeviceManage extends Component {
     const result = {};
     data.forEach(item => {
       const { key, checked, value, valueKey } = item;
-      result[key] = checked;
+      result[key] = Number(checked);
       if (valueKey) {
         result[valueKey] = value;
       }
     });
     console.log(result);
-    // api.saveStoreEquip(result)
-    // .then(res=>{
-    //   Tip.sucess('设备信息保存成功');
-    // })
-    // .catch(e=>{
-    //   Tip.error(`设备信息保存失败${e}`);
-    // })
+    api
+      .saveStoreEquip(result)
+      .then(res => {
+        Tip.sucess("设备信息保存成功");
+      })
+      .catch(e => {
+        Tip.fail(`设备信息保存失败${e}`);
+      });
   };
 
   renderItem = (item, i) => {

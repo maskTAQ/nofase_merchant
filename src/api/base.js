@@ -51,9 +51,13 @@ const post = (
   loading && Tip.loading();
   return requestWrapper(url, params)
     .then(res => {
-      const { data: Data } = res;
-      const { rCode, message, data } = Data;
-      console.log(Data, data, url);
+      let { data: Data } = res;
+      console.log(Data);
+      if (typeof Data === "string") {
+        Data = eval(`'${Data}'`);
+      }
+      const { code, message } = Data;
+      const { data } = Data;
       loading && Tip.dismiss();
       // if (
       //   [
@@ -70,7 +74,7 @@ const post = (
       //   return Promise.resolve(data);
       // }
 
-      if (rCode > 0) {
+      if (code > 0) {
         const d = data || message;
         return Promise.resolve(d);
       } else {

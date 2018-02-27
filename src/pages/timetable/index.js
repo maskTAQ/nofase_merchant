@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import { View, Alert, ScrollView } from "react-native";
+import DateTimePicker from "react-native-modal-datetime-picker";
+//import { connect } from "react-redux";
+import moment from "moment";
 //import PropTypes from "prop-types";
 
+import api from "src/api";
+import { Tip } from "src/common";
 import { Page, Button, Table, Input } from "src/components";
 import styles from "./style";
 
@@ -11,132 +16,73 @@ export default class Timetable extends Component {
   state = {
     dataSource: [
       {
-        a: "选择时间区",
-        b: "",
-        c: "",
-        d: "",
-        e: "",
-        f: "",
-        i: "",
-        j: "",
-        k: ""
-      },
-      {
-        a: "选择时间区",
-        b: "",
-        c: "",
-        d: "",
-        e: "",
-        f: "",
-        i: "",
-        j: "",
-        k: ""
-      },
-      {
-        a: "选择时间区",
-        b: "",
-        c: "",
-        d: "",
-        e: "",
-        f: "",
-        i: "",
-        j: "",
-        k: ""
-      },
-      {
-        a: "选择时间区",
-        b: "",
-        c: "",
-        d: "",
-        e: "",
-        f: "",
-        i: "",
-        j: "",
-        k: ""
-      },
-      {
-        a: "选择时间区",
-        b: "",
-        c: "",
-        d: "",
-        e: "",
-        f: "",
-        i: "",
-        j: "",
-        k: ""
-      },
-      {
-        a: "选择时间区",
-        b: "",
-        c: "",
-        d: "",
-        e: "",
-        f: "",
-        i: "",
-        j: "",
-        k: ""
-      },
-      {
-        a: "选择时间区",
-        b: "",
-        c: "",
-        d: "",
-        e: "",
-        f: "",
-        i: "",
-        j: "",
-        k: ""
-      },
-      {
-        a: "选择时间区",
-        b: "",
-        c: "",
-        d: "",
-        e: "",
-        f: "",
-        i: "",
-        j: "",
+        timeRange: "选择时间区",
+        Week0: "",
+        Week1: "",
+        Week2: "",
+        Week3: "",
+        Week4: "",
+        Week5: "",
+        Week6: "",
         k: ""
       }
-    ]
+    ],
+    dateTimePickerType: "none", //start end none,
+    dateTimePickerIndex: NaN
   };
-
+  componentWillMount() {
+    api
+      .getCurriculumList()
+      .then(res => {
+        console.log(res);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }
   store = {
     columns: [
       {
         title: "时间",
-        dataIndex: "a",
-        render(row, value, index) {
-          return <Button textStyle={styles.selectTime}>{value}</Button>;
+        dataIndex: "timeRange",
+        render: (row, value, index) => {
+          return (
+            <Button
+              onPress={() => this.selectTimeRange(index)}
+              textStyle={styles.selectTime}
+            >
+              {value}
+            </Button>
+          );
         }
       },
       {
         title: "周一",
-        ...this.createCommonValueByDataIndex("b")
+        ...this.createCommonValueByDataIndex("Week0")
       },
       {
         title: "周二",
-        ...this.createCommonValueByDataIndex("c")
+        ...this.createCommonValueByDataIndex("Week1")
       },
       {
         title: "周三",
-        ...this.createCommonValueByDataIndex("d")
+        ...this.createCommonValueByDataIndex("Week2")
       },
       {
         title: "周四",
-        ...this.createCommonValueByDataIndex("e")
+        ...this.createCommonValueByDataIndex("Week3")
       },
       {
         title: "周五",
-        ...this.createCommonValueByDataIndex("f")
+        ...this.createCommonValueByDataIndex("Week4")
       },
       {
         title: "周六",
-        ...this.createCommonValueByDataIndex("i")
+        ...this.createCommonValueByDataIndex("Week5")
       },
       {
         title: "周日",
-        ...this.createCommonValueByDataIndex("j")
+        ...this.createCommonValueByDataIndex("Week6")
       },
       {
         title: "删除",
@@ -165,8 +111,6 @@ export default class Timetable extends Component {
         onPress: () => {
           const nextDataSource = Object.assign([], this.state.dataSource);
           nextDataSource.splice(i, 1);
-          console.log(nextDataSource);
-
           this.setState({
             dataSource: nextDataSource
           });
@@ -197,17 +141,18 @@ export default class Timetable extends Component {
       dataSource: nextDataSource
     });
   }
+
   addRow = () => {
     const nextDataSource = Object.assign([], this.state.dataSource);
     nextDataSource.push({
-      a: "选择时间区",
-      b: "",
-      c: "",
-      d: "",
-      e: "",
-      f: "",
-      i: "",
-      j: "",
+      timeRange: "选择时间区",
+      Week0: "",
+      Week1: "",
+      Week2: "",
+      Week3: "",
+      Week4: "",
+      Week5: "",
+      Week6: "",
       k: ""
     });
 
@@ -215,11 +160,67 @@ export default class Timetable extends Component {
       dataSource: nextDataSource
     });
   };
+  _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+  _handleDatePicked = date => {
+    const time = moment(date).format("HH:mm");
+    const { dataSource } = this.state;
+    const { dateTimePickerIndex, dateTimePickerType } = this.state;
+    if (dateTimePickerType === "start") {
+      console.log(dataSource, dateTimePickerIndex);
+      dataSource[dateTimePickerIndex].timeRange = time;
+
+      this.setState({
+        dataSource,
+        dateTimePickerType: "end"
+      });
+      return Tip.success("选择起始时间成功");
+    } else {
+      dataSource[dateTimePickerIndex].timeRange += `-${time}`;
+      this.setState({
+        dataSource,
+        dateTimePickerType: "none",
+        dateTimePickerIndex: NaN
+      });
+      //Tip.success("选择结束时间成功");
+    }
+
+    return this._hideDateTimePicker();
+  };
+  selectTimeRange = i => {
+    this.setState({
+      isDateTimePickerVisible: true,
+      dateTimePickerType: "start",
+      dateTimePickerIndex: i
+    });
+  };
+  save = () => {
+    const { dataSource } = this.state;
+    console.log(dataSource);
+    api
+      .saveCurriculum({ data: dataSource })
+      .then(res => {
+        Tip.success("保存成功");
+      })
+      .catch(e => {
+        Tip.fail("保存失败");
+      });
+  };
   render() {
     const { columns } = this.store;
     const { dataSource } = this.state;
     return (
-      <Page title="课程表">
+      <Page
+        title="课程表"
+        RightComponent={
+          <Button
+            onPress={this.save}
+            textStyle={{ color: "#fff", fontWeight: "bold" }}
+          >
+            保存
+          </Button>
+        }
+      >
         <View style={styles.container}>
           <ScrollView style={{ flex: 1 }}>
             <Table
@@ -239,6 +240,13 @@ export default class Timetable extends Component {
             </Button>
           </ScrollView>
         </View>
+        <DateTimePicker
+          is24Hour={true}
+          mode="time"
+          isVisible={this.state.isDateTimePickerVisible}
+          onConfirm={this._handleDatePicked}
+          onCancel={this._hideDateTimePicker}
+        />
       </Page>
     );
   }

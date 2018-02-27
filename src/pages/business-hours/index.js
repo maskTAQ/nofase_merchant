@@ -4,7 +4,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import moment from "moment";
 import DateTimePicker from "react-native-modal-datetime-picker";
-//import api from "src/api";
+
+import api from "src/api";
 import { Page, Button, Picker } from "src/components";
 import { Tip } from "src/common";
 import styles from "./style";
@@ -136,7 +137,7 @@ export default class BusinessHours extends Component {
     });
   };
   save = () => {
-    const { endWeekValue, startTimeData, endTimeData } = this.state;
+    const { endWeekValue, startTimeData, endTimeData, isClose } = this.state;
     if (!startTimeData || !endTimeData) {
       return Tip.fail("请选择时间");
     }
@@ -153,14 +154,14 @@ export default class BusinessHours extends Component {
     const s = moment(startTimeData).format("HH:mm"),
       e = moment(endTimeData).format("HH:mm");
 
-    // api.SaveCurriculum({ Weeks, Times: s + "-" + e })
-    //   .then(res => {
-    //     Tip.success("保存成功")
-    //   })
-    //   .catch(e => {
-    //     Tip.fail("保存失败")
-    //   })
-    return console.log(this.state, { Weeks, Times: s + "-" + e });
+    return api
+      .setStoreState({ Weeks, Times: s + "-" + e, isClose })
+      .then(res => {
+        Tip.success("保存成功");
+      })
+      .catch(e => {
+        Tip.fail("保存失败");
+      });
   };
   renderHeader() {
     const { isClose } = this.state;

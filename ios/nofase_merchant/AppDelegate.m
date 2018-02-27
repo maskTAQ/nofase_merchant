@@ -8,7 +8,7 @@
  */
 
 #import "AppDelegate.h"
-#import "SplashScreen.h"
+//#import "SplashScreen.h"
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
@@ -34,7 +34,7 @@
   [self.window makeKeyAndVisible];
   
   
-  [SplashScreen show];  //react-native-splash-screen
+//  [SplashScreen show];  //react-native-splash-screen
   return YES;
 }
 

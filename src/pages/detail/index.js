@@ -1,16 +1,30 @@
 import React, { Component } from "react";
 import { FlatList, View, Text, Image } from "react-native";
-//import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
-import { Button } from "src/components";
+import { Button, Page } from "src/components";
 import styles from "./style";
-import Page from "../../components/page/index";
+import { EventHub } from "src/common";
+
+@connect(state => {
+  const { incomeInfo, withdrawalsInfo } = state;
+  return { incomeInfo, withdrawalsInfo };
+})
 export default class Detail extends Component {
   static defaultProps = {};
-  static propTypes = {};
+  static propTypes = {
+    incomeInfo: PropTypes.object,
+    withdrawalsInfo: PropTypes.object
+  };
   state = {
     activeIndex: 0
   };
+  componentWillMount() {
+    this.getIncomeInfo();
+    this.getWithdrawalsInfo();
+  }
+
   store = {
     data: [
       [
@@ -79,6 +93,18 @@ export default class Detail extends Component {
       ]
     ]
   };
+  getIncomeInfo(force) {
+    const { status } = this.props.incomeInfo;
+    if (!["loading", "success"].includes(status) || force) {
+      EventHub.emit("dispatch", "getIncomeInfo", "incomeInfo");
+    }
+  }
+  getWithdrawalsInfo(force) {
+    const { status } = this.props.withdrawalsInfo;
+    if (!["loading", "success"].includes(status) || force) {
+      EventHub.emit("dispatch", "getWithdrawalsInfo", "withdrawalsInfo");
+    }
+  }
   changeTab(i) {
     const { activeIndex } = this.state;
     if (activeIndex !== i) {
@@ -88,6 +114,7 @@ export default class Detail extends Component {
     }
   }
   renderTab() {
+    console.log(this.props);
     const tab = ["收入", "提现"];
     const { activeIndex } = this.state;
     return (

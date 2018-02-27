@@ -3,7 +3,7 @@ import TabNavigator from "src/TabNavigation";
 import { CreateReduxField } from "src/common";
 
 const initialNav = AppNavigator.router.getStateForAction(
-  AppNavigator.router.getActionForPathAndParams("BusinessHours")
+  AppNavigator.router.getActionForPathAndParams("WithdrawDeposit")
 );
 const initialTabNav = TabNavigator.router.getStateForAction(
   TabNavigator.router.getActionForPathAndParams("CurrentUser")

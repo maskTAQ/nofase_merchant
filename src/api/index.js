@@ -32,10 +32,25 @@ export default {
   bindBank({ BankName, CardNo }) {
     return post("/Store/BindBank", { BankName, CardNo });
   },
+  setStoreState(params) {
+    return post("/Store/SetStoreState", params);
+  },
   saveStoreEquip(params) {
+    console.log(params);
     return post("/Store/SaveStoreEquip", params);
   },
-  SaveCurriculum(params) {
+  getCurriculumList() {
+    return post("/Store/GetCurriculumList");
+  },
+  saveCurriculum(params) {
     return post("/Store/SaveCurriculum", params);
+  },
+  //收入列表
+  getIncomeInfo() {
+    return post("/Store/GetStoreUserPayList");
+  },
+  //提现列表
+  getWithdrawalsInfo(params) {
+    return post("/Store/GetWithdrawalsList");
   }
 };
