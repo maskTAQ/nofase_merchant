@@ -43,14 +43,18 @@ export default {
     return post("/Store/GetCurriculumList");
   },
   saveCurriculum(params) {
-    return post("/Store/SaveCurriculum", params);
+    return post("/Store/SaveCurriculum", { CurrJson: params });
   },
   //收入列表
   getIncomeInfo() {
     return post("/Store/GetStoreUserPayList");
   },
   //提现列表
-  getWithdrawalsInfo(params) {
+  getWithdrawalsInfo() {
     return post("/Store/GetWithdrawalsList");
+  },
+  //修改商家信息
+  modifStoreInfo(params) {
+    return post("/Store/SaveStore", { params });
   }
 };

@@ -41,7 +41,7 @@ export default class CurrentUser extends Component {
     const { status, data } = props.storeBusInfo;
     if (status === "success") {
       this.setState({
-        storeBusInfo: { ...eval("(" + data + ")") }
+        storeBusInfo: data
       });
       return;
     }

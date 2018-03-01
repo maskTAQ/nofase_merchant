@@ -51,13 +51,9 @@ const post = (
   loading && Tip.loading();
   return requestWrapper(url, params)
     .then(res => {
-      let { data: Data } = res;
-      console.log(Data);
-      if (typeof Data === "string") {
-        Data = eval(`'${Data}'`);
-      }
-      const { code, message } = Data;
-      const { data } = Data;
+      const { data: Data } = res;
+      const { code, message, data } = Data;
+      console.log(Data, url);
       loading && Tip.dismiss();
       // if (
       //   [
@@ -83,11 +79,13 @@ const post = (
       }
     })
     .catch(e => {
+      console.log(e, url);
       loading && Tip.dismiss();
       if (handleCatch) {
         Tip.fail(`error:${e}`);
+        return Promise.reject(e);
       }
-      return Promise.reject(e);
+      return null;
     });
 };
 export { post };
