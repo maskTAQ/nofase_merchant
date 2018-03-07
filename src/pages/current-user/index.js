@@ -49,6 +49,7 @@ export default class CurrentUser extends Component {
   updateUserListData(props) {
     const { status, data } = props.storeUserList;
     if (status === "success") {
+      console.log(data, 6666);
       this.setState({
         storeUserList: data
       });

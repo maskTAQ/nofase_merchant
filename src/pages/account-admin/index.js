@@ -14,13 +14,25 @@ import action from "src/action";
 })
 export default class AccountAdmin extends Component {
   static propTypes = {
-    navigation: PropTypes.object
+    navigation: PropTypes.object,
+    storeInfo: PropTypes.object
   };
   state = {};
-  componentWillMount() {}
+  componentWillReceiveProps(nextProps) {
+    this.updatestoreInfo(nextProps);
+  }
   back = () => {
     this.props.navigation.dispatch(action.navigate.back());
   };
+  updatestoreInfo(props) {
+    const { status, data } = props.storeInfo;
+    if (status === "success") {
+      this.setState({
+        StoreMoney: data.StoreMoney
+      });
+      return;
+    }
+  }
   renderItem(row) {
     const { type, onPress } = row;
     return (
@@ -66,6 +78,7 @@ export default class AccountAdmin extends Component {
       "border",
       ["当前押金", "60.00", 1]
     ];
+    const { StoreMoney } = this.state;
     return (
       <View style={styles.container}>
         <View style={styles.bgContainer}>
@@ -82,7 +95,7 @@ export default class AccountAdmin extends Component {
           headerStyle={{ backgroundColor: "#fff" }}
           titleStyle={{ color: "#1ba0ea" }}
         >
-          <Text style={styles.balanceValue}>123</Text>
+          <Text style={styles.balanceValue}>{StoreMoney}</Text>
           <Text style={styles.balanceLabel}>(余额)</Text>
           <View style={styles.containers}>
             <View style={styles.tabContainer}>

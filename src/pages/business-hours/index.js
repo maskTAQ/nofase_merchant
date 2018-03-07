@@ -6,8 +6,8 @@ import moment from "moment";
 import DateTimePicker from "react-native-modal-datetime-picker";
 
 import api from "src/api";
+import { EventHub, Tip } from "src/common";
 import { Page, Button, Picker } from "src/components";
-import { Tip } from "src/common";
 import styles from "./style";
 
 const Switch = ({ value, onValueChange = () => {} }) => {
@@ -70,6 +70,9 @@ export default class BusinessHours extends Component {
     },
     isClose: 1 //1营业 2未营业
   };
+  componentWillMount() {
+    this.updateData(this.props);
+  }
   componentWillReceiveProps(nextProps) {
     this.updateData(nextProps);
   }
@@ -89,7 +92,9 @@ export default class BusinessHours extends Component {
 
   updateData(props) {
     const { status, data } = props.storeInfo;
+
     if (status === "success") {
+      console.log(data, "[==]");
       const { BusinessWeeks, BusinessTimes } = data;
       const [startTime, endTime] = BusinessTimes.split("-");
       const weeks = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
@@ -136,28 +141,38 @@ export default class BusinessHours extends Component {
       isClose: v ? 1 : 2
     });
   };
-  save = () => {
-    const { endWeekValue, startTimeData, endTimeData, isClose } = this.state;
-    if (!startTimeData || !endTimeData) {
-      return Tip.fail("请选择时间");
-    }
-
+  computWeekRangeStr() {
     let { startWeekValue } = this.state;
+    const { endWeekValue } = this.state;
     const l = endWeekValue - startWeekValue + 1;
     const a = new Array(l);
+
     a.fill(0);
     const Weeks = a
       .map(item => {
         return startWeekValue++;
       })
       .join(",");
-    const s = moment(startTimeData).format("HH:mm"),
-      e = moment(endTimeData).format("HH:mm");
+    return Weeks;
+  }
+  save = () => {
+    const { isClose, startTime, endTime } = this.state;
+    const isHasInitTime = startTime.includes(":") && endTime.includes(":");
 
+    if (!isHasInitTime) {
+      return Tip.fail("请选择时间");
+    }
     return api
-      .setStoreState({ Weeks, Times: s + "-" + e, isClose })
+      .setStoreState({
+        Weeks: this.computWeekRangeStr(),
+        Times: startTime + "-" + endTime,
+        isClose
+      })
       .then(res => {
         Tip.success("保存成功");
+        setTimeout(() => {
+          EventHub.emit("dispatch", "getStoreInfo", "storeInfo");
+        }, 1500);
       })
       .catch(e => {
         Tip.fail("保存失败");

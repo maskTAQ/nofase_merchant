@@ -26,9 +26,6 @@ export default {
   getStoreInfo() {
     return post("/Store/GetStoreInfo");
   },
-  getBankInfo() {
-    return post("/Store/GetBankInfo");
-  },
   bindBank({ BankName, CardNo }) {
     return post("/Store/BindBank", { BankName, CardNo });
   },
@@ -55,6 +52,14 @@ export default {
   },
   //修改商家信息
   modifStoreInfo(params) {
-    return post("/Store/SaveStore", { params });
+    return post("/Store/SaveStore", params);
+  },
+  //获取银行卡信息接口
+  getBankInfo() {
+    return post("/Store/GetBankInfo");
+  },
+  //申请提现
+  applyForWithdrawals(WAmont) {
+    return post("/Store/SaveWithdrawals", { WAmont });
   }
 };

@@ -1,19 +1,41 @@
 import React, { Component } from "react";
 import { View, Text, FlatList, Image } from "react-native";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
+//import { EventHub } from "src/common";
 import { Page, Button, Icon } from "src/components";
 import styles from "./style";
 import action from "src/action";
 
+@connect(state => {
+  const { storeInfo } = state;
+  return { storeInfo };
+})
 export default class Transacion extends Component {
   static propTypes = {
-    navigation: PropTypes.object
+    navigation: PropTypes.object,
+    storeInfo: PropTypes.object
   };
-  state = {};
+  state = {
+    StoreMoney: "-"
+  };
+
+  componentWillReceiveProps(nextProps) {
+    this.updatestoreInfo(nextProps);
+  }
   back = () => {
     this.props.navigation.dispatch(action.navigate.back());
   };
+  updatestoreInfo(props) {
+    const { status, data } = props.storeInfo;
+    if (status === "success") {
+      this.setState({
+        StoreMoney: data.StoreMoney
+      });
+      return;
+    }
+  }
   renderItem(row, i) {
     const { type, onPress } = row;
     return (
@@ -59,6 +81,7 @@ export default class Transacion extends Component {
     );
   }
   render() {
+    const { StoreMoney } = this.state;
     const tabMap = [
       ["今日营收", "25.5", 0],
       "border",
@@ -86,8 +109,8 @@ export default class Transacion extends Component {
         >
           <View style={styles.content}>
             <View style={styles.balanceWrapper}>
-              <Text style={styles.balanceValue}>123</Text>
-              <Text style={styles.balanceLabel}>(余额)</Text>
+              <Text style={styles.balanceValue}>{StoreMoney}</Text>
+              <Text style={styles.balanceLabel}>(余额1231)</Text>
             </View>
             <View style={styles.tabContainer}>
               {tabMap.map(tab => {
