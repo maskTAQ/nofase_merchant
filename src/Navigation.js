@@ -19,7 +19,10 @@ import {
   QRScan,
   QRScanTiming,
   FeedbackProblem,
-  Setting
+  Setting,
+  GalleryShop,
+  BankCard,
+  shopInformation
 } from "src/pages";
 
 export const RouteConfigs = {
@@ -79,6 +82,15 @@ export const RouteConfigs = {
   },
   Setting: {
     screen: Setting
+  },
+  GalleryShop: {
+    screen: GalleryShop
+  },
+  BankCard: {
+    screen: BankCard
+  },
+  shopInformation: {
+    screen: shopInformation
   }
 };
 

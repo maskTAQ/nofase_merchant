@@ -39,5 +39,74 @@ export default {
     fontSize: 16,
     fontWeight: "bold",
     color: "#fff"
+  },
+
+  modalContainer: {
+    width: "100%",
+    backgroundColor: "#fff",
+    alignItems: "center",
+    paddingBottom: 20
+  },
+  modalTitle: {
+    fontSize: 20,
+    paddingTop: 25
+  },
+  inputGroup: {
+    flexDirection: "row",
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20
+  },
+  starttime: {
+    justifyContent: "center",
+    borderRadius: 5,
+    height: 40,
+    alignItems: "center",
+    paddingLeft: 70,
+    paddingRight: 70,
+    borderWidth: 1,
+    borderColor: "#019af5",
+    marginRight: 10
+  },
+  endtime: {
+    justifyContent: "center",
+    borderRadius: 5,
+    height: 40,
+    alignItems: "center",
+    paddingLeft: 70,
+    paddingRight: 70,
+    borderWidth: 1,
+    borderColor: "#019af5",
+    marginLeft: 10
+  },
+  buttonGroup: {
+    flexDirection: "row",
+    height: 45,
+    width: "75%",
+    borderWidth: 1,
+    borderColor: "#019af5",
+    borderRadius: 5,
+    overflow: "hidden",
+    marginTop: 15
+  },
+  cancel: {
+    width: "35%",
+    height: "100%",
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  cancelText: {
+    color: "#019af5"
+  },
+  completelText: {
+    color: "#fff"
+  },
+  complete: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#019af5"
   }
 };

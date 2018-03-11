@@ -2,7 +2,7 @@ import { post } from "./base";
 
 export default {
   login({ Tel, ExCode }) {
-    return post("/Store/StoreLogin", { Tel, ExCode });
+    return post("/Store/StoreLoginTest", { Tel, ExCode });
   },
 
   register({ NickName, Tel, ExCode }) {

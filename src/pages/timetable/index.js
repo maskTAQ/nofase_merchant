@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Alert, ScrollView } from "react-native";
+import { View, Text, ScrollView, Modal } from "react-native";
 import DateTimePicker from "react-native-modal-datetime-picker";
 //import { connect } from "react-redux";
 import moment from "moment";
@@ -7,9 +7,37 @@ import moment from "moment";
 
 import api from "src/api";
 import { Tip } from "src/common";
-import { Page, Button, Table, Input } from "src/components";
+import { Page, Button, Table, Input, Alert } from "src/components";
 import styles from "./style";
 
+const SelectTimeModal = props => {
+  return (
+    <Modal
+      animationType="fade"
+      onRequestClose={() => {}}
+      transparent={true}
+      visible={true}
+    >
+      <View style={{ flex: 1 }} />
+      <View style={styles.modalContainer}>
+        <Text style={styles.modalTitle}>选择时间区</Text>
+        <View style={styles.inputGroup}>
+          <Button style={styles.starttime}>--/--</Button>
+          <Text>至</Text>
+          <Button style={styles.endtime}>--/--</Button>
+        </View>
+        <View style={styles.buttonGroup}>
+          <Button style={styles.cancel} textStyle={styles.cancelText}>
+            取消
+          </Button>
+          <Button style={styles.complete} textStyle={styles.completelText}>
+            完成
+          </Button>
+        </View>
+      </View>
+    </Modal>
+  );
+};
 export default class Timetable extends Component {
   static defaultProps = {};
   static propTypes = {};
@@ -247,6 +275,7 @@ export default class Timetable extends Component {
           onConfirm={this._handleDatePicked}
           onCancel={this._hideDateTimePicker}
         />
+        <SelectTimeModal />
       </Page>
     );
   }
