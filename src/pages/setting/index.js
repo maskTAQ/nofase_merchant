@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Image, Text, Switch } from "react-native";
+import { View, Image, Text, Switch, AsyncStorage } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
@@ -92,22 +92,13 @@ export default class Setting extends Component {
     isModifMobileVisible: false,
     storeInfo: { StoreName: "-", Id: "-", LegalName: "-", Location: "-" }
   };
-  componentWillReceiveProps(nextProps) {
-    this.updateData(nextProps);
-  }
-  updateData(props) {
-    console.log(props, 999);
-    const { status, data } = props.storeInfo;
-    if (status === "success") {
-      console.log(data);
-      this.setState({
-        storeInfo: data
-      });
-      return;
-    }
-  }
+  logout = () => {
+    AsyncStorage.removeItem("mobile");
+    this.props.navigation.dispatch(action.navigate.go({ routeName: "Login" }));
+  };
   renderHeader() {
-    const { StoreName, Id, LegalName, Location } = this.state.storeInfo;
+    const { StoreName, Id, LegalName, Location } = this.props.storeInfo;
+    console.log(this.props.storeInfo, 99988);
     return (
       <View style={styles.header}>
         <Image style={styles.portrait} source={require("./img/u71.png")} />
@@ -122,8 +113,7 @@ export default class Setting extends Component {
     );
   }
   renderList() {
-    const { StoreTel } = this.state.storeInfo;
-    console.log(this.state);
+    const { StoreTel } = this.props.storeInfo;
     const data = [
       { label: "提醒", rightComponent: <Switch /> },
       { type: "border" },
@@ -187,7 +177,11 @@ export default class Setting extends Component {
             {this.renderHeader()}
             {this.renderList()}
           </View>
-          <Button style={styles.logout} textStyle={styles.logoutText}>
+          <Button
+            onPress={this.logout}
+            style={styles.logout}
+            textStyle={styles.logoutText}
+          >
             退出
           </Button>
         </View>

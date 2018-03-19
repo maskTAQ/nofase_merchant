@@ -4,7 +4,9 @@ export default {
   login({ Tel, ExCode }) {
     return post("/Store/StoreLoginTest", { Tel, ExCode });
   },
-
+  rememberLogin({ Tel }) {
+    return post("/Store/StoreLoginTest", { Tel });
+  },
   register({ NickName, Tel, ExCode }) {
     return post("/User/UserReg", { NickName, Tel, ExCode });
   },

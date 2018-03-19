@@ -5,7 +5,7 @@
  */
 
 import React, { Component } from 'react';
-import { BackHandler, Platform, ToastAndroid, View } from "react-native";
+import { BackHandler, Platform, ToastAndroid, View ,AsyncStorage} from "react-native";
 import { Provider, connect } from "react-redux";
 import { addNavigationHelpers } from "react-navigation";
 import PropTypes from 'prop-types';
@@ -28,7 +28,22 @@ class App extends Component {
   };
   componentWillMount() {
     //监听dispatch事件 由onDispatch统一发送action
-    //EventHub.on('dispatch', this.onDispatch);
+    AsyncStorage.getItem('mobile', (e, m) => {
+      if (!e && m) {
+        api.rememberLogin({ Tel: m })
+          .then(res => {
+            this.props.dispatch(
+              action.login(res)
+            );
+            this.props.dispatch(
+              action.navigate.go({ routeName: "Home" })
+            );
+          })
+          .catch(e => {
+
+          })
+      }
+    })
   }
   componentDidMount() {
     if (Platform.OS === "android") {

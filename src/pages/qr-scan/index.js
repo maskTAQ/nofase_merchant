@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { Text, View, Image } from "react-native";
+import PropTypes from "prop-types";
 
 import QRScannerView from "./base";
 import { Page, Alert, Button } from "src/components";
 import styles from "./style";
 
-const Modal = status => {
+const Modal = ({ status, isModalVisible }) => {
   let iconSource, label;
   const singleButotn = status !== 1 || status !== 2;
   switch (String(status)) {
@@ -23,7 +24,7 @@ const Modal = status => {
       break;
   }
   return (
-    <Alert style={styles.modalContainer}>
+    <Alert style={styles.modalContainer} isVisible={isModalVisible}>
       <View style={styles.modalContent}>
         <View style={styles.modalIconWrapper}>
           <Image source={iconSource} style={styles.modalIcon} />
@@ -65,17 +66,22 @@ const Modal = status => {
     </Alert>
   );
 };
+Modal.propTypes = {
+  status: PropTypes.number,
+  isModalVisible: PropTypes.bool
+};
 export default class QRScan extends Component {
   state = {
     status: 0, //0 扫码中 1开始计费 2结束计费(扣费) 3开始计费失败 4 结束结束失败
-    cameraVisible: false
+    cameraVisible: true
   };
   barcodeReceived(e) {
+    alert(e.data);
     console.log("Type: " + e.type + "\nData: " + e.data);
   }
 
   render() {
-    const { cameraVisible } = this.state;
+    const { cameraVisible, status } = this.state;
     return (
       <Page title="扫码计时">
         <View style={styles.container}>
@@ -101,7 +107,7 @@ export default class QRScan extends Component {
           >
             <Text style={{ color: "#fff" }}>请对准用户扫码页面</Text>
           </View>
-          <Modal status={2} />
+          <Modal isModalVisible={!cameraVisible} status={status} />
         </View>
       </Page>
     );

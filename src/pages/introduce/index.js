@@ -4,26 +4,28 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import action from "src/action";
+import api from "src/api";
+import { Tip } from "src/common";
 import { Page, Button } from "src/components";
 import styles from "./style";
 
 @connect(state => {
-  const { newStoreInfo } = state;
-  return { newStoreInfo };
+  const { storeInfo } = state;
+  return { storeInfo };
 })
 export default class Introduce extends Component {
   static defaultProps = {};
   static propTypes = {
-    navigation: PropTypes.object
-    //newStoreInfo: PropTypes.object,
+    navigation: PropTypes.object,
+    storeInfo: PropTypes.object
   };
   state = {
     value: ""
   };
   componentWillMount() {
-    // this.setState({
-    //     value:this.props.newStoreInfo.StoreRemarks
-    // });
+    this.setState({
+      value: this.props.storeInfo.StoreRemarks
+    });
   }
   onChangeText = v => {
     this.setState({
@@ -31,7 +33,21 @@ export default class Introduce extends Component {
     });
   };
   save = () => {
-    return this.props.navigation.dispatch(action.navigate.back());
+    const { value } = this.state;
+    api
+      .updateStore({
+        StoreRemarks: value
+      })
+      .then(res => {
+        Tip.success("更新商家介绍/留言成功");
+        setTimeout(() => {
+          this.props.navigation.dispatch(action.navigate.back());
+        }, 1500);
+      })
+      .catch(e => {
+        Tip.fail("更新商家介绍/留言失败" + e);
+        console.log(e);
+      });
   };
   render() {
     const { value } = this.state;

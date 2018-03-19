@@ -146,7 +146,15 @@ export default class StoreManage extends Component {
             });
         }
       },
-      { label: "商家介绍/留言", value: "查看", onPress: () => {} }
+      {
+        label: "商家介绍/留言",
+        value: "查看",
+        onPress: () => {
+          this.props.navigation.dispatch(
+            action.navigate.go({ routeName: "Introduce" })
+          );
+        }
+      }
     ];
     return (
       <View style={[styles.list, { marginTop: 10 }]}>
