@@ -22,7 +22,7 @@ import {
   Setting,
   Introduce,
   BankCard,
-  shopInformation
+  ImgStore
 } from "src/pages";
 
 export const RouteConfigs = {
@@ -89,8 +89,8 @@ export const RouteConfigs = {
   BankCard: {
     screen: BankCard
   },
-  shopInformation: {
-    screen: shopInformation
+  ImgStore: {
+    screen: ImgStore
   }
 };
 

@@ -357,6 +357,7 @@ export default class Timetable extends Component {
             </Button>
           </ScrollView>
         </View>
+
         <SelectTimeModal
           isVisible={isTimeChoosePanelVisible}
           rowData={currentActiveRow}

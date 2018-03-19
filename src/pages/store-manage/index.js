@@ -93,7 +93,15 @@ export default class StoreManage extends Component {
     const { BusinessTimes, BusinessWeeks, CsTel } = this.state.storeInfo;
     const weeks = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
     const editable = [
-      { label: "店铺图库", value: "查看", onPress: () => {} },
+      {
+        label: "店铺图库",
+        value: "查看",
+        onPress: () => {
+          this.props.navigation.dispatch(
+            action.navigate.go({ routeName: "ImgStore" })
+          );
+        }
+      },
       {
         label: "营业时间",
         value: BusinessWeeks
