@@ -19,7 +19,8 @@ import {
   QRScan,
   QRScanTiming,
   FeedbackProblem,
-  Setting
+  Setting,
+  Introduce
 } from "src/pages";
 
 export const RouteConfigs = {
@@ -79,6 +80,9 @@ export const RouteConfigs = {
   },
   Setting: {
     screen: Setting
+  },
+  Introduce: {
+    screen: Introduce
   }
 };
 

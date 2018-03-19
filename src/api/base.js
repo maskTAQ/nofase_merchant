@@ -39,7 +39,7 @@ const requestWrapper = (url, param = {}) => {
     baseURL: baseURL,
     url,
     method: "post",
-    timeout: 50000,
+    timeout: 60000,
     data: param
   });
 };
@@ -49,43 +49,32 @@ const post = (
   { loading = true, handleCatch = true } = {}
 ) => {
   loading && Tip.loading();
-  return requestWrapper(url, params)
-    .then(res => {
-      const { data: Data } = res;
-      const { code, message, data } = Data;
-      console.log(Data, url);
-      loading && Tip.dismiss();
-      // if (
-      //   [
-      //     "/Store/GetStoreBusInfo",
-      //     "/Store/GetStoreUserList",
-      //     "/Store/GetStoreBusInfoByDate",
-      //     "/Store/GetStoreInfo"
-      //   ].includes(url)
-      // ) {
-      //   return Promise.resolve(data);
-      // }
-
-      // if (data.reason === "操作成功") {
-      //   return Promise.resolve(data);
-      // }
-
-      if (code > 0) {
-        const d = data || message;
-        return Promise.resolve(d);
-      } else {
-        Tip.fail(`error:${message}`);
-        return Promise.reject(message);
-      }
-    })
-    .catch(e => {
-      console.log(e, url);
-      loading && Tip.dismiss();
-      if (handleCatch) {
-        Tip.fail(`error:${e}`);
-        return Promise.reject(e);
-      }
-      return null;
-    });
+  return new Promise((resolve, reject) => {
+    requestWrapper(url, params)
+      .then(res => {
+        const { data: Data } = res;
+        const { code, message, data } = Data;
+        loading && Tip.dismiss();
+        if (code > 0) {
+          const d = data || message;
+          return resolve(d);
+        } else {
+          Tip.fail(`error:${message}`);
+          return reject(message);
+        }
+      })
+      .catch(e => {
+        console.log("------ start -------");
+        console.log("error:", e);
+        console.log("地址:" + url);
+        console.log("参数:", params);
+        console.log("------ end -------");
+        loading && Tip.dismiss();
+        if (handleCatch) {
+          Tip.fail(`error:${String(e)}`);
+        }
+        return reject(String(e));
+      });
+  });
 };
 export { post };

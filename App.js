@@ -8,12 +8,10 @@ import React, { Component } from 'react';
 import { BackHandler, Platform, ToastAndroid, View } from "react-native";
 import { Provider, connect } from "react-redux";
 import { addNavigationHelpers } from "react-navigation";
-import { createStore } from 'redux';
 import PropTypes from 'prop-types';
 
+import store from 'src/store';
 import Navigation from "src/Navigation";
-import AppReducer from 'src/reducers';
-import initStore from 'src/store';
 import api from "src/api";
 import { Tip } from 'src/components';
 import action from "src/action";
@@ -30,7 +28,7 @@ class App extends Component {
   };
   componentWillMount() {
     //监听dispatch事件 由onDispatch统一发送action
-    EventHub.on('dispatch', this.onDispatch);
+    //EventHub.on('dispatch', this.onDispatch);
   }
   componentDidMount() {
     if (Platform.OS === "android") {
@@ -106,10 +104,10 @@ const mapStateToProps = (state) => {
 const AppWithNavigationState = connect(mapStateToProps)(App);
 
 export default class Root extends Component {
-  store = createStore(AppReducer, initStore);
+  state={};
   render() {
     return (
-      <Provider store={this.store}>
+      <Provider store={store}>
         <View style={{ flex: 1 }}>
           <AppWithNavigationState />
           <Tip />

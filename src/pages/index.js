@@ -17,3 +17,4 @@ export { default as Feedback } from "./feedback";
 export { default as QRScan } from "./qr-scan";
 export { default as QRScanTiming } from "./qrscan-timing";
 export { default as FeedbackProblem } from "./feedback-problem";
+export { default as Introduce } from "./introduce";

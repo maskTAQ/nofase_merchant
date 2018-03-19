@@ -3,8 +3,9 @@ import { View, Text, FlatList, Image } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
+import api from "src/api";
 import { Header, Button, Icon, Input } from "src/components";
-import { EventHub } from "src/common";
+import { Tip } from "src/common";
 import action from "src/action";
 import styles from "./style";
 
@@ -17,7 +18,8 @@ export default class CurrentUser extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     storeBusInfo: PropTypes.object,
-    storeUserList: PropTypes.object
+    storeUserList: PropTypes.object,
+    dispatch: PropTypes.func
   };
   state = {
     storeBusInfo: {
@@ -30,31 +32,46 @@ export default class CurrentUser extends Component {
     storeUserList: []
   };
   componentWillMount() {
-    EventHub.emit("dispatch", "getStoreBusInfo", "storeBusInfo");
-    EventHub.emit("dispatch", "getStoreUserList", "storeUserList");
+    this.getStoreBusInfo();
+    this.getStoreUserList();
   }
-  componentWillReceiveProps(nextProps) {
-    this.updateStoreData(nextProps);
-    this.updateUserListData(nextProps);
-  }
-  updateStoreData(props) {
-    const { status, data } = props.storeBusInfo;
-    if (status === "success") {
-      this.setState({
-        storeBusInfo: data
+  getStoreBusInfo() {
+    return this.props
+      .dispatch({
+        type: "storeBusInfo",
+        api: () => {
+          return api.getStoreBusInfo();
+        },
+        promise: true
+      })
+      .then(data => {
+        this.setState({
+          storeBusInfo: data
+        });
+      })
+      .catch(e => {
+        Tip.loading("getStoreBusInfo:error");
+        console.log("getStoreBusInfo:error", e);
       });
-      return;
-    }
   }
-  updateUserListData(props) {
-    const { status, data } = props.storeUserList;
-    if (status === "success") {
-      console.log(data, 6666);
-      this.setState({
-        storeUserList: data
+  getStoreUserList() {
+    return this.props
+      .dispatch({
+        type: "getStoreUserList",
+        api: () => {
+          return api.getStoreUserList();
+        },
+        promise: true
+      })
+      .then(data => {
+        this.setState({
+          storeUserList: data
+        });
+      })
+      .catch(e => {
+        Tip.loading("getStoreUserList:error");
+        console.log("getStoreUserList:error", e);
       });
-      return;
-    }
   }
   go(routeName) {
     this.props.navigation.dispatch(action.navigate.go({ routeName }));

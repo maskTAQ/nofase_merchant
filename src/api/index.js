@@ -2,7 +2,7 @@ import { post } from "./base";
 
 export default {
   login({ Tel, ExCode }) {
-    return post("/Store/StoreLogin", { Tel, ExCode });
+    return post("/Store/StoreLoginTest", { Tel, ExCode });
   },
 
   register({ NickName, Tel, ExCode }) {
@@ -39,9 +39,6 @@ export default {
   getCurriculumList() {
     return post("/Store/GetCurriculumList");
   },
-  saveCurriculum(params) {
-    return post("/Store/SaveCurriculum", { CurrJson: params });
-  },
   //收入列表
   getIncomeInfo() {
     return post("/Store/GetStoreUserPayList");
@@ -61,5 +58,13 @@ export default {
   //申请提现
   applyForWithdrawals(WAmont) {
     return post("/Store/SaveWithdrawals", { WAmont });
+  },
+  //获取课程表
+  getCurriculum({ StoreId }) {
+    return post("/Store/GetCurriculumList", { StoreId });
+  },
+  //保存课程表
+  saveCurriculum({ CurrJson, StoreId }) {
+    return post("/Store/SaveCurriculum", { CurrJson, StoreId });
   }
 };

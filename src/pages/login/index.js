@@ -32,6 +32,7 @@ export default class Login extends Component {
     return api
       .login({ Tel: phone, ExCode: code })
       .then(res => {
+        this.props.navigation.dispatch(action.login(res));
         this.props.navigation.dispatch(
           action.navigate.go({ routeName: "Home" })
         );

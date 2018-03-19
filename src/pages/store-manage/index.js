@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 
 import { Page, Button, Icon } from "src/components";
 import action from "src/action";
+import api from "src/api";
+import { Tip } from "src/common";
 import styles from "./style";
 
 @connect(state => {
@@ -15,12 +17,13 @@ export default class StoreManage extends Component {
   static defaultProps = {};
   static propTypes = {
     navigation: PropTypes.object,
-    storeInfo: PropTypes.object
+    storeInfo: PropTypes.object,
+    dispatch: PropTypes.func
   };
   state = {
     storeInfo: {
       StoreName: "-",
-      Location: "-",
+      Address: "-",
       PeopleNum: "-",
       Charge: "-",
       BusinessTimes: "-",
@@ -28,20 +31,30 @@ export default class StoreManage extends Component {
       CsTel: "-"
     }
   };
-  componentWillReceiveProps(nextProps) {
-    this.updateData(nextProps);
+  componentWillMount() {
+    this.getStoreInfo();
   }
-  updateData(props) {
-    const { status, data } = props.storeInfo;
-    if (status === "success") {
-      console.log(data);
-      this.setState({
-        storeInfo: data
+  getStoreInfo() {
+    console.log(111);
+    return this.props
+      .dispatch({
+        type: "getStoreInfo",
+        api: () => {
+          return api.getStoreInfo();
+        },
+        promise: true
+      })
+      .then(data => {
+        console.log(data);
+        this.setState({
+          storeInfo: data
+        });
+      })
+      .catch(e => {
+        Tip.loading("getStoreInfo:error");
+        console.log("getStoreInfo:error", e);
       });
-      return;
-    }
   }
-
   renderItem(item, isReadonly) {
     const icon = require("./img/u57.png");
     const { label, value, onPress } = item;
@@ -58,10 +71,10 @@ export default class StoreManage extends Component {
     );
   }
   renderTop() {
-    const { StoreName, Location, PeopleNum, Charge } = this.state.storeInfo;
+    const { StoreName, Address, PeopleNum, Charge } = this.state.storeInfo;
     const readonlyData = [
       { label: "店名", value: StoreName },
-      { label: "位置", value: Location },
+      { label: "位置", value: Address },
       { label: "容纳人数", value: `${PeopleNum}人` },
       { label: "收费标准", value: `${Charge}/小时` }
     ];
@@ -78,9 +91,9 @@ export default class StoreManage extends Component {
   }
   renderBottom() {
     const { BusinessTimes, BusinessWeeks, CsTel } = this.state.storeInfo;
-    const weeks = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"];
+    const weeks = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
     const editable = [
-      { label: "店铺图库", value: "", onPress: () => {} },
+      { label: "店铺图库", value: "查看", onPress: () => {} },
       {
         label: "营业时间",
         value: BusinessWeeks
@@ -96,7 +109,7 @@ export default class StoreManage extends Component {
       },
       {
         label: "设备管理",
-        value: "",
+        value: "查看",
         onPress: () => {
           this.props.navigation.dispatch(
             action.navigate.go({ routeName: "DeviceManage" })
@@ -105,7 +118,7 @@ export default class StoreManage extends Component {
       },
       {
         label: "课程表",
-        value: "",
+        value: "查看",
         onPress: () => {
           this.props.navigation.dispatch(
             action.navigate.go({ routeName: "Timetable" })
@@ -125,7 +138,7 @@ export default class StoreManage extends Component {
             });
         }
       },
-      { label: "商家介绍/留言", value: "", onPress: () => {} }
+      { label: "商家介绍/留言", value: "查看", onPress: () => {} }
     ];
     return (
       <View style={[styles.list, { marginTop: 10 }]}>

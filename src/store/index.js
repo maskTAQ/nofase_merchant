@@ -1,3 +1,7 @@
+import { createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
+
+import AppReducer from "src/reducers";
 import AppNavigator from "src/Navigation";
 import TabNavigator from "src/TabNavigation";
 import { CreateReduxField } from "src/common";
@@ -8,7 +12,23 @@ const initialNav = AppNavigator.router.getStateForAction(
 const initialTabNav = TabNavigator.router.getStateForAction(
   TabNavigator.router.getActionForPathAndParams("CurrentUser")
 );
-export default {
+const asyncDispetch = store => next => action => {
+  const { type, api, promise } = action;
+  if (promise) {
+    next({ type, status: "loading" });
+    return api()
+      .then(res => {
+        store.dispatch({ type, status: "success", payload: res });
+        return Promise.resolve(res);
+      })
+      .catch(e => {
+        store.dispatch({ type, status: "error", errData: e });
+        return Promise.resolve(e);
+      });
+  }
+  return next(action);
+};
+const initStore = {
   nav: initialNav,
   tabNav: initialTabNav,
   auth: {
@@ -18,3 +38,8 @@ export default {
   },
   ...CreateReduxField().store()
 };
+export default createStore(
+  AppReducer,
+  initStore,
+  applyMiddleware(thunk, asyncDispetch)
+);
