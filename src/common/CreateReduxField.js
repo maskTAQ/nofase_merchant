@@ -1,14 +1,5 @@
 export default function CreateReduxField() {
-  const keys = [
-    "storeBusInfo",
-    "storeUserList",
-    "storeBusInfoByDate",
-    "storeUserListByDate",
-    "storeInfo",
-    "bankInfo",
-    "incomeInfo",
-    "withdrawalsInfo"
-  ];
+  const keys = ["storeInfo"];
   return {
     action(key, status, data) {
       return {
@@ -36,8 +27,8 @@ export default function CreateReduxField() {
       const r = {};
       keys.forEach(item => {
         r[item] = {
-          status: "init",
-          data: null
+          // status: "init",
+          // data: null
         };
       });
       return r;

@@ -32,10 +32,6 @@ export default {
   setStoreState(params) {
     return post("/Store/SetStoreState", params);
   },
-  saveStoreEquip(params) {
-    console.log(params);
-    return post("/Store/SaveStoreEquip", params);
-  },
   getCurriculumList() {
     return post("/Store/GetCurriculumList");
   },
@@ -66,5 +62,17 @@ export default {
   //保存课程表
   saveCurriculum({ CurrJson, StoreId }) {
     return post("/Store/SaveCurriculum", { CurrJson, StoreId });
+  },
+  //更新店铺
+  updateStore(params) {
+    return post("/Store/EditStore", params);
+  },
+  //获取设备信息
+  getStoreEquip(params) {
+    return post("/Store/GetStoreEqui", params);
+  },
+  //保存设备信息
+  saveStoreEquip(params) {
+    return post("/Store/SaveStoreEquip", params);
   }
 };

@@ -38,7 +38,7 @@ export default class StoreManage extends Component {
     console.log(111);
     return this.props
       .dispatch({
-        type: "getStoreInfo",
+        type: "storeInfo",
         api: () => {
           return api.getStoreInfo();
         },

@@ -5,8 +5,9 @@ import { connect } from "react-redux";
 import moment from "moment";
 import DateTimePicker from "react-native-modal-datetime-picker";
 
+import action from "src/action";
 import api from "src/api";
-import { EventHub, Tip } from "src/common";
+import { Tip } from "src/common";
 import { Page, Button, Picker } from "src/components";
 import styles from "./style";
 
@@ -51,30 +52,34 @@ Switch.propTypes = {
 export default class BusinessHours extends Component {
   static defaultProps = {};
   static propTypes = {
+    navigation: PropTypes.object,
     storeInfo: PropTypes.object
   };
   state = {
     isPickerVisible: false,
     startWeek: "周一",
     startWeekValue: "1",
-    endWeek: "周二",
-    endWeekValue: "2",
+    endWeek: "周日",
+    endWeekValue: "0",
     isDateTimePickerVisible: false,
     startTime: "请选择开始时间",
     startTimeData: null,
     endTime: "请选择结束时间",
     endTimeData: null,
-    storeInfo: {
-      BusinessTimes: "-",
-      BusinessWeeks: ""
-    },
-    isClose: 1 //1营业 2未营业
+    Flag: 1 //1营业 2未营业
   };
   componentWillMount() {
-    this.updateData(this.props);
+    const { Flag, BusinessTimes } = this.props.storeInfo;
+    const time = BusinessTimes.split("-");
+    this.setState({
+      Flag,
+      startTime: time[0],
+      endTime: time[0]
+    });
   }
   componentWillReceiveProps(nextProps) {
-    this.updateData(nextProps);
+    // const { hour } = nextProps.storeInfo;
+    // this.setState({ ...hour })
   }
   store = {
     weeks: [
@@ -90,24 +95,6 @@ export default class BusinessHours extends Component {
     currentSelectedTimtType: ""
   };
 
-  updateData(props) {
-    const { status, data } = props.storeInfo;
-
-    if (status === "success") {
-      console.log(data, "[==]");
-      const { BusinessWeeks, BusinessTimes } = data;
-      const [startTime, endTime] = BusinessTimes.split("-");
-      const weeks = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
-      this.setState({
-        storeInfo: data,
-        startWeek: weeks[BusinessWeeks[0]],
-        endWeek: weeks[BusinessWeeks[BusinessWeeks.length - 1]],
-        startTime,
-        endTime
-      });
-      return;
-    }
-  }
   showWeekPickerModal = type => {
     this.store.selectedWeekType = type;
     this.setState({
@@ -138,7 +125,7 @@ export default class BusinessHours extends Component {
   }
   isCloseChange = v => {
     this.setState({
-      isClose: v ? 1 : 2
+      Flag: v ? 1 : 2
     });
   };
   computWeekRangeStr() {
@@ -148,48 +135,49 @@ export default class BusinessHours extends Component {
     const a = new Array(l);
 
     a.fill(0);
-    const Weeks = a
+    const BusinessWeeks = a
       .map(item => {
         return startWeekValue++;
       })
       .join(",");
-    return Weeks;
+    return BusinessWeeks;
   }
   save = () => {
-    const { isClose, startTime, endTime } = this.state;
+    const { Flag, startTime, endTime } = this.state;
     const isHasInitTime = startTime.includes(":") && endTime.includes(":");
 
     if (!isHasInitTime) {
-      return Tip.fail("请选择时间");
+      Tip.fail("请选择时间");
+    } else {
+      api
+        .updateStore({
+          BusinessWeeks: this.computWeekRangeStr(),
+          BusinessTimes: startTime + "-" + endTime,
+          Flag
+        })
+        .then(res => {
+          Tip.success("更新营业时间成功");
+          setTimeout(() => {
+            this.props.navigation.dispatch(action.navigate.back());
+          }, 1500);
+        })
+        .catch(e => {
+          Tip.fail("更新营业时间失败" + e);
+          console.log(e);
+        });
     }
-    return api
-      .setStoreState({
-        Weeks: this.computWeekRangeStr(),
-        Times: startTime + "-" + endTime,
-        isClose
-      })
-      .then(res => {
-        Tip.success("保存成功");
-        setTimeout(() => {
-          EventHub.emit("dispatch", "getStoreInfo", "storeInfo");
-        }, 1500);
-      })
-      .catch(e => {
-        Tip.fail("保存失败");
-      });
   };
   renderHeader() {
-    const { isClose } = this.state;
+    const { Flag } = this.state;
     return (
       <View style={styles.header}>
         <Text style={styles.headerLabel}>店铺营业状态</Text>
-        <Switch value={isClose === 1} onValueChange={this.isCloseChange} />
+        <Switch value={Flag === 1} onValueChange={this.isCloseChange} />
       </View>
     );
   }
   renderPicker() {
     const { startWeek, endWeek } = this.state;
-
     return (
       <View style={styles.chooseDayWrapper}>
         <Button
@@ -266,9 +254,10 @@ export default class BusinessHours extends Component {
                 isPickerVisible: false
               });
             }}
-            onValueSelect={item => {
+            onValueSelect={(v, item) => {
               const { selectedWeekType } = this.store;
               const { label, value } = item;
+
               this.setState({
                 isPickerVisible: false,
                 [selectedWeekType]: label,

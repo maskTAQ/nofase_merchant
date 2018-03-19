@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 import { Page, Button, Input, Icon } from "src/components";
 import api from "src/api";
+import action from "src/action";
 import { Tip } from "src/common";
 import styles from "./style";
 
@@ -26,9 +28,17 @@ CheckBox.propTypes = {
   checked: PropTypes.bool,
   onChangeChecked: PropTypes.func
 };
+
+@connect(state => {
+  const { auth: { StoreId } } = state;
+  return { StoreId };
+})
 export default class DeviceManage extends Component {
   static defaultProps = {};
-  static propTypes = {};
+  static propTypes = {
+    StoreId: PropTypes.number,
+    navigation: PropTypes.object
+  };
   state = {
     data: [
       { label: "淋浴", value: "", key: "Bach", checked: true },
@@ -56,6 +66,36 @@ export default class DeviceManage extends Component {
       }
     ]
   };
+  componentWillMount() {
+    this.getStoreEquip();
+  }
+  getStoreEquip() {
+    const { StoreId } = this.props;
+    api
+      .getStoreEquip({ StoreId })
+      .then(res => {
+        this.loadInitValue(res);
+      })
+      .catch(e => {
+        Tip.fail("初始化设备信息失败");
+      });
+  }
+  loadInitValue(deviceInfo) {
+    const nextData = Object.assign([], this.state.data);
+    for (const item in deviceInfo) {
+      for (let i = 0; i < nextData.length; i++) {
+        if (nextData[i].key === item) {
+          nextData[i].checked = Boolean(deviceInfo[item]);
+        }
+        if (nextData[i].valueKey === item) {
+          nextData[i].value = String(deviceInfo[item]);
+        }
+      }
+    }
+    this.setState({
+      data: nextData
+    });
+  }
   handleValueChange(v, i, key) {
     const nextData = Object.assign([], this.state.data);
     nextData[i][key] = v;
@@ -64,23 +104,28 @@ export default class DeviceManage extends Component {
     });
   }
   save = () => {
+    const { StoreId } = this.props;
     const { data } = this.state;
-    const result = {};
+    const result = { StoreId };
     data.forEach(item => {
       const { key, checked, value, valueKey } = item;
       result[key] = Number(checked);
       if (valueKey) {
-        result[valueKey] = value;
+        result[valueKey] = value || 0;
       }
     });
-    console.log(result);
+
     api
       .saveStoreEquip(result)
       .then(res => {
-        Tip.sucess("设备信息保存成功");
+        Tip.fail("保存设备信息成功");
+        setTimeout(() => {
+          return this.props.navigation.dispatch(action.navigate.back());
+        }, 1500);
       })
       .catch(e => {
-        Tip.fail(`设备信息保存失败${e}`);
+        Tip.fail("保存设备失败信息" + e);
+        console.log("保存设备失败", e);
       });
   };
 
