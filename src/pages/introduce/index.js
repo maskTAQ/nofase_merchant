@@ -1,38 +1,63 @@
 import React, { Component } from "react";
-import { View, Button, TextInput } from "react-native";
-//import PropTypes from "prop-types";
+import { View, TextInput, Text } from "react-native";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-import { Page } from "src/components";
+import action from "src/action";
+import { Page, Button } from "src/components";
 import styles from "./style";
+
+@connect(state => {
+  const { newStoreInfo } = state;
+  return { newStoreInfo };
+})
 export default class Introduce extends Component {
   static defaultProps = {};
-  static propTypes = {};
+  static propTypes = {
+    navigation: PropTypes.object
+    //newStoreInfo: PropTypes.object,
+  };
   state = {
     value: ""
   };
+  componentWillMount() {
+    // this.setState({
+    //     value:this.props.newStoreInfo.StoreRemarks
+    // });
+  }
   onChangeText = v => {
     this.setState({
       value: v
     });
+  };
+  save = () => {
+    return this.props.navigation.dispatch(action.navigate.back());
   };
   render() {
     const { value } = this.state;
     return (
       <Page
         title="编辑介绍/留言"
-        RightComponent={<Button style={styles.save}>保存</Button>}
+        RightComponent={
+          <Button onPress={this.save} textStyle={styles.saveLabel}>
+            保存
+          </Button>
+        }
       >
         <View style={styles.container}>
           <TextInput
+            style={styles.area}
             value={value}
             onChangeText={this.onChangeText}
             autoFocus={true}
             maxLength={500}
-            multilin={true}
+            multiline={true}
             placeholder="请输入介绍/留言"
           />
+          <View style={styles.length}>
+            <Text style={styles.lengthText}>{value.length}/500</Text>
+          </View>
         </View>
-        <View style={styles.length}>{value.length}/500</View>
       </Page>
     );
   }

@@ -64,7 +64,6 @@ export default {
     borderRadius: 5,
     height: 40,
     alignItems: "center",
-
     borderWidth: 1,
     borderColor: "#019af5",
     marginRight: 10

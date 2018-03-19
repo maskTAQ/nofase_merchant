@@ -325,6 +325,7 @@ export default class Timetable extends Component {
       currentActiveRow,
       currentActiveRowIndex
     } = this.state;
+    console.log(isTimeChoosePanelVisible, 999);
     return (
       <Page
         title="课程表"
@@ -373,6 +374,7 @@ export default class Timetable extends Component {
             });
           }}
         />
+        <SelectTimeModal />
       </Page>
     );
   }
