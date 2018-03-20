@@ -223,6 +223,7 @@ export default class Table extends Component {
       const { index, render = defaultRenderTd, style, tdStyle } = renderRowRule[
         item
       ];
+      console.log("rowIndex", rowIndex);
       children[index] = (
         <View style={[styles.td, customStyle.td, style, tdStyle]} key={item}>
           {render(row, row[item], index, rowIndex, styles.tdText)}
@@ -251,7 +252,10 @@ export default class Table extends Component {
             <FlatList
               data={this.props.dataSource || dataSource}
               keyExtractor={(row, i) => i}
-              renderItem={({ item, index }) => this.renderBodyRow(item, index)}
+              renderItem={({ item, index }) => {
+                //console.log(index,'[---]')
+                return this.renderBodyRow(item, index);
+              }}
               //ItemSeparatorComponent={this.renderBorder}
               ListEmptyComponent={({ item }) => (
                 <View style={styles.noData}>
