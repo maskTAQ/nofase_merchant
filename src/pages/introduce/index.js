@@ -10,21 +10,24 @@ import { Page, Button } from "src/components";
 import styles from "./style";
 
 @connect(state => {
-  const { storeInfo } = state;
-  return { storeInfo };
+  const { storeInfo, auth: { StoreId } } = state;
+  return { storeInfo, StoreId };
 })
 export default class Introduce extends Component {
   static defaultProps = {};
   static propTypes = {
     navigation: PropTypes.object,
-    storeInfo: PropTypes.object
+    storeInfo: PropTypes.object,
+    StoreId: PropTypes.number,
+    dispatch: PropTypes.func
   };
   state = {
     value: ""
   };
   componentWillMount() {
+    console.log(this.props.storeInfo.StoreRemarks);
     this.setState({
-      value: this.props.storeInfo.StoreRemarks
+      value: this.props.storeInfo.StoreRemarks || ""
     });
   }
   onChangeText = v => {
@@ -36,10 +39,17 @@ export default class Introduce extends Component {
     const { value } = this.state;
     api
       .updateStore({
-        StoreRemarks: value
+        StoreRemarks: value,
+        StoreId: this.props.StoreId
       })
       .then(res => {
         Tip.success("更新商家介绍/留言成功");
+        this.props.dispatch({
+          type: "storeInfo",
+          payload: {
+            StoreRemarks: value
+          }
+        });
         setTimeout(() => {
           this.props.navigation.dispatch(action.navigate.back());
         }, 1500);

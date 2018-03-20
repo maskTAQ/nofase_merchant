@@ -46,21 +46,23 @@ Switch.propTypes = {
 };
 
 @connect(state => {
-  const { storeInfo } = state;
-  return { storeInfo };
+  const { storeInfo, auth: { StoreId } } = state;
+  return { storeInfo, StoreId };
 })
 export default class BusinessHours extends Component {
   static defaultProps = {};
   static propTypes = {
     navigation: PropTypes.object,
-    storeInfo: PropTypes.object
+    storeInfo: PropTypes.object,
+    dispatch: PropTypes.func,
+    StoreId: PropTypes.number
   };
   state = {
     isPickerVisible: false,
     startWeek: "周一",
     startWeekValue: "1",
     endWeek: "周日",
-    endWeekValue: "0",
+    endWeekValue: "5",
     isDateTimePickerVisible: false,
     startTime: "请选择开始时间",
     startTimeData: null,
@@ -70,16 +72,14 @@ export default class BusinessHours extends Component {
   };
   componentWillMount() {
     const { Flag, BusinessTimes } = this.props.storeInfo;
-    const time = BusinessTimes.split("-");
+    const time = BusinessTimes
+      ? BusinessTimes.split("-")
+      : ["请选择开始时间", "请选择结束时间"];
     this.setState({
       Flag,
       startTime: time[0],
-      endTime: time[0]
+      endTime: time[1]
     });
-  }
-  componentWillReceiveProps(nextProps) {
-    // const { hour } = nextProps.storeInfo;
-    // this.setState({ ...hour })
   }
   store = {
     weeks: [
@@ -153,10 +153,19 @@ export default class BusinessHours extends Component {
         .updateStore({
           BusinessWeeks: this.computWeekRangeStr(),
           BusinessTimes: startTime + "-" + endTime,
-          Flag
+          Flag,
+          StoreId: this.props.StoreId
         })
         .then(res => {
           Tip.success("更新营业时间成功");
+          this.props.dispatch({
+            type: "storeInfo",
+            payload: {
+              BusinessWeeks: this.computWeekRangeStr(),
+              BusinessTimes: startTime + "-" + endTime,
+              Flag
+            }
+          });
           setTimeout(() => {
             this.props.navigation.dispatch(action.navigate.back());
           }, 1500);

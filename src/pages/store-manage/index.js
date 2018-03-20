@@ -1,41 +1,123 @@
 import React, { Component } from "react";
-import { View, FlatList, Text, ScrollView, Linking } from "react-native";
+import { View, FlatList, Text, ScrollView } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { Page, Button, Icon } from "src/components";
+import { Page, Button, Icon, Alert, Input } from "src/components";
 import action from "src/action";
 import api from "src/api";
 import { Tip } from "src/common";
 import styles from "./style";
 
+class ModifMobile extends Component {
+  static propTypes = {
+    isVisible: PropTypes.bool,
+    close: PropTypes.func,
+    CsTel: PropTypes.string,
+    StoreId: PropTypes.number,
+    dispatch: PropTypes.func
+  };
+  state = {
+    mobile: ""
+  };
+  componentWillMount() {
+    this.setState({
+      mobile: this.props.CsTel || ""
+    });
+  }
+  componentWillReceiveProps(nextProps) {
+    const { CsTel } = this.props;
+    const { CsTel: nextCsTel } = nextProps;
+    if (CsTel !== nextCsTel && nextCsTel) {
+      this.setState({
+        mobile: nextCsTel
+      });
+    }
+  }
+  changeValue(value, type) {
+    this.setState({
+      [type]: value
+    });
+  }
+  modif = () => {
+    const { mobile } = this.state;
+    api
+      .updateStore({ CsTel: mobile, StoreId: this.props.StoreId })
+      .then(res => {
+        this.props.dispatch({
+          type: "storeInfo",
+          payload: {
+            CsTel: mobile
+          }
+        });
+        this.props.close();
+      })
+      .catch(e => {
+        console.log(e);
+        this.props.close();
+        Tip.fail("修改失败");
+      });
+  };
+  render() {
+    const { isVisible, close } = this.props;
+    const { mobile } = this.state;
+    return (
+      <Alert isVisible={isVisible} close={close}>
+        <View style={styles.modalContianer}>
+          <View style={styles.modalItemWrapper}>
+            <Icon size={24} source={require("./img/u16.png")} />
+            <Input
+              value={mobile}
+              onChangeText={v => {
+                this.changeValue(v, "mobile");
+              }}
+              style={styles.modalItemInput}
+              placeholder="新客服号码"
+              placeholderTextColor={styles.modalItemInput.color}
+            />
+          </View>
+
+          <Button
+            onPress={this.modif}
+            style={styles.sumbit}
+            textStyle={styles.sumbitText}
+          >
+            完成
+          </Button>
+        </View>
+      </Alert>
+    );
+  }
+}
+
 @connect(state => {
-  const { storeInfo } = state;
-  return { storeInfo };
+  const { storeInfo, auth: { StoreId } } = state;
+  return { storeInfo, StoreId };
 })
 export default class StoreManage extends Component {
   static defaultProps = {};
   static propTypes = {
     navigation: PropTypes.object,
     storeInfo: PropTypes.object,
-    dispatch: PropTypes.func
+    dispatch: PropTypes.func,
+    StoreId: PropTypes.number
   };
   state = {
-    storeInfo: {
-      StoreName: "-",
-      Address: "-",
-      PeopleNum: "-",
-      Charge: "-",
-      BusinessTimes: "-",
-      BusinessWeeks: "",
-      CsTel: "-"
-    }
+    isModifMobileVisible: false
+    // storeInfo: {
+    //   StoreName: "-",
+    //   Address: "-",
+    //   PeopleNum: "-",
+    //   Charge: "-",
+    //   BusinessTimes: "-",
+    //   BusinessWeeks: "",
+    //   CsTel: "-"
+    // }
   };
   componentWillMount() {
     this.getStoreInfo();
   }
   getStoreInfo() {
-    console.log(111);
     return this.props
       .dispatch({
         type: "storeInfo",
@@ -71,7 +153,7 @@ export default class StoreManage extends Component {
     );
   }
   renderTop() {
-    const { StoreName, Address, PeopleNum, Charge } = this.state.storeInfo;
+    const { StoreName, Address, PeopleNum, Charge } = this.props.storeInfo;
     const readonlyData = [
       { label: "店名", value: StoreName },
       { label: "位置", value: Address },
@@ -90,7 +172,7 @@ export default class StoreManage extends Component {
     );
   }
   renderBottom() {
-    const { BusinessTimes, BusinessWeeks, CsTel } = this.state.storeInfo;
+    const { BusinessTimes, BusinessWeeks, CsTel } = this.props.storeInfo;
     const weeks = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
     const editable = [
       {
@@ -108,7 +190,7 @@ export default class StoreManage extends Component {
           ? `${weeks[BusinessWeeks[0]]}至${
               weeks[BusinessWeeks[BusinessWeeks.length - 1]]
             } ${BusinessTimes}`
-          : "-",
+          : "-1",
         onPress: () => {
           this.props.navigation.dispatch(
             action.navigate.go({ routeName: "BusinessHours" })
@@ -137,13 +219,9 @@ export default class StoreManage extends Component {
         label: "客服电话",
         value: CsTel,
         onPress: () => {
-          return Linking.openURL(`tel:${CsTel}`)
-            .then(supported => {
-              console.log(supported);
-            })
-            .catch(err => {
-              console.error("An error occurred", err);
-            });
+          this.setState({
+            isModifMobileVisible: true
+          });
         }
       },
       {
@@ -168,6 +246,8 @@ export default class StoreManage extends Component {
     );
   }
   render() {
+    const { isModifMobileVisible } = this.state;
+    const { storeInfo, StoreId } = this.props;
     return (
       <Page title="店铺管理" LeftComponent={<View />}>
         <View style={styles.container}>
@@ -182,6 +262,17 @@ export default class StoreManage extends Component {
               <Button textStyle={styles.navItemText}>常见问题</Button>
             </View>
           </ScrollView>
+          <ModifMobile
+            close={() => {
+              this.setState({
+                isModifMobileVisible: false
+              });
+            }}
+            dispatch={this.props.dispatch}
+            CsTel={storeInfo.CsTel}
+            StoreId={StoreId}
+            isVisible={isModifMobileVisible}
+          />
         </View>
       </Page>
     );

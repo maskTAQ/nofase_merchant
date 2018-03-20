@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import TabNavigation from "src/TabNavigation";
 import { addNavigationHelpers } from "react-navigation";
 
-import { EventHub } from "src/common";
 @connect(state => {
   const { tabNav } = state;
   return { tabNav };
@@ -16,9 +15,6 @@ class Home extends React.Component {
     dispatch: PropTypes.func
   };
   state = {};
-  componentWillMount() {
-    EventHub.emit("dispatch", "getStoreInfo", "storeInfo");
-  }
   render() {
     return (
       <View style={{ flex: 1 }}>

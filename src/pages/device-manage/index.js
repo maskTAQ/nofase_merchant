@@ -41,7 +41,7 @@ export default class DeviceManage extends Component {
   };
   state = {
     data: [
-      { label: "淋浴", value: "", key: "Bach", checked: true },
+      { label: "淋浴", value: "", key: "Bath", checked: true },
       { label: "储物", value: "", key: "Storage", checked: true },
       {
         label: "有氧器材",
@@ -109,9 +109,9 @@ export default class DeviceManage extends Component {
     const result = { StoreId };
     data.forEach(item => {
       const { key, checked, value, valueKey } = item;
-      result[key] = Number(checked);
+      result[key] = +checked;
       if (valueKey) {
-        result[valueKey] = value || 0;
+        result[valueKey] = +value || 0;
       }
     });
 

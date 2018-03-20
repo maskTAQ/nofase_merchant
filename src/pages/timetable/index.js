@@ -12,6 +12,9 @@ import { Page, Button, Table, Input } from "src/components";
 import styles from "./style";
 
 class SelectTimeModal extends Component {
+  static defaultProps = {
+    isVisible: false
+  };
   static propTypes = {
     requestChangeTime: PropTypes.func,
     rowData: PropTypes.object,
@@ -136,8 +139,6 @@ export default class Timetable extends Component {
   componentWillMount() {
     const { StoreId } = this.props;
     this.getCurriculum(StoreId);
-
-    //console.log(this.props.newStoreInfo.timetable,999)
   }
   getCurriculum(StoreId) {
     api
@@ -359,7 +360,7 @@ export default class Timetable extends Component {
         </View>
 
         <SelectTimeModal
-          isVisible={isTimeChoosePanelVisible}
+          isVisible={!!isTimeChoosePanelVisible}
           rowData={currentActiveRow}
           rowIndex={currentActiveRowIndex}
           close={() => {

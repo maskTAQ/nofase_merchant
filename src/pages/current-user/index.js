@@ -64,6 +64,7 @@ export default class CurrentUser extends Component {
         promise: true
       })
       .then(data => {
+        console.log(data, "storeUserList");
         this.setState({
           storeUserList: data
         });

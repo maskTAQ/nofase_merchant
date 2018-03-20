@@ -113,12 +113,12 @@ export default class Setting extends Component {
     );
   }
   renderList() {
-    const { StoreTel } = this.props.storeInfo;
+    const { LegTel } = this.props.storeInfo;
     const data = [
       { label: "提醒", rightComponent: <Switch /> },
       { type: "border" },
       {
-        label: `手机绑定  ${StoreTel}`,
+        label: `手机绑定  ${LegTel}`,
         rightComponent: (
           <Button
             onPress={() => {
