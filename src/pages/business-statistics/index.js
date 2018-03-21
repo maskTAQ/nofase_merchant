@@ -34,10 +34,14 @@ export default class BusinessStatistics extends Component {
   componentWillMount() {
     this.getData();
   }
+  store = {
+    //保存自定义时间区的时间参数
+    params: {}
+  };
   onRefresh = () => {
     const { activeIndex } = this.state;
     const { dates } = this.store;
-    const params = dates[activeIndex];
+    const params = isNaN(activeIndex) ? this.store.params : dates[activeIndex];
     this.setState({ refreshing: true });
     Promise.all(
       this.getStoreBusInfoByDate(params, false),
@@ -131,11 +135,12 @@ export default class BusinessStatistics extends Component {
         startTimeDate: date
       });
       if (endTimeDate) {
+        this.store.params = {
+          SDate: `${moment(date).format("YYYY-MM-DD")} 00:00:00`,
+          EDate: `${moment(endTimeDate).format("YYYY-MM-DD")} 23:59:59`
+        };
         this.setState({ activeIndex: NaN }, () => {
-          this.getData({
-            SDate: `${moment(date).format("YYYY-MM-DD")} 00:00:00`,
-            EDate: `${moment(endTimeDate).format("YYYY-MM-DD")} 23:59:59`
-          });
+          this.getData(this.store.params);
         });
       }
     } else {
@@ -144,11 +149,12 @@ export default class BusinessStatistics extends Component {
         endTimeDate: date
       });
       if (startTimeDate) {
+        this.store.params = {
+          SDate: `${moment(startTimeDate).format("YYYY-MM-DD")} 00:00:00`,
+          EDate: `${moment(date).format("YYYY-MM-DD")} 23:59:59`
+        };
         this.setState({ activeIndex: NaN }, () => {
-          this.getData({
-            SDate: `${moment(startTimeDate).format("YYYY-MM-DD")} 00:00:00`,
-            EDate: `${moment(date).format("YYYY-MM-DD")} 23:59:59`
-          });
+          this.getData(this.store.params);
         });
       }
     }
@@ -309,8 +315,6 @@ export default class BusinessStatistics extends Component {
     );
   }
   render() {
-    const { storeUserListByDate } = this.props;
-    console.log(storeUserListByDate);
     return (
       <Page title="营业统计">
         <View style={styles.container}>
