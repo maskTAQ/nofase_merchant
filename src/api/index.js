@@ -10,8 +10,12 @@ export default {
   register({ NickName, Tel, ExCode }) {
     return post("/User/UserReg", { NickName, Tel, ExCode });
   },
-  sendCode(Tel) {
-    return post("/User/GetExCode", { Tel }, { loading: false });
+  sendCode(Tel, loading) {
+    return post("/User/GetExCode", { Tel }, { loading });
+  },
+  //验证验证码
+  verifyCode(Tel, ExCode) {
+    return post("/User/ExTelCode", { Tel, ExCode });
   },
   getStoreBusInfo(loading) {
     return post("/Store/GetStoreBusInfo", {}, { loading });

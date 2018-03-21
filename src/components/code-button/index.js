@@ -1,11 +1,20 @@
 import React, { Component } from "react";
-import { View, ActivityIndicator } from "react-native";
+import { View, ActivityIndicator, Alert } from "react-native";
 import PropTypes from "prop-types";
 
 import { Button } from "src/components";
-import { Tip } from "src/common";
+import { Tip as T } from "src/common";
 import api from "src/api";
 
+const Tip = {
+  fail(type, s) {
+    if (type === "default") {
+      T.fail(s);
+    } else {
+      Alert.alert("提示", s, [{ text: "确定", onPress: () => {} }]);
+    }
+  }
+};
 const styles = {
   codeButton: {
     width: 100,
@@ -25,7 +34,13 @@ const styles = {
 };
 export default class CodeButton extends Component {
   static propTypes = {
-    phone: PropTypes.string
+    phone: PropTypes.string,
+    loading: PropTypes.bool,
+    type: PropTypes.string,
+    time: PropTypes.number
+  };
+  static defaultProps = {
+    type: "default" //在Modal下Tip显示不出来 被Modal盖住了
   };
   state = {
     isRequestSmscode: false,
@@ -39,7 +54,8 @@ export default class CodeButton extends Component {
   }
   1 = false;
   timer = () => {
-    let count = 60;
+    const { time } = this.props;
+    let count = time || 60;
     this.intervalId = null;
     return () => {
       return new Promise((resolve, reject) => {
@@ -70,11 +86,11 @@ export default class CodeButton extends Component {
   };
   getCode = () => {
     const { isCan } = this.state;
-    const { phone } = this.props;
+    const { phone, loading, type } = this.props;
     if (isCan && /^1[3|4|5|8][0-9]\d{4,8}$/.test(phone)) {
       this.setState({ isRequestSmscode: true });
       api
-        .sendCode(phone)
+        .sendCode(phone, loading)
         .then(response => {
           this.setState({ isRequestSmscode: false });
           const timer = this.timer();
@@ -84,18 +100,21 @@ export default class CodeButton extends Component {
               prevTimetInterval: 61
             });
           });
-          Tip.success("验证码发送成功，请注意查收");
+          if (type === "default") {
+            T.success("验证码发送成功，请注意查收");
+          }
+
           this.isGetCode = true;
         })
         .catch(e => {
           this.setState({ isRequestSmscode: false });
-          Tip.fail(`验证码发送失败:${e}`);
+          Tip.fail(type, `验证码发送失败:${e}`);
         });
     } else {
       if (!/^1[3|4|5|8][0-9]\d{4,8}$/.test(phone)) {
-        Tip.fail("请输入正确的手机号");
+        Tip.fail(type, "请输入正确的手机号");
       } else if (!phone) {
-        Tip.fail("请输入手机号");
+        Tip.fail(type, "请输入手机号");
       }
     }
   };

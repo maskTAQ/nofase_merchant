@@ -97,7 +97,11 @@ export default class Login extends Component {
               placeholder="密码"
               placeholderTextColor="#fff"
             />
-            <CodeButton ref={e => (this.codeRef = e)} phone={phone}>
+            <CodeButton
+              ref={e => (this.codeRef = e)}
+              phone={phone}
+              loading={false}
+            >
               验证码
             </CodeButton>
           </View>
