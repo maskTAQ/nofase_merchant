@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, FlatList, Image } from "react-native";
+import moment from "moment";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
@@ -18,29 +19,23 @@ export default class CurrentUser extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     storeBusInfo: PropTypes.object,
-    storeUserList: PropTypes.object,
+    storeUserList: PropTypes.array,
     dispatch: PropTypes.func
   };
   state = {
-    storeBusInfo: {
-      Amont: "-",
-      InPeople: "-",
-      TimeLongs: "-",
-      AveAmont: "-",
-      nowInPeople: "-"
-    },
-    storeUserList: []
+    searchValue: "",
+    refreshing: false
   };
   componentWillMount() {
     this.getStoreBusInfo();
     this.getStoreUserList();
   }
-  getStoreBusInfo() {
+  getStoreBusInfo(isLoading) {
     return this.props
       .dispatch({
         type: "storeBusInfo",
         api: () => {
-          return api.getStoreBusInfo();
+          return api.getStoreBusInfo(isLoading);
         },
         promise: true
       })
@@ -54,12 +49,12 @@ export default class CurrentUser extends Component {
         console.log("getStoreBusInfo:error", e);
       });
   }
-  getStoreUserList() {
+  getStoreUserList(isLoading) {
     return this.props
       .dispatch({
-        type: "getStoreUserList",
+        type: "storeUserList",
         api: () => {
-          return api.getStoreUserList();
+          return api.getStoreUserList(isLoading);
         },
         promise: true
       })
@@ -77,13 +72,24 @@ export default class CurrentUser extends Component {
   go(routeName) {
     this.props.navigation.dispatch(action.navigate.go({ routeName }));
   }
+  onRefresh = () => {
+    this.setState({ refreshing: true });
+    Promise.all(this.getStoreBusInfo(false), this.getStoreUserList(false))
+      .then(res => {
+        this.setState({ refreshing: false });
+      })
+      .catch(e => {
+        Tip.fail("更新失败");
+        this.setState({ refreshing: false });
+      });
+  };
   renderHeader() {
     const {
-      InPeople,
-      TimeLongs,
-      AveAmont,
-      nowInPeople
-    } = this.state.storeBusInfo;
+      InPeople = 0,
+      TimeLongs = 0,
+      AveAmont = 0,
+      nowInPeople = 0
+    } = this.props.storeBusInfo;
     const data = [
       { label: "到店用户", value: `${InPeople}/人` },
       { label: "消费时长", value: `${TimeLongs}/h` },
@@ -139,6 +145,7 @@ export default class CurrentUser extends Component {
     );
   }
   renderChoose() {
+    const { searchValue } = this.state;
     return (
       <View style={styles.choose}>
         <View style={styles.chooseContent}>
@@ -150,6 +157,8 @@ export default class CurrentUser extends Component {
           <View style={styles.chooseInputContainer}>
             <View style={styles.chooseInputContent}>
               <Input
+                value={searchValue}
+                onChangeText={v => this.setState({ searchValue: v })}
                 style={styles.chooseInput}
                 placeholder="名称/ID搜索在线用户"
               />
@@ -168,7 +177,10 @@ export default class CurrentUser extends Component {
     );
   }
   renderItem(item) {
-    const { portraitSource, name, id, startTime, duration } = item;
+    const { NickName, UserId, SDate, TimeLong } = item;
+    const portraitSource = require("./img/u45.png");
+    const getTimestamp = s => /\/Date\(([0-9]+)\)/.exec(s)[1];
+    const date = new Date(+getTimestamp(SDate));
     return (
       <View style={styles.item}>
         <Image style={styles.portrait} source={portraitSource} />
@@ -176,21 +188,23 @@ export default class CurrentUser extends Component {
           <View style={styles.itemContentTop}>
             <View style={styles.itemContentTopLeft}>
               <View style={styles.itemTitle}>
-                <Text style={styles.itemName}>{name}</Text>
+                <Text style={styles.itemName}>{NickName}</Text>
                 <View style={styles.warn}>
                   <Text style={styles.warnText}>余额不足</Text>
                 </View>
               </View>
-              <Text style={styles.itemId}>{id}</Text>
+              <Text style={styles.itemId}>ID:{UserId}</Text>
             </View>
             <Button style={styles.stopButton} textStyle={styles.stopButtonText}>
               停止
             </Button>
           </View>
           <View style={styles.itemDetail}>
-            <Text style={styles.itemStartTime}>{startTime}</Text>
+            <Text style={styles.itemStartTime}>
+              开始时间:{moment(date).format("YYYY/MM/DD HH:mm")}
+            </Text>
             <Text style={styles.itemDuration}>
-              <Text style={styles.itemStartTime}>使用时长</Text>:{duration}
+              <Text style={styles.itemStartTime}>使用时长</Text>:{TimeLong || 0}
             </Text>
           </View>
         </View>
@@ -198,71 +212,24 @@ export default class CurrentUser extends Component {
     );
   }
   renderList() {
-    const { storeUserList } = this.state;
-    // const data = [
-    //   {
-    //     portraitSource: require("./img/u45.png"),
-    //     name: "奋斗的小鸟",
-    //     id: "ID:GYM_Y676556",
-    //     startTime: "开始时间：17/14:30",
-    //     duration: "00:12"
-    //   },
-    //   {
-    //     portraitSource: require("./img/u45.png"),
-    //     name: "奋斗的小鸟2",
-    //     id: "ID:GYM_Y676556",
-    //     startTime: "开始时间：17/14:30",
-    //     duration: "00:12"
-    //   },
-    //   {
-    //     portraitSource: require("./img/u45.png"),
-    //     name: "奋斗的小鸟3",
-    //     id: "ID:GYM_Y676556",
-    //     startTime: "开始时间：17/14:30",
-    //     duration: "00:12"
-    //   },
-    //   {
-    //     portraitSource: require("./img/u45.png"),
-    //     name: "奋斗的小鸟4",
-    //     id: "ID:GYM_Y676556",
-    //     startTime: "开始时间：17/14:30",
-    //     duration: "00:12"
-    //   },
-    //   {
-    //     portraitSource: require("./img/u45.png"),
-    //     name: "奋斗的小鸟5",
-    //     id: "ID:GYM_Y676556",
-    //     startTime: "开始时间：17/14:30",
-    //     duration: "00:12"
-    //   },
-    //   {
-    //     portraitSource: require("./img/u45.png"),
-    //     name: "奋斗的小鸟6",
-    //     id: "ID:GYM_Y676556",
-    //     startTime: "开始时间：17/14:30",
-    //     duration: "00:12"
-    //   },
-    //   {
-    //     portraitSource: require("./img/u45.png"),
-    //     name: "奋斗的小鸟7",
-    //     id: "ID:GYM_Y676556",
-    //     startTime: "开始时间：17/14:30",
-    //     duration: "00:12"
-    //   },
-    //   {
-    //     portraitSource: require("./img/u45.png"),
-    //     name: "奋斗的小鸟8",
-    //     id: "ID:GYM_Y676556",
-    //     startTime: "开始时间：17/14:30",
-    //     duration: "00:12"
-    //   }
-    // ];
-
+    const { storeUserList = [] } = this.props;
+    const { searchValue, refreshing } = this.state;
     return (
       <FlatList
-        data={storeUserList}
+        data={storeUserList.filter(item => {
+          if (!searchValue) {
+            return true;
+          }
+          const { NickName, UserId } = item;
+          return (
+            NickName.includes(searchValue) ||
+            String(UserId).includes(searchValue)
+          );
+        })}
+        onRefresh={this.onRefresh}
+        refreshing={refreshing}
         renderItem={({ item }) => this.renderItem(item)}
-        keyExtractor={item => item.name + item.startTime}
+        keyExtractor={(item, i) => item.UserId + i}
         style={styles.listContainer}
       />
     );

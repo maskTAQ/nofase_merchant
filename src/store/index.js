@@ -4,7 +4,6 @@ import thunk from "redux-thunk";
 import AppReducer from "src/reducers";
 import AppNavigator from "src/Navigation";
 import TabNavigator from "src/TabNavigation";
-import { CreateReduxField } from "src/common";
 
 const initialNav = AppNavigator.router.getStateForAction(
   AppNavigator.router.getActionForPathAndParams("Login")
@@ -36,7 +35,9 @@ const initStore = {
     username: "",
     mobile: ""
   },
-  ...CreateReduxField().store()
+  storeInfo: {},
+  storeBusInfo: {},
+  storeUserList: []
 };
 export default createStore(
   AppReducer,

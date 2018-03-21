@@ -13,11 +13,11 @@ export default {
   sendCode(Tel) {
     return post("/User/GetExCode", { Tel }, { loading: false });
   },
-  getStoreBusInfo() {
-    return post("/Store/GetStoreBusInfo");
+  getStoreBusInfo(loading) {
+    return post("/Store/GetStoreBusInfo", {}, { loading });
   },
-  getStoreUserList() {
-    return post("/Store/GetStoreUserList");
+  getStoreUserList(loading) {
+    return post("/Store/GetStoreUserList", {}, { loading });
   },
   getStoreBusInfoByDate({ SDate, EDate }) {
     return post("/Store/GetStoreBusInfoByDate", { SDate, EDate });
