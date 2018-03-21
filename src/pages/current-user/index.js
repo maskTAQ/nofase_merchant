@@ -27,8 +27,9 @@ export default class CurrentUser extends Component {
     refreshing: false
   };
   componentWillMount() {
-    this.getStoreBusInfo();
-    this.getStoreUserList();
+    // this.getStoreBusInfo();
+    // this.getStoreUserList();
+    this.onRefresh();
   }
   getStoreBusInfo(isLoading) {
     return this.props
@@ -38,11 +39,6 @@ export default class CurrentUser extends Component {
           return api.getStoreBusInfo(isLoading);
         },
         promise: true
-      })
-      .then(data => {
-        this.setState({
-          storeBusInfo: data
-        });
       })
       .catch(e => {
         Tip.loading("getStoreBusInfo:error");
@@ -58,12 +54,6 @@ export default class CurrentUser extends Component {
         },
         promise: true
       })
-      .then(data => {
-        console.log(data, "storeUserList");
-        this.setState({
-          storeUserList: data
-        });
-      })
       .catch(e => {
         Tip.loading("getStoreUserList:error");
         console.log("getStoreUserList:error", e);
@@ -74,14 +64,11 @@ export default class CurrentUser extends Component {
   }
   onRefresh = () => {
     this.setState({ refreshing: true });
-    Promise.all(this.getStoreBusInfo(false), this.getStoreUserList(false))
-      .then(res => {
+    Promise.all(this.getStoreBusInfo(false), this.getStoreUserList(false)).then(
+      res => {
         this.setState({ refreshing: false });
-      })
-      .catch(e => {
-        Tip.fail("更新失败");
-        this.setState({ refreshing: false });
-      });
+      }
+    );
   };
   renderHeader() {
     const {

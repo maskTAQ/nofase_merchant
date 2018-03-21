@@ -6,7 +6,8 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import { Page, Button, Icon } from "src/components";
-import { EventHub } from "src/common";
+import api from "src/api";
+import { Tip } from "src/common";
 import styles from "./style";
 
 @connect(state => {
@@ -17,7 +18,8 @@ export default class BusinessStatistics extends Component {
   static propTypes = {
     storeBusInfoByDate: PropTypes.object,
     navigation: PropTypes.object,
-    storeUserListByDate: PropTypes.object
+    storeUserListByDate: PropTypes.array,
+    dispatch: PropTypes.func
   };
   state = {
     activeIndex: 0,
@@ -26,57 +28,58 @@ export default class BusinessStatistics extends Component {
     startTimeDate: null,
     endTime: "请选择结束时间",
     endTimeDate: null,
-    storeBusInfoByDate: {
-      Amont: "-",
-      InPeople: "-",
-      TimeLongs: "-",
-      AveAmont: "-"
-    }
+    refreshing: false
   };
 
   componentWillMount() {
+    this.getData();
+  }
+  onRefresh = () => {
     const { activeIndex } = this.state;
     const { dates } = this.store;
-    EventHub.emit(
-      "dispatch",
-      "getStoreBusInfoByDate",
-      "storeBusInfoByDate",
-      dates[activeIndex]
-    );
-    EventHub.emit(
-      "dispatch",
-      "getStoreUserListByDate",
-      "storeUserListByDate",
-      dates[activeIndex]
-    );
-  }
-  componentWillReceiveProps(nextProps) {
-    this.updateStoreData(nextProps);
-    this.updateStoreUserListData(nextProps);
-  }
-  updateStoreData(props) {
-    const { status, data } = props.storeBusInfoByDate;
-    if (
-      status === "success" &&
-      this.props.storeBusInfoByDate.status !== "success"
-    ) {
-      this.setState({
-        storeBusInfoByDate: { ...eval("(" + data + ")") }
+    const params = dates[activeIndex];
+    this.setState({ refreshing: true });
+    Promise.all(
+      this.getStoreBusInfoByDate(params, false),
+      this.getStoreUserListByDate(params, false)
+    ).then(res => {
+      this.setState({ refreshing: false });
+    });
+  };
+  getData = (p, isLoading) => {
+    const { activeIndex } = this.state;
+    const { dates } = this.store;
+    const params = p || dates[activeIndex];
+    this.getStoreBusInfoByDate(params, isLoading);
+    this.getStoreUserListByDate(params, isLoading);
+  };
+  getStoreBusInfoByDate(params, isLoading) {
+    return this.props
+      .dispatch({
+        type: "storeBusInfoByDate",
+        api: () => {
+          return api.getStoreBusInfoByDate(params, isLoading);
+        },
+        promise: true
+      })
+      .catch(e => {
+        Tip.loading("getStoreBusInfoByDate:error");
+        console.log("getStoreBusInfoByDate:error", e);
       });
-      return;
-    }
   }
-  updateStoreUserListData(props) {
-    const { status, data } = props.storeUserListByDate;
-    if (
-      status === "success" &&
-      this.props.storeUserListByDate.status !== "success"
-    ) {
-      this.setState({
-        storeUserListByDate: data
+  getStoreUserListByDate(params, isLoading) {
+    return this.props
+      .dispatch({
+        type: "storeUserListByDate",
+        api: () => {
+          return api.getStoreUserListByDate(params, isLoading);
+        },
+        promise: true
+      })
+      .catch(e => {
+        Tip.loading("getStoreUserListByDate:error");
+        console.log("getStoreUserListByDate:error", e);
       });
-      return;
-    }
   }
   store = {
     currentSelectedTimtType: "",
@@ -128,25 +131,12 @@ export default class BusinessStatistics extends Component {
         startTimeDate: date
       });
       if (endTimeDate) {
-        this.setState({ activeIndex: NaN });
-        EventHub.emit(
-          "dispatch",
-          "getStoreBusInfoByDate",
-          "storeBusInfoByDate",
-          {
+        this.setState({ activeIndex: NaN }, () => {
+          this.getData({
             SDate: `${moment(date).format("YYYY-MM-DD")} 00:00:00`,
             EDate: `${moment(endTimeDate).format("YYYY-MM-DD")} 23:59:59`
-          }
-        );
-        EventHub.emit(
-          "dispatch",
-          "getStoreUserListByDate",
-          "storeUserListByDate",
-          {
-            SDate: `${moment(date).format("YYYY-MM-DD")} 00:00:00`,
-            EDate: `${moment(endTimeDate).format("YYYY-MM-DD")} 23:59:59`
-          }
-        );
+          });
+        });
       }
     } else {
       this.setState({
@@ -154,44 +144,23 @@ export default class BusinessStatistics extends Component {
         endTimeDate: date
       });
       if (startTimeDate) {
-        this.setState({ activeIndex: NaN });
-        EventHub.emit(
-          "dispatch",
-          "getStoreBusInfoByDate",
-          "storeBusInfoByDate",
-          {
+        this.setState({ activeIndex: NaN }, () => {
+          this.getData({
             SDate: `${moment(startTimeDate).format("YYYY-MM-DD")} 00:00:00`,
             EDate: `${moment(date).format("YYYY-MM-DD")} 23:59:59`
-          }
-        );
-        EventHub.emit(
-          "dispatch",
-          "getStoreUserListByDate",
-          "storeUserListByDate",
-          {
-            SDate: `${moment(startTimeDate).format("YYYY-MM-DD")} 00:00:00`,
-            EDate: `${moment(date).format("YYYY-MM-DD")} 23:59:59`
-          }
-        );
+          });
+        });
       }
     }
 
     this._hideDateTimePicker();
   };
   selectDateType(i) {
-    const { dates } = this.store;
-    this.setState({ activeIndex: i, startTimeDate: null, endTimeDate: null });
-    EventHub.emit(
-      "dispatch",
-      "getStoreBusInfoByDate",
-      "storeBusInfoByDate",
-      dates[i]
-    );
-    EventHub.emit(
-      "dispatch",
-      "getStoreUserListByDate",
-      "storeUserListByDate",
-      dates[i]
+    this.setState(
+      { activeIndex: i, startTimeDate: null, endTimeDate: null },
+      () => {
+        this.getData();
+      }
     );
   }
   selectTime(type) {
@@ -264,7 +233,7 @@ export default class BusinessStatistics extends Component {
       TimeLongs,
       Amont,
       AveAmont
-    } = this.state.storeBusInfoByDate;
+    } = this.props.storeBusInfoByDate;
     return (
       <View style={styles.detail}>
         <Text style={styles.detailTitle}>2017-12-21至2017-12-20 </Text>
@@ -292,97 +261,49 @@ export default class BusinessStatistics extends Component {
     );
   }
   renderItem(item) {
-    const { portraitSource, name, id, duration } = item;
+    const portraitSource = require("../current-user/img/u45.png");
+    const { NickName, PayMoney, UserId, TimeLong, LastInDate } = item;
+    const getTimestamp = s => /\/Date\(([0-9]+)\)/.exec(s)[1];
+    const date = new Date(+getTimestamp(LastInDate));
     return (
       <View style={styles.item}>
         <Image style={styles.portrait} source={portraitSource} />
         <View style={styles.itemContent}>
           <View style={styles.itemContentItem}>
-            <Text style={styles.itemTitle}>{name}</Text>
-            <Text style={styles.itemText}>消费:24.5元</Text>
+            <Text style={styles.itemTitle}>{NickName}</Text>
+            <Text style={styles.itemText}>消费:{PayMoney}元</Text>
           </View>
           <View style={styles.itemContentItem}>
-            <Text style={styles.itemText}>{id}</Text>
-            <Text style={styles.itemText}>在线时长{duration}</Text>
+            <Text style={styles.itemText}>ID:{UserId}</Text>
+            <Text style={styles.itemText}>在线时长{TimeLong}</Text>
           </View>
           <View style={styles.itemContentItem}>
-            <Text style={styles.itemText}>最后到店时间：2017-12-11 15:30</Text>
+            <Text style={styles.itemText}>
+              最后到店时间：{moment(date).format("YYYY/MM/DD HH:mm")}
+            </Text>
           </View>
         </View>
       </View>
     );
   }
   renderList() {
-    const icon = require("../current-user/img/u45.png");
-    const data = [
-      {
-        portraitSource: icon,
-        name: "奋斗的小鸟",
-        id: "ID:GYM_Y676556",
-        startTime: "开始时间：17/14:30",
-        duration: "00:12"
-      },
-      {
-        portraitSource: icon,
-        name: "奋斗的小鸟2",
-        id: "ID:GYM_Y676556",
-        startTime: "开始时间：17/14:30",
-        duration: "00:12"
-      },
-      {
-        portraitSource: icon,
-        name: "奋斗的小鸟3",
-        id: "ID:GYM_Y676556",
-        startTime: "开始时间：17/14:30",
-        duration: "00:12"
-      },
-      {
-        portraitSource: icon,
-        name: "奋斗的小鸟4",
-        id: "ID:GYM_Y676556",
-        startTime: "开始时间：17/14:30",
-        duration: "00:12"
-      },
-      {
-        portraitSource: icon,
-        name: "奋斗的小鸟5",
-        id: "ID:GYM_Y676556",
-        startTime: "开始时间：17/14:30",
-        duration: "00:12"
-      },
-      {
-        portraitSource: icon,
-        name: "奋斗的小鸟6",
-        id: "ID:GYM_Y676556",
-        startTime: "开始时间：17/14:30",
-        duration: "00:12"
-      },
-      {
-        portraitSource: icon,
-        name: "奋斗的小鸟7",
-        id: "ID:GYM_Y676556",
-        startTime: "开始时间：17/14:30",
-        duration: "00:12"
-      },
-      {
-        portraitSource: icon,
-        name: "奋斗的小鸟8",
-        id: "ID:GYM_Y676556",
-        startTime: "开始时间：17/14:30",
-        duration: "00:12"
-      }
-    ];
-
+    const { storeUserListByDate } = this.props;
+    const { refreshing } = this.state;
     return (
       <View style={styles.listContainer}>
         <FlatList
-          data={data}
+          data={storeUserListByDate}
           ItemSeparatorComponent={() => (
             <View style={{ height: 1, backgroundColor: "#ccc" }} />
           )}
+          onRefresh={this.onRefresh}
+          refreshing={refreshing}
           renderItem={({ item }) => this.renderItem(item)}
-          keyExtractor={item => item.name + item.startTime}
+          keyExtractor={(item, i) => i}
           style={{ flex: 1 }}
+          ListEmptyComponent={
+            <Text style={styles.noData}>暂时没有数据哦!</Text>
+          }
         />
       </View>
     );

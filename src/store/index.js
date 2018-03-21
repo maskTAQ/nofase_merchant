@@ -37,7 +37,9 @@ const initStore = {
   },
   storeInfo: {},
   storeBusInfo: {},
-  storeUserList: []
+  storeUserList: [],
+  storeBusInfoByDate: {},
+  storeUserListByDate: []
 };
 export default createStore(
   AppReducer,

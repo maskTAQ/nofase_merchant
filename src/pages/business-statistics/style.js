@@ -130,5 +130,9 @@ export default {
   itemText: {
     fontSize: 12,
     color: "#999"
+  },
+  noData: {
+    paddingLeft: 15,
+    color: "#333"
   }
 };

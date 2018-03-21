@@ -31,7 +31,20 @@ const appReducer = combineReducers({
   storeUserList(state = [], action) {
     const { type, payload } = action;
     if (type === "storeUserList") {
-      console.log(payload, 12);
+      return payload || state;
+    }
+    return state;
+  },
+  storeBusInfoByDate(state = {}, action) {
+    const { type, payload } = action;
+    if (type === "storeBusInfoByDate") {
+      return { ...state, ...payload };
+    }
+    return state;
+  },
+  storeUserListByDate(state = [], action) {
+    const { type, payload } = action;
+    if (type === "storeUserListByDate") {
       return payload || state;
     }
     return state;
