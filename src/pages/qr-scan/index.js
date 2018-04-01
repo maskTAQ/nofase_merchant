@@ -1,24 +1,38 @@
 import React, { Component } from "react";
 import { Text, View, Image } from "react-native";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
+import api from "src/api";
+import action from "src/action";
 import QRScannerView from "./base";
 import { Page, Alert, Button } from "src/components";
 import styles from "./style";
 
-const Modal = ({ status, isModalVisible }) => {
+const Modal = ({
+  orderStep,
+  orderStatus,
+  isModalVisible,
+  requestRetryScan,
+  requestIntoOrderDetail,
+  requestCancel
+}) => {
   let iconSource, label;
-  const singleButotn = status !== 1 || status !== 2;
-  switch (String(status)) {
-    case "1":
+  const singleButotn = orderStatus === "error";
+  switch (true) {
+    case orderStep === 1 && orderStatus === "success":
       iconSource = require("./img/u91.png");
       label = "扫码成功 开始计费";
       break;
-    case "2":
-      iconSource = require("./img/u73.png");
-      label = "扫码成功 开始扣费";
+    case orderStep === 1 && orderStatus === "error":
+      iconSource = require("./img/u30.png");
+      label = "扫码失败 请重试!";
       break;
-    default:
+    case orderStep === 2 && orderStatus === "success":
+      iconSource = require("./img/u73.png");
+      label = "扫码成功 结束扣费";
+      break;
+    case orderStep === 2 && orderStatus === "error":
       iconSource = require("./img/u30.png");
       label = "扫码失败 请重试!";
       break;
@@ -33,6 +47,7 @@ const Modal = ({ status, isModalVisible }) => {
         {singleButotn ? (
           <View style={styles.modalButtonGroup}>
             <Button
+              onPress={requestRetryScan}
               style={[styles.modalButton, styles.modalConfirmButton]}
               textStyle={[
                 styles.modalButtonText,
@@ -45,20 +60,22 @@ const Modal = ({ status, isModalVisible }) => {
         ) : (
           <View style={styles.modalButtonGroup}>
             <Button
+              onPress={requestIntoOrderDetail}
               style={[styles.modalButton, styles.modalConfirmButton]}
               textStyle={[
                 styles.modalButtonText,
                 styles.modalConfirmButtonText
               ]}
             >
-              扣费
+              查看详情
             </Button>
             <View style={{ width: 10 }} />
             <Button
+              onPress={requestCancel}
               style={styles.modalButton}
               textStyle={styles.modalButtonText}
             >
-              扣费
+              取消
             </Button>
           </View>
         )}
@@ -67,26 +84,94 @@ const Modal = ({ status, isModalVisible }) => {
   );
 };
 Modal.propTypes = {
-  status: PropTypes.number,
-  isModalVisible: PropTypes.bool
+  orderStep: PropTypes.number,
+  isModalVisible: PropTypes.bool,
+  requestRetryScan: PropTypes.func,
+  requestIntoOrderDetail: PropTypes.func,
+  requestCancel: PropTypes.func,
+  orderStatus: PropTypes.string
 };
+
+@connect(state => {
+  const { auth: { StoreId } } = state;
+  return { StoreId };
+})
 export default class QRScan extends Component {
-  state = {
-    status: 0, //0 扫码中 1开始计费 2结束计费(扣费) 3开始计费失败 4 结束结束失败
-    cameraVisible: true
+  static propTypes = {
+    StoreId: PropTypes.number,
+    navigation: PropTypes.object
   };
+  state = {
+    orderStep: 1, //1开始计费 2结束计费(扣费)
+    orderStatus: "success", //对应步骤的状态
+    isCameraVisible: true,
+    isModalVisible: false
+  };
+  componentWillMount() {
+    const { StoreId } = this.props;
+    setTimeout(() => {
+      api
+        .scanUserQR({ UserId: 1, StoreId })
+        .then(res => {
+          this.setState({
+            isCameraVisible: false,
+            isModalVisible: true,
+            orderStep: 1,
+            orderStatus: "success"
+          });
+        })
+        .catch(e => {
+          this.setState({
+            isCameraVisible: false,
+            isModalVisible: true,
+            orderStep: 1,
+            orderStatus: "error"
+          });
+        });
+    }, 1000);
+  }
   barcodeReceived(e) {
-    alert(e.data);
+    //alert(e.data);
     console.log("Type: " + e.type + "\nData: " + e.data);
   }
-
+  retryScan = () => {
+    this.setState({
+      isCameraVisible: true,
+      isModalVisible: false
+    });
+  };
+  intoOrderDetail = () => {
+    const { orderStatus, orderStep } = this.state;
+    console.log(orderStatus, orderStep);
+    this.setState(
+      {
+        isModalVisible: false
+      },
+      () => {
+        this.props.navigation.dispatch(
+          action.navigate.go({
+            routeName: "QRScanTiming",
+            params: { orderStatus, orderStep }
+          })
+        );
+      }
+    );
+  };
+  cancel = () => {
+    this.props.navigation.dispatch(action.navigate.back());
+  };
   render() {
-    const { cameraVisible, status } = this.state;
+    const {
+      isCameraVisible,
+      isModalVisible,
+      orderStep,
+      orderStatus
+    } = this.state;
     return (
       <Page title="扫码计时">
         <View style={styles.container}>
           <View style={{ height: 400, backgroundColor: "#289ee3" }}>
-            {cameraVisible ? (
+            {isCameraVisible ? (
               <QRScannerView
                 onScanResultReceived={this.barcodeReceived.bind(this)}
                 renderTopBarView={() => null}
@@ -107,7 +192,14 @@ export default class QRScan extends Component {
           >
             <Text style={{ color: "#fff" }}>请对准用户扫码页面</Text>
           </View>
-          <Modal isModalVisible={!cameraVisible} status={status} />
+          <Modal
+            requestRetryScan={this.retryScan}
+            requestIntoOrderDetail={this.intoOrderDetail}
+            requestCancel={this.cancel}
+            isModalVisible={isModalVisible}
+            orderStep={orderStep}
+            orderStatus={orderStatus}
+          />
         </View>
       </Page>
     );

@@ -82,5 +82,9 @@ export default {
   //保存设备信息
   saveStoreEquip(params) {
     return post("/Store/SaveStoreEquip", params);
+  },
+  //扫描二维码 http://101.200.196.202:8888/User/ScanUserQR
+  scanUserQR({ UserId, StoreId }) {
+    return post("/User/ScanUserQR", { UserId, StoreId });
   }
 };

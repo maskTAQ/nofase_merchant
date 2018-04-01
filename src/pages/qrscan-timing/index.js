@@ -1,19 +1,27 @@
 import React, { Component } from "react";
 import { View, Text, Image } from "react-native";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 import { Page, Button, Icon } from "src/components";
-import styles from "./style";
+import styles from "./style"; //Charge
+
+@connect(state => {
+  const { storeInfo: { Charge } } = state;
+  return { Charge };
+})
 export default class QRScanTiming extends Component {
   static defaultProps = {
     startTime: "08:27",
     endTime: "10:21",
-    step: 2 //0 未开始 1开始 2结束
+    step: 0 //0 未开始 1开始 2结束
   };
   static propTypes = {
     startTime: PropTypes.string,
     endTime: PropTypes.string,
-    step: PropTypes.number
+    step: PropTypes.number,
+    navigation: PropTypes.object,
+    Charge: PropTypes.number
   };
   state = {
     currentScore: 1
@@ -40,7 +48,7 @@ export default class QRScanTiming extends Component {
           <View style={styles.headerItemWrapper}>
             <View style={styles.headerItem}>
               <Text style={styles.headerItemLabel}>结束时间</Text>
-              <Text style={styles.headerItemValue}>{data[step][0]}</Text>
+              <Text style={styles.headerItemValue}>{data[step][1]}</Text>
             </View>
           </View>
         </View>
@@ -81,7 +89,7 @@ export default class QRScanTiming extends Component {
     );
   }
   renderContent() {
-    const { step } = this.props;
+    const { step, Charge } = this.props;
     switch (String(step)) {
       case "0":
         return (
@@ -89,11 +97,11 @@ export default class QRScanTiming extends Component {
             {this.renderHeader()}
             {this.renderCommon([
               ["Per hour", "每一小时"],
-              ["Cost", "￥:10.00元"]
+              ["Cost", `￥:${Charge}元`]
             ])}
-            <View style={styles.QR}>
-              <Image source={require("./img/u12.png")} style={styles.QRImg} />
-            </View>
+            <Button style={styles.end} textStyle={styles.endText}>
+              结束
+            </Button>
           </View>
         );
       default:
@@ -116,6 +124,7 @@ export default class QRScanTiming extends Component {
     }
   }
   render() {
+    // const { orderStatus, orderStep } = this.props.navigation.state.params;
     return (
       <Page
         title="扫码计时"

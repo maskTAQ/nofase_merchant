@@ -108,6 +108,20 @@ export default {
     fontWeight: "bold",
     color: mainColor
   },
+  end: {
+    marginLeft: 25,
+    marginRight: 25,
+    borderRadius: 6,
+    height: 40,
+    backgroundColor: mainColor,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  endText: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#fff"
+  },
   starScore: {
     padding: 40,
     paddingTop: 0,

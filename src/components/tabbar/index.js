@@ -35,7 +35,6 @@ export default class Tabbar extends Component {
     this.props.navigation.dispatch(action.navigate.tabGo({ routeName }));
   }
   scan = () => {
-    console.log();
     this.props.navigation.dispatch(action.navigate.go({ routeName: "QRScan" }));
   };
   render() {

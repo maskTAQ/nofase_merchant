@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import TabNavigation from "src/TabNavigation";
 import { addNavigationHelpers } from "react-navigation";
 
+console.disableYellowBox = true;
 @connect(state => {
   const { tabNav } = state;
   return { tabNav };
