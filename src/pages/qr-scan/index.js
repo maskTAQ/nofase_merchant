@@ -158,7 +158,14 @@ export default class QRScan extends Component {
     );
   };
   cancel = () => {
-    this.props.navigation.dispatch(action.navigate.back());
+    this.setState(
+      {
+        isModalVisible: false
+      },
+      () => {
+        this.props.navigation.dispatch(action.navigate.back());
+      }
+    );
   };
   render() {
     const {
