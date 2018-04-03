@@ -4,20 +4,20 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 import { Page, Input, Button } from "src/components";
-import { EventHub, Tip } from "src/common";
+import { Tip } from "src/common";
 import styles from "./style";
 import api from "src/api";
 
 @connect(state => {
-  const { bankInfo, storeInfo } = state;
-  return { bankInfo, storeInfo };
+  const { bankInfo, storeInfo: { StoreMoney } } = state;
+  return { bankInfo, StoreMoney };
 })
 export default class WithdrawDeposit extends Component {
   static defaultProps = {};
   static propTypes = {
     navigation: PropTypes.object,
     bankInfo: PropTypes.object,
-    storeInfo: PropTypes.object
+    StoreMoney: PropTypes.number
   };
   state = {
     CardNo: "-",
@@ -28,29 +28,18 @@ export default class WithdrawDeposit extends Component {
     WAmont: ""
   };
   componentWillMount() {
-    EventHub.emit("dispatch", "getBankInfo", "bankInfo");
+    this.getBankInfo();
   }
-  componentWillReceiveProps(nextProps) {
-    this.updateData(nextProps);
-    this.updateBanlance(nextProps);
-  }
-  updateData(props) {
-    const { status, data } = props.bankInfo;
-
-    if (status === "success") {
-      this.setState(data);
-    }
-  }
-  updateBanlance(props) {
-    const { status, data } = props.storeInfo;
-
-    if (status === "success") {
-      this.setState({
-        StoreMoney: data.StoreMoney
+  getBankInfo() {
+    api
+      .getBankInfo()
+      .then(res => {
+        this.setState({ ...res });
+      })
+      .catch(e => {
+        console.log(e);
       });
-    }
   }
-
   withdrawDeposit = () => {
     const { WAmont } = this.state;
     return api
@@ -64,15 +53,8 @@ export default class WithdrawDeposit extends Component {
   };
 
   render() {
-    const {
-      CardNo,
-      BankName,
-      LegalName,
-      LegTel,
-      StoreMoney,
-      WAmont
-    } = this.state;
-
+    const { CardNo, BankName, LegalName, LegTel, WAmont } = this.state;
+    const { StoreMoney } = this.props;
     return (
       <Page title="提现">
         <View style={styles.container}>

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import styles from "./style";
-import { Input, Button, ShareModal, CodeButton } from "src/components";
+import { Input, Button, CodeButton } from "src/components";
 import action from "src/action";
 import api from "src/api";
 //import { Tip } from "src/common";
@@ -113,39 +113,7 @@ export default class Login extends Component {
           >
             立即登录
           </Button>
-          <View style={styles.register}>
-            <Button onPress={this.register} textStyle={styles.registerText}>
-              注册账号
-            </Button>
-          </View>
         </View>
-        <Image
-          source={require("src/images/login/bg.png")}
-          style={styles.bg}
-          resizeMode="stretch"
-        />
-        <View style={styles.relevancechar}>
-          <Text style={styles.relevanceText}>关联登录</Text>
-          <Button textStyle={styles.registerText}>
-            <Image
-              source={require("src/images/login/wechat.png")}
-              style={styles.charImg}
-            />
-          </Button>
-        </View>
-        <ShareModal
-          isVisible={false}
-          username="上都牧人"
-          time="01:48:08"
-          sum={32.0}
-          discount={8}
-          storeName="海里恩健身俱乐部"
-          onlinePeople={20}
-          addr="深南大道与前海教会处振业星海商业广场31"
-          close={() => {}}
-        >
-          <Text>12</Text>
-        </ShareModal>
       </View>
     );
   }

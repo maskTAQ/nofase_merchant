@@ -9,30 +9,19 @@ import styles from "./style";
 import action from "src/action";
 
 @connect(state => {
-  const { storeInfo } = state;
-  return { storeInfo };
+  const { storeInfo, storeBusInfo } = state;
+  return { storeInfo, storeBusInfo };
 })
 export default class AccountAdmin extends Component {
   static propTypes = {
     navigation: PropTypes.object,
-    storeInfo: PropTypes.object
+    storeInfo: PropTypes.object,
+    storeBusInfo: PropTypes.object
   };
   state = {};
-  componentWillReceiveProps(nextProps) {
-    this.updatestoreInfo(nextProps);
-  }
   back = () => {
     this.props.navigation.dispatch(action.navigate.back());
   };
-  updatestoreInfo(props) {
-    const { status, data } = props.storeInfo;
-    if (status === "success") {
-      this.setState({
-        StoreMoney: data.StoreMoney
-      });
-      return;
-    }
-  }
   renderItem(row) {
     const { type, onPress } = row;
     return (
@@ -74,11 +63,11 @@ export default class AccountAdmin extends Component {
   }
   render() {
     const tabMap = [
-      ["今日消费", "25.5", 0],
+      ["今日营收", this.props.storeBusInfo.Amont, 0],
       "border",
-      ["当前押金", "60.00", 1]
+      ["店铺押金", "--.--", 1]
     ];
-    const { StoreMoney } = this.state;
+    const { StoreMoney = 0 } = this.props.storeInfo;
     return (
       <View style={styles.container}>
         <View style={styles.bgContainer}>

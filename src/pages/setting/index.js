@@ -168,7 +168,7 @@ export default class Setting extends Component {
     this.props.navigation.dispatch(action.navigate.go({ routeName: "Login" }));
   };
   renderHeader() {
-    const { StoreName, Id, LegalName, Location } = this.props.storeInfo;
+    const { StoreName, Id, LegalName, Address } = this.props.storeInfo;
     return (
       <View style={styles.header}>
         <Image style={styles.portrait} source={require("./img/u71.png")} />
@@ -177,7 +177,7 @@ export default class Setting extends Component {
           <Text style={styles.storeInfo}>
             ID:{Id} 法人：{LegalName}
           </Text>
-          <Text style={styles.storeAddr}>{Location}</Text>
+          <Text style={styles.storeAddr}>{Address}</Text>
         </View>
       </View>
     );

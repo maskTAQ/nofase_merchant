@@ -257,9 +257,18 @@ export default class StoreManage extends Component {
               {this.renderBottom()}
             </View>
             <View style={styles.nav}>
-              <Button textStyle={styles.navItemText}>某某健身</Button>
+              <Button textStyle={styles.navItemText}>没脸运动</Button>
               <View style={styles.navBorder} />
-              <Button textStyle={styles.navItemText}>常见问题</Button>
+              <Button
+                onPress={() => {
+                  this.props.navigation.dispatch(
+                    action.navigate.go({ routeName: "Feedback" })
+                  );
+                }}
+                textStyle={styles.navItemText}
+              >
+                常见问题
+              </Button>
             </View>
           </ScrollView>
           <ModifMobile

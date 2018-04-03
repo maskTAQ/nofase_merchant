@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { FlatList, View, Text, Image } from "react-native";
+import { View, Text, Image } from "react-native";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import moment from "moment";
 
-import { Button, Page } from "src/components";
+import api from "src/api";
+import { Button, Page, DataView } from "src/components";
 import styles from "./style";
-import { EventHub } from "src/common";
 
 @connect(state => {
   const { incomeInfo, withdrawalsInfo } = state;
@@ -20,11 +21,6 @@ export default class Detail extends Component {
   state = {
     activeIndex: 0
   };
-  componentWillMount() {
-    this.getIncomeInfo();
-    this.getWithdrawalsInfo();
-  }
-
   store = {
     data: [
       [
@@ -93,28 +89,31 @@ export default class Detail extends Component {
       ]
     ]
   };
-  getIncomeInfo(force) {
-    const { status } = this.props.incomeInfo;
-    if (!["loading", "success"].includes(status) || force) {
-      EventHub.emit("dispatch", "getIncomeInfo", "incomeInfo");
-    }
+  getIncomeInfo(PageIndex) {
+    return api.getIncomeInfo({ PageIndex, PageNum: 20 });
   }
-  getWithdrawalsInfo(force) {
-    const { status } = this.props.withdrawalsInfo;
-    if (!["loading", "success"].includes(status) || force) {
-      EventHub.emit("dispatch", "getWithdrawalsInfo", "withdrawalsInfo");
-    }
+  getWithdrawalsInfo(PageIndex) {
+    return api.getWithdrawalsInfo({ PageIndex, PageNum: 20 });
   }
   changeTab(i) {
     const { activeIndex } = this.state;
     if (activeIndex !== i) {
-      this.setState({
-        activeIndex: i
-      });
+      this.setState(
+        {
+          activeIndex: i
+        },
+        () => {
+          //更改tab重新渲染数据 否则显示的是另一个tab的数据
+          if (i === 0) {
+            this.incomeInfoList && this.incomeInfoList.triggerRefresh();
+          } else {
+            this.withdrawalsInfo && this.withdrawalsInfo.triggerRefresh();
+          }
+        }
+      );
     }
   }
   renderTab() {
-    console.log(this.props);
     const tab = ["收入", "提现"];
     const { activeIndex } = this.state;
     return (
@@ -143,53 +142,72 @@ export default class Detail extends Component {
   renderItem(item) {
     const { activeIndex } = this.state;
     if (activeIndex === 0) {
-      const { portraitSource, name, id, income, time } = item;
+      const portraitSource = require("../current-user/img/u45.png");
+      const { NickName, UserId, Amont, EDate } = item;
+      const timestamp = +/\/Date\(([0-9]+)\)/.exec(EDate)[1];
       return (
         <View style={styles.item}>
           <Image style={styles.portrait} source={portraitSource} />
           <View style={styles.itemContent}>
             <View style={styles.itemContentRow}>
-              <Text style={styles.itemName}>{name}</Text>
+              <Text style={styles.itemName}>{NickName}</Text>
             </View>
             <View style={styles.itemContentRow}>
-              <Text style={styles.itemId}>{id}</Text>
-              <Text style={styles.itemIncome}>+{income}</Text>
+              <Text style={styles.itemId}>{UserId}</Text>
+              <Text style={styles.itemIncome}>+{Amont}</Text>
             </View>
             <View style={styles.itemContentRow}>
-              <Text style={styles.itemTime}>{time}</Text>
+              <Text style={styles.itemTime}>
+                {moment(timestamp).format("YYYY/MM/DD HH:ss")}
+              </Text>
+            </View>
+          </View>
+        </View>
+      );
+    } else {
+      const { time, expend, balance } = item;
+      return (
+        <View style={styles.item}>
+          <View style={styles.itemContent}>
+            <View style={styles.itemContentRow}>
+              <Text style={styles.itemText}>时间:{time}</Text>
+            </View>
+            <View style={styles.itemContentRow}>
+              <Text style={styles.itemText}>余额剩余:{balance}</Text>
+              <Text style={styles.itemExpend}>{expend}</Text>
             </View>
           </View>
         </View>
       );
     }
-    const { time, expend, balance } = item;
-    return (
-      <View style={styles.item}>
-        <View style={styles.itemContent}>
-          <View style={styles.itemContentRow}>
-            <Text style={styles.itemText}>时间:{time}</Text>
-          </View>
-          <View style={styles.itemContentRow}>
-            <Text style={styles.itemText}>余额剩余:{balance}</Text>
-            <Text style={styles.itemExpend}>{expend}</Text>
-          </View>
-        </View>
-      </View>
-    );
   }
   renderList() {
     const { activeIndex } = this.state;
-    const { data } = this.store;
-
-    return (
-      <FlatList
-        data={data[activeIndex]}
-        renderItem={({ item }) => this.renderItem(item)}
-        keyExtractor={item => JSON.stringify(item)}
-        ItemSeparatorComponent={() => <View style={styles.itemBorder} />}
-        style={styles.listContainer}
-      />
-    );
+    if (activeIndex === 0) {
+      return (
+        <DataView
+          ref={e => (this.incomeInfoList = e)}
+          style={styles.listContainer}
+          getData={this.getIncomeInfo}
+          dataSource={[]}
+          ListEmptyComponent={<Text>暂时没有数据哦</Text>}
+          ItemSeparatorComponent={() => <View style={styles.itemBorder} />}
+          renderItem={({ item }) => this.renderItem(item)}
+        />
+      );
+    } else {
+      return (
+        <DataView
+          ref={e => (this.withdrawalsInfo = e)}
+          style={styles.listContainer}
+          dataSource={[]}
+          getData={this.getWithdrawalsInfo}
+          ListEmptyComponent={<Text>暂时没有数据哦</Text>}
+          ItemSeparatorComponent={() => <View style={styles.itemBorder} />}
+          renderItem={({ item }) => this.renderItem(item)}
+        />
+      );
+    }
   }
   render() {
     return (

@@ -260,7 +260,9 @@ export default class BusinessStatistics extends Component {
           </View>
           <View style={styles.detailItem}>
             <Text style={styles.detailItemLabel}>平均消费:</Text>
-            <Text style={styles.detailItemValue}>{AveAmont}元/人</Text>
+            <Text style={styles.detailItemValue}>
+              {(+AveAmont).toFixed(2)}元/人
+            </Text>
           </View>
         </View>
       </View>

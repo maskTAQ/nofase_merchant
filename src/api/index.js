@@ -1,3 +1,4 @@
+import moment from "moment";
 import { post } from "./base";
 
 export default {
@@ -18,7 +19,14 @@ export default {
     return post("/User/ExTelCode", { Tel, ExCode });
   },
   getStoreBusInfo(loading) {
-    return post("/Store/GetStoreBusInfo", {}, { loading });
+    return post(
+      "/Store/GetStoreBusInfo",
+      {
+        SDate: `${moment().format("YYYY-MM-DD")} 00:00:00`,
+        EDate: `${moment().format("YYYY-MM-DD")} 23:59:59`
+      },
+      { loading }
+    );
   },
   getStoreUserList(loading) {
     return post("/Store/GetStoreUserList", {}, { loading });
@@ -44,12 +52,12 @@ export default {
     return post("/Store/GetCurriculumList");
   },
   //收入列表
-  getIncomeInfo() {
-    return post("/Store/GetStoreUserPayList");
+  getIncomeInfo(params) {
+    return post("/Store/GetStoreUserPayList", params, { loading: false });
   },
   //提现列表
-  getWithdrawalsInfo() {
-    return post("/Store/GetWithdrawalsList");
+  getWithdrawalsInfo(params) {
+    return post("/Store/GetWithdrawalsList", params, { loading: false });
   },
   //修改商家信息
   modifStoreInfo(params) {

@@ -16,3 +16,4 @@ export { default as Tabbar } from "./tabbar";
 export { default as Picker } from "./picker";
 export { default as CodeButton } from "./code-button";
 export { default as WebView } from "./webview";
+export { default as DataView } from "./data-view";
