@@ -127,7 +127,6 @@ export default class StoreManage extends Component {
         promise: true
       })
       .then(data => {
-        console.log(data);
         this.setState({
           storeInfo: data
         });

@@ -7,7 +7,6 @@ import { Page, Button, Icon } from "src/components";
 import styles from "./style"; //Charge
 
 @connect(state => {
-  console.log(state);
   const { storeInfo: { Charge } } = state;
   return { Charge };
 })

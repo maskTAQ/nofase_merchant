@@ -168,7 +168,6 @@ export default class Setting extends Component {
   };
   componentWillMount = async () => {
     const isRemind = await this.getRemind();
-    console.log(isRemind, 111);
     this.setState({
       isRemind
     });

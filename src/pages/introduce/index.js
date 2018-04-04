@@ -25,7 +25,6 @@ export default class Introduce extends Component {
     value: ""
   };
   componentWillMount() {
-    console.log(this.props.storeInfo.StoreRemarks);
     this.setState({
       value: this.props.storeInfo.StoreRemarks || ""
     });

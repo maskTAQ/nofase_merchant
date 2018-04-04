@@ -246,7 +246,6 @@ export default class CurrentUser extends Component {
     );
   }
   render() {
-    console.log(this.props);
     return (
       <View style={styles.container}>
         {this.renderHeader()}

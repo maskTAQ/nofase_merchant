@@ -165,7 +165,6 @@ export default class Timetable extends Component {
         title: "时间",
         dataIndex: "STime",
         render: (row, value, fiedIndex, index) => {
-          console.log(row, index, "index");
           const { STime, ETime } = row;
           let label = "";
 
@@ -300,7 +299,6 @@ export default class Timetable extends Component {
   };
 
   selectTimeRange = (row, i) => {
-    console.log(i, "i");
     this.setState({
       isTimeChoosePanelVisible: true,
       currentActiveRow: row,

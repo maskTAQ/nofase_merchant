@@ -71,14 +71,19 @@ export default class BusinessHours extends Component {
     Flag: 1 //1营业 2未营业
   };
   componentWillMount() {
-    const { Flag, BusinessTimes } = this.props.storeInfo;
+    const { Flag, BusinessTimes, BusinessWeeks = "1,0" } = this.props.storeInfo;
+    const weeks = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
     const time = BusinessTimes
       ? BusinessTimes.split("-")
       : ["请选择开始时间", "请选择结束时间"];
     this.setState({
       Flag,
       startTime: time[0],
-      endTime: time[1]
+      endTime: time[1],
+      startWeekValue: BusinessWeeks[0],
+      startWeek: weeks[BusinessWeeks[0]],
+      endWeekValue: BusinessWeeks[BusinessWeeks.length - 1],
+      endWeek: weeks[BusinessWeeks[BusinessWeeks.length - 1]]
     });
   }
   store = {
@@ -129,18 +134,19 @@ export default class BusinessHours extends Component {
     });
   };
   computWeekRangeStr() {
-    let { startWeekValue } = this.state;
-    const { endWeekValue } = this.state;
-    const l = endWeekValue - startWeekValue + 1;
-    const a = new Array(l);
+    //let { startWeekValue } = this.state;
+    const { startWeekValue, endWeekValue } = this.state;
+    return `${startWeekValue},${endWeekValue}`;
+    // const l = endWeekValue - startWeekValue + 1;
+    // const a = new Array(l);
 
-    a.fill(0);
-    const BusinessWeeks = a
-      .map(item => {
-        return startWeekValue++;
-      })
-      .join(",");
-    return BusinessWeeks;
+    // a.fill(0);
+    // const BusinessWeeks = a
+    //   .map(item => {
+    //     return startWeekValue++;
+    //   })
+    //   .join(",");
+    // return BusinessWeeks;
   }
   save = () => {
     const { Flag, startTime, endTime } = this.state;
@@ -180,7 +186,9 @@ export default class BusinessHours extends Component {
     const { Flag } = this.state;
     return (
       <View style={styles.header}>
-        <Text style={styles.headerLabel}>店铺营业状态</Text>
+        <Text style={styles.headerLabel}>
+          店铺营业状态：{Flag === 1 ? "营业中" : "未营业"}
+        </Text>
         <Switch value={Flag === 1} onValueChange={this.isCloseChange} />
       </View>
     );
@@ -263,7 +271,7 @@ export default class BusinessHours extends Component {
                 isPickerVisible: false
               });
             }}
-            onValueSelect={(v, item) => {
+            onValueSelect={item => {
               const { selectedWeekType } = this.store;
               const { label, value } = item;
 
