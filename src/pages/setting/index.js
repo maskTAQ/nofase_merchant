@@ -14,6 +14,7 @@ import {
 import styles from "./style";
 import action from "src/action";
 import api from "src/api";
+import { Tip } from "src/common";
 
 class ModifMobile extends Component {
   static propTypes = {
@@ -161,11 +162,55 @@ export default class Setting extends Component {
   state = {
     isModifMobileVisible: false,
     storeInfo: { StoreName: "-", Id: "-", LegalName: "-", Location: "-" },
-    verifySetp: 0 //0 未验证 1验证完当前手机号 2验证完绑定手机号
+    verifySetp: 0, //0 未验证 1验证完当前手机号 2验证完绑定手机号
+    //是否开启提醒
+    isRemind: false
+  };
+  componentWillMount = async () => {
+    const isRemind = await this.getRemind();
+    console.log(isRemind, 111);
+    this.setState({
+      isRemind
+    });
   };
   logout = () => {
     AsyncStorage.removeItem("mobile");
     this.props.navigation.dispatch(action.navigate.go({ routeName: "Login" }));
+  };
+  getRemind = async () => {
+    const asyncGetRemind = () => {
+      return new Promise((resolve, reject) => {
+        AsyncStorage.getItem("isRemind", (e, result) => {
+          if (e) {
+            resolve(false);
+          } else {
+            if (result && result === "1") {
+              resolve(true);
+            } else {
+              resolve(false);
+            }
+          }
+        });
+      });
+    };
+
+    const result = await asyncGetRemind();
+
+    return result;
+  };
+  setRemind = () => {
+    const { isRemind } = this.state;
+    Tip.loading();
+    AsyncStorage.setItem("isRemind", !isRemind ? "1" : "0", (e, result) => {
+      if (e) {
+        Tip.fail("设置失败");
+      } else {
+        this.setState({
+          isRemind: !isRemind
+        });
+        Tip.dismiss();
+      }
+    });
   };
   renderHeader() {
     const { StoreName, Id, LegalName, Address } = this.props.storeInfo;
@@ -184,8 +229,14 @@ export default class Setting extends Component {
   }
   renderList() {
     const { LegTel } = this.props.storeInfo;
+    const { isRemind } = this.state;
     const data = [
-      { label: "提醒", rightComponent: <Switch /> },
+      {
+        label: "提醒",
+        rightComponent: (
+          <Switch value={isRemind} onValueChange={this.setRemind} />
+        )
+      },
       { type: "border" },
       {
         label: `手机绑定  ${LegTel}`,
