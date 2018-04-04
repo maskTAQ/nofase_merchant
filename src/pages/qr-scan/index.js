@@ -10,7 +10,7 @@ import { Page, Alert, Button } from "src/components";
 import styles from "./style";
 
 const Modal = ({
-  orderStep,
+  OrderType,
   orderStatus,
   isModalVisible,
   requestRetryScan,
@@ -20,19 +20,19 @@ const Modal = ({
   let iconSource, label;
   const singleButotn = orderStatus === "error";
   switch (true) {
-    case orderStep === 1 && orderStatus === "success":
+    case OrderType === 1 && orderStatus === "success":
       iconSource = require("./img/u91.png");
       label = "扫码成功 开始计费";
       break;
-    case orderStep === 1 && orderStatus === "error":
+    case OrderType === 1 && orderStatus === "error":
       iconSource = require("./img/u30.png");
       label = "扫码失败 请重试!";
       break;
-    case orderStep === 2 && orderStatus === "success":
+    case OrderType === 2 && orderStatus === "success":
       iconSource = require("./img/u73.png");
       label = "扫码成功 结束扣费";
       break;
-    case orderStep === 2 && orderStatus === "error":
+    case OrderType === 2 && orderStatus === "error":
       iconSource = require("./img/u30.png");
       label = "扫码失败 请重试!";
       break;
@@ -84,7 +84,7 @@ const Modal = ({
   );
 };
 Modal.propTypes = {
-  orderStep: PropTypes.number,
+  OrderType: PropTypes.number,
   isModalVisible: PropTypes.bool,
   requestRetryScan: PropTypes.func,
   requestIntoOrderDetail: PropTypes.func,
@@ -102,10 +102,12 @@ export default class QRScan extends Component {
     navigation: PropTypes.object
   };
   state = {
-    orderStep: 1, //1开始计费 2结束计费(扣费)
+    OrderType: 1, //1开始计费 2结束计费(扣费)
     orderStatus: "success", //对应步骤的状态
     isCameraVisible: true,
-    isModalVisible: false
+    isModalVisible: false,
+    //查看详情的订单信息
+    currentOrderInfo: {}
   };
   componentWillMount() {
     const { StoreId } = this.props;
@@ -113,18 +115,20 @@ export default class QRScan extends Component {
       api
         .scanUserQR({ UserId: 1, StoreId })
         .then(res => {
+          console.log(res);
           this.setState({
             isCameraVisible: false,
             isModalVisible: true,
-            orderStep: 1,
-            orderStatus: "success"
+            OrderType: res.OrderType,
+            orderStatus: "success",
+            currentOrderInfo: res
           });
         })
         .catch(e => {
           this.setState({
             isCameraVisible: false,
             isModalVisible: true,
-            orderStep: 1,
+            OrderType: 1,
             orderStatus: "error"
           });
         });
@@ -141,8 +145,7 @@ export default class QRScan extends Component {
     });
   };
   intoOrderDetail = () => {
-    const { orderStatus, orderStep } = this.state;
-    console.log(orderStatus, orderStep);
+    const { currentOrderInfo } = this.state;
     this.setState(
       {
         isModalVisible: false
@@ -151,7 +154,7 @@ export default class QRScan extends Component {
         this.props.navigation.dispatch(
           action.navigate.go({
             routeName: "QRScanTiming",
-            params: { orderStatus, orderStep }
+            params: { ...currentOrderInfo }
           })
         );
       }
@@ -171,7 +174,7 @@ export default class QRScan extends Component {
     const {
       isCameraVisible,
       isModalVisible,
-      orderStep,
+      OrderType,
       orderStatus
     } = this.state;
     return (
@@ -204,7 +207,7 @@ export default class QRScan extends Component {
             requestIntoOrderDetail={this.intoOrderDetail}
             requestCancel={this.cancel}
             isModalVisible={isModalVisible}
-            orderStep={orderStep}
+            OrderType={OrderType}
             orderStatus={orderStatus}
           />
         </View>
