@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import api from "src/api";
 import action from "src/action";
 import QRScannerView from "./base";
+import { Tip } from "src/common";
 import { Page, Alert, Button } from "src/components";
 import styles from "./style";
 
@@ -109,34 +110,42 @@ export default class QRScan extends Component {
     //查看详情的订单信息
     currentOrderInfo: {}
   };
-  componentWillMount() {
-    const { StoreId } = this.props;
-    setTimeout(() => {
-      api
-        .scanUserQR({ UserId: 1, StoreId })
-        .then(res => {
-          console.log(res);
-          this.setState({
-            isCameraVisible: false,
-            isModalVisible: true,
-            OrderType: res.OrderType,
-            orderStatus: "success",
-            currentOrderInfo: res
-          });
-        })
-        .catch(e => {
-          this.setState({
-            isCameraVisible: false,
-            isModalVisible: true,
-            OrderType: 1,
-            orderStatus: "error"
-          });
-        });
-    }, 1000);
-  }
+  isScaning = false;
+
   barcodeReceived(e) {
-    //alert(e.data);
-    console.log("Type: " + e.type + "\nData: " + e.data);
+    const data = e.data;
+    let UserId = "";
+    try {
+      UserId = JSON.parse(data).UserId;
+    } catch (e) {
+      return Tip.fail("请扫描正确的用户二维码");
+    }
+    const { StoreId } = this.props;
+    if (this.isScaning) {
+      return "";
+    }
+    this.isScaning = true;
+    return api
+      .scanUserQR({ UserId, StoreId })
+      .then(res => {
+        this.isScaning = false;
+        this.setState({
+          isCameraVisible: false,
+          isModalVisible: true,
+          OrderType: res.OrderType,
+          orderStatus: "success",
+          currentOrderInfo: res
+        });
+      })
+      .catch(e => {
+        this.isScaning = false;
+        this.setState({
+          isCameraVisible: false,
+          isModalVisible: true,
+          OrderType: 1,
+          orderStatus: "error"
+        });
+      });
   }
   retryScan = () => {
     this.setState({
@@ -172,7 +181,7 @@ export default class QRScan extends Component {
   };
   render() {
     const {
-      isCameraVisible,
+      //isCameraVisible,
       isModalVisible,
       OrderType,
       orderStatus
@@ -181,16 +190,14 @@ export default class QRScan extends Component {
       <Page title="扫码计时">
         <View style={styles.container}>
           <View style={{ height: 400, backgroundColor: "#289ee3" }}>
-            {isCameraVisible ? (
-              <QRScannerView
-                onScanResultReceived={this.barcodeReceived.bind(this)}
-                renderTopBarView={() => null}
-                renderBottomMenuView={() => null}
-                maskColor="#289ee3"
-                scanBarColor="#1a99e1"
-                hintText=""
-              />
-            ) : null}
+            <QRScannerView
+              onScanResultReceived={this.barcodeReceived.bind(this)}
+              renderTopBarView={() => null}
+              renderBottomMenuView={() => null}
+              maskColor="#289ee3"
+              scanBarColor="#1a99e1"
+              hintText=""
+            />
           </View>
           <View
             style={{

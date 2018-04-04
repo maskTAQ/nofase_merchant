@@ -2,8 +2,12 @@ import React, { Component } from "react";
 import { View, Text, Image } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import moment from "moment";
 
 import { Page, Button, Icon } from "src/components";
+import api from "src/api";
+import { Tip } from "src/common";
+import action from "src/action";
 import styles from "./style"; //Charge
 
 @connect(state => {
@@ -34,11 +38,25 @@ export default class QRScanTiming extends Component {
   componentWillReceiveProps(nextProps) {
     this.propsToState(nextProps);
   }
+  componentWillUnmount() {
+    clearInterval(this.ticktTimer);
+  }
   propsToState(props) {
     const nextProps = props || this.props;
     const { params } = nextProps.navigation.state;
-    const { OrderType: prevOrderType } = this.state;
-    if (params.OrderType !== prevOrderType) {
+    const { OrderType } = params;
+    const {
+      OrderType: prevOrderType,
+      STimeStamp,
+      TimeStamp
+    } = this.props.navigation.state.params;
+    if (OrderType !== prevOrderType || !props) {
+      if (OrderType === 1) {
+        this.tickts(false, TimeStamp);
+      } else {
+        this.tickts(true, STimeStamp);
+      }
+      console.log(params);
       this.setState({
         ...params
       });
@@ -48,7 +66,7 @@ export default class QRScanTiming extends Component {
   tickts = (isEnd, STimeStamp) => {
     const pad = s => String(s).padStart("2", "0");
     const m = () => {
-      const t = (Date.now() - STimeStamp) / 1000;
+      const t = Date.now() / 1000 - STimeStamp;
       const d = Math.floor(t / (24 * 3600));
       const h = Math.floor((t - 24 * 3600 * d) / 3600);
       const m = Math.floor((t - 24 * 3600 * d - h * 3600) / 60);
@@ -69,19 +87,28 @@ export default class QRScanTiming extends Component {
     }
   };
   stopOrder = () => {
-    this.setState({
-      OrderType: 2
-    });
+    const { OrderId } = this.state;
+    api
+      .completeOrder({ OrderId })
+      .then(res => {
+        Tip.success("结束订单成功");
+        setTimeout(() => {
+          this.props.navigation.dispatch(
+            action.navigate.go({ routeName: "Home" })
+          );
+        }, 1500);
+      })
+      .catch(e => {
+        console.log(e);
+      });
   };
   renderHeader() {
-    const { OrderType, startTime, endTime } = this.state;
+    const { OrderType, STimeStamp, TimeStamp, ETimeStamp } = this.state;
+    const SDate = moment((TimeStamp || STimeStamp) * 1000).format("HH:mm"),
+      EDate = moment(ETimeStamp * 1000).format("HH:mm");
     const { tickts } = this.state;
     const noTimeStr = "--/--";
-    const data = [
-      [noTimeStr, noTimeStr],
-      [startTime, noTimeStr],
-      [startTime, endTime]
-    ];
+    const data = [[noTimeStr, noTimeStr], [SDate, noTimeStr], [SDate, EDate]];
 
     return (
       <View style={styles.headerWrapper}>
@@ -137,7 +164,7 @@ export default class QRScanTiming extends Component {
     );
   }
   renderContent() {
-    const { OrderType } = this.state;
+    const { OrderType, Money, SaleAmont } = this.state;
     const { Charge } = this.props;
     switch (String(OrderType)) {
       case "1":
@@ -165,11 +192,19 @@ export default class QRScanTiming extends Component {
               ["Per hour", "每一小时"],
               ["Cost", `￥:${Charge}元`]
             ])}
-            {this.renderCommon([["Charge", "收费"], ["Price", "￥:20.00元"]])}
-            {this.renderCommon([["Discount", "优惠"], ["Price", "￥:0元"]])}
+            {this.renderCommon([
+              ["Charge", "收费"],
+              ["Price", `￥:${Money}元`]
+            ])}
+            {this.renderCommon([
+              ["Discount", "优惠"],
+              ["Price", `￥:${SaleAmont}元`]
+            ])}
             <View style={styles.starScore}>
               <View style={{ alignItems: "flex-end" }}>
-                <Text style={styles.starScoreExpend}>支出:12.00元</Text>
+                <Text style={styles.starScoreExpend}>
+                  支出:{Money - SaleAmont}元
+                </Text>
               </View>
             </View>
           </View>
