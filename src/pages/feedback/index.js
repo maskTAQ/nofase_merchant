@@ -161,6 +161,23 @@ export default class Feedback extends Component {
             </View>
             <View style={styles.contactItem}>
               <View style={styles.contactItemLabel}>
+                <Text style={styles.contactItemLabelText}>
+                  广东省-深圳市-罗湖区
+                </Text>
+                <Text style={styles.contactItemLabelText}>分站客服:</Text>
+              </View>
+              <Button
+                onPress={() => {
+                  this.call("150489218870");
+                }}
+                style={styles.call}
+              >
+                <Text style={styles.callText}>150489218870</Text>
+                <Icon size={20} source={require("./img/u204.png")} />
+              </Button>
+            </View>
+            <View style={styles.contactItem}>
+              <View style={styles.contactItemLabel}>
                 <Text style={styles.contactItemLabelText}>专线客服-冯龙</Text>
                 <Text style={styles.contactItemLabelText} />
               </View>

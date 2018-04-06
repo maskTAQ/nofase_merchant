@@ -47,7 +47,8 @@ class App extends Component {
 
     api.token()
       .then(res => {
-        if (res.token !== 'token') {
+
+        if (res.data !== 'token') {
           Platform.OS === "android" && BackHandler.exitApp();
         }
       })
