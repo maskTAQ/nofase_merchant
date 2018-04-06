@@ -20,9 +20,10 @@ class Home extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <StatusBar
-          backgroundColor={"red"}
+          // backgroundColor={"red"}
           translucent={true}
-          barStyle="default"
+          hidden={true}
+          barStyle="light-content"
         />
         <TabNavigation
           navigation={{

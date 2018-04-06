@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, Image, AsyncStorage } from "react-native";
+import { View, Text, Image, AsyncStorage, StatusBar } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
@@ -60,6 +60,12 @@ export default class Login extends Component {
     const { phone, code } = this.state;
     return (
       <View style={styles.container}>
+        <StatusBar
+          // backgroundColor={"red"}
+          translucent={true}
+          hidden={true}
+          barStyle="light-content"
+        />
         <View style={styles.logo}>
           <Image
             source={require("src/images/login/logo.png")}

@@ -219,7 +219,7 @@ export default class Setting extends Component {
         <View style={styles.headerRight}>
           <Text style={styles.storeName}>{StoreName}</Text>
           <Text style={styles.storeInfo}>
-            ID:{Id} 法人：{LegalName}
+            ID:{Id} 负责人：{LegalName}
           </Text>
           <Text style={styles.storeAddr}>{Address}</Text>
         </View>
