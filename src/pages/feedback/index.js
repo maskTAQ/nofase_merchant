@@ -151,20 +151,18 @@ export default class Feedback extends Component {
               </View>
               <Button
                 onPress={() => {
-                  this.call("4008650152");
+                  this.call("075521034275");
                 }}
                 style={styles.call}
               >
-                <Text style={styles.callText}>4008-650-152</Text>
+                <Text style={styles.callText}>0755-2103-4275</Text>
                 <Icon size={20} source={require("./img/u204.png")} />
               </Button>
             </View>
             <View style={styles.contactItem}>
               <View style={styles.contactItemLabel}>
-                <Text style={styles.contactItemLabelText}>
-                  广东省-深圳市-罗湖区
-                </Text>
-                <Text style={styles.contactItemLabelText}>分站客服:</Text>
+                <Text style={styles.contactItemLabelText}>专线客服-冯龙</Text>
+                <Text style={styles.contactItemLabelText} />
               </View>
               <Button
                 onPress={() => {

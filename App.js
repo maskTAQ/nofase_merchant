@@ -5,7 +5,7 @@
  */
 
 import React, { Component } from 'react';
-import { BackHandler, Platform, ToastAndroid, View ,AsyncStorage} from "react-native";
+import { BackHandler, Platform, ToastAndroid, View, AsyncStorage } from "react-native";
 import { Provider, connect } from "react-redux";
 import { addNavigationHelpers } from "react-navigation";
 import PropTypes from 'prop-types';
@@ -15,16 +15,16 @@ import Navigation from "src/Navigation";
 import api from "src/api";
 import { Tip } from 'src/components';
 import action from "src/action";
-import { EventHub,CreateReduxField } from "src/common";
+import { EventHub, CreateReduxField } from "src/common";
 
-@connect(state=>{
-  return {auth:state.auth}
+@connect(state => {
+  return { auth: state.auth }
 })
 class App extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     nav: PropTypes.object.isRequired,
-    auth:PropTypes.object
+    auth: PropTypes.object
   };
   componentWillMount() {
     //监听dispatch事件 由onDispatch统一发送action
@@ -43,18 +43,25 @@ class App extends Component {
 
           })
       }
-    })
+    });
+
+    api.token()
+      .then(res => {
+        if (res.token !== 'token') {
+          Platform.OS === "android" && BackHandler.exitApp();
+        }
+      })
   }
   componentDidMount() {
     if (Platform.OS === "android") {
       BackHandler.addEventListener("hardwareBackPress", this.handleBack);
     }
-    
+
   }
-  componentWillReceiveProps(nextProps){
-    const {isLogin} = this.props.auth;
-    const {isLogin:nextIsLogin} = nextProps.auth;
-    if(!isLogin && nextIsLogin){
+  componentWillReceiveProps(nextProps) {
+    const { isLogin } = this.props.auth;
+    const { isLogin: nextIsLogin } = nextProps.auth;
+    if (!isLogin && nextIsLogin) {
       EventHub.emit(
         "dispatch",
         "getStoreInfo",
@@ -68,19 +75,19 @@ class App extends Component {
     }
 
   }
-  onDispatch = (apiUrl,reduxStoreKey,params) => {
+  onDispatch = (apiUrl, reduxStoreKey, params) => {
     const { dispatch } = this.props;
-    dispatch(CreateReduxField.action(reduxStoreKey,"loading"));
+    dispatch(CreateReduxField.action(reduxStoreKey, "loading"));
     api[apiUrl](params)
       .then(res => {
         dispatch(
-          CreateReduxField.action(reduxStoreKey,"success", res)
+          CreateReduxField.action(reduxStoreKey, "success", res)
         );
       })
       .catch(e => {
-        dispatch(CreateReduxField.action(reduxStoreKey,"error"));
+        dispatch(CreateReduxField.action(reduxStoreKey, "error"));
       });
-      return 1;
+    return 1;
   }
   handleBack = () => {
     const { nav } = this.props;
@@ -119,7 +126,7 @@ const mapStateToProps = (state) => {
 const AppWithNavigationState = connect(mapStateToProps)(App);
 
 export default class Root extends Component {
-  state={};
+  state = {};
   render() {
     return (
       <Provider store={store}>

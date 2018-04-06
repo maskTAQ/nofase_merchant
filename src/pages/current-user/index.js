@@ -29,8 +29,6 @@ export default class CurrentUser extends Component {
     isPositiveSequence: true
   };
   componentWillMount() {
-    // this.getStoreBusInfo();
-    // this.getStoreUserList();
     this.onRefresh();
   }
   getStoreBusInfo(isLoading) {
@@ -71,6 +69,29 @@ export default class CurrentUser extends Component {
         this.setState({ refreshing: false });
       }
     );
+  };
+  getDateByMinute(minute) {
+    const pad = s => String(s).padStart("2", "0");
+    const t = minute * 60;
+    const d = Math.floor(t / (24 * 3600));
+    const h = Math.floor((t - 24 * 3600 * d) / 3600);
+    const m = Math.floor((t - 24 * 3600 * d - h * 3600) / 60);
+    const s = Math.floor(t - 24 * 3600 * d - h * 3600 - m * 60);
+    return pad(h) + ":" + pad(m) + ":" + pad(s);
+  }
+  stopOrder = OrderId => {
+    if (!OrderId) {
+      Tip.fail("此条是测试数据或者没给OrderId字段");
+    } else {
+      api
+        .completeOrder({ OrderId })
+        .then(res => {
+          Tip.success("结束订单成功");
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    }
   };
   renderHeader() {
     const {
@@ -176,25 +197,42 @@ export default class CurrentUser extends Component {
     );
   }
   renderItem(item) {
-    const { NickName, UserId, SDate, TimeLong } = item;
+    const {
+      NickName,
+      UserId,
+      SDate,
+      TimeLong,
+      UserPhoto,
+      OrderId,
+      isHaveMoney
+    } = item;
     const portraitSource = require("./img/u45.png");
     const getTimestamp = s => /\/Date\(([0-9]+)\)/.exec(s)[1];
     const date = new Date(+getTimestamp(SDate));
     return (
       <View style={styles.item}>
-        <Image style={styles.portrait} source={portraitSource} />
+        <Image
+          style={styles.portrait}
+          source={UserPhoto ? { uri: UserPhoto } : portraitSource}
+        />
         <View style={styles.itemContent}>
           <View style={styles.itemContentTop}>
             <View style={styles.itemContentTopLeft}>
               <View style={styles.itemTitle}>
                 <Text style={styles.itemName}>{NickName}</Text>
                 <View style={styles.warn}>
-                  <Text style={styles.warnText}>余额不足</Text>
+                  <Text style={styles.warnText}>
+                    {isHaveMoney >= 10 ? "" : "余额不足"}
+                  </Text>
                 </View>
               </View>
               <Text style={styles.itemId}>ID:{UserId}</Text>
             </View>
-            <Button style={styles.stopButton} textStyle={styles.stopButtonText}>
+            <Button
+              onPress={() => this.stopOrder(OrderId)}
+              style={styles.stopButton}
+              textStyle={styles.stopButtonText}
+            >
               停止
             </Button>
           </View>
@@ -203,7 +241,9 @@ export default class CurrentUser extends Component {
               开始时间:{moment(date).format("YYYY/MM/DD HH:mm")}
             </Text>
             <Text style={styles.itemDuration}>
-              <Text style={styles.itemStartTime}>使用时长</Text>:{TimeLong || 0}
+              <Text style={styles.itemStartTime}>使用时长</Text>:{TimeLong
+                ? this.getDateByMinute(TimeLong)
+                : "00:00:00"}
             </Text>
           </View>
         </View>

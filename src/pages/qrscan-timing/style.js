@@ -19,8 +19,11 @@ export default {
     left: 0,
     width: 80,
     height: 80,
+    zIndex: 9,
     borderRadius: 80,
-    backgroundColor: "#fff"
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden"
   },
   userInfoContent: {
     flex: 1,

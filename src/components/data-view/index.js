@@ -207,6 +207,9 @@ export default class DataView extends Component {
       case refreshing && dataSource.length === 0:
         footerContent = null;
         break;
+      case dataSource.length === 0:
+        footerContent = null;
+        break;
       default:
         footerContent = <Text style={styles.text}>下拉加载更多</Text>;
     }

@@ -110,9 +110,12 @@ export default class QRScan extends Component {
     //查看详情的订单信息
     currentOrderInfo: {}
   };
-  isScaning = false;
 
-  barcodeReceived(e) {
+  componentWillReceiveProps(nextProps) {
+    console.log(this.props.navigation, "115");
+  }
+  isScaning = false;
+  barcodeReceived = e => {
     const data = e.data;
     let UserId = "";
     try {
@@ -146,7 +149,7 @@ export default class QRScan extends Component {
           orderStatus: "error"
         });
       });
-  }
+  };
   retryScan = () => {
     this.setState({
       isCameraVisible: true,
@@ -163,7 +166,15 @@ export default class QRScan extends Component {
         this.props.navigation.dispatch(
           action.navigate.go({
             routeName: "QRScanTiming",
-            params: { ...currentOrderInfo }
+            params: {
+              ...currentOrderInfo,
+              onReturnPage: () => {
+                this.props.navigation.dispatch(action.navigate.back());
+                this.setState({
+                  isCameraVisible: true
+                });
+              }
+            }
           })
         );
       }
@@ -181,7 +192,7 @@ export default class QRScan extends Component {
   };
   render() {
     const {
-      //isCameraVisible,
+      isCameraVisible,
       isModalVisible,
       OrderType,
       orderStatus
@@ -190,14 +201,16 @@ export default class QRScan extends Component {
       <Page title="扫码计时">
         <View style={styles.container}>
           <View style={{ height: 400, backgroundColor: "#289ee3" }}>
-            <QRScannerView
-              onScanResultReceived={this.barcodeReceived.bind(this)}
-              renderTopBarView={() => null}
-              renderBottomMenuView={() => null}
-              maskColor="#289ee3"
-              scanBarColor="#1a99e1"
-              hintText=""
-            />
+            {isCameraVisible && (
+              <QRScannerView
+                onScanResultReceived={this.barcodeReceived}
+                renderTopBarView={() => null}
+                renderBottomMenuView={() => null}
+                maskColor="#289ee3"
+                scanBarColor="#1a99e1"
+                hintText=""
+              />
+            )}
           </View>
           <View
             style={{
@@ -207,7 +220,9 @@ export default class QRScan extends Component {
               alignItems: "center"
             }}
           >
-            <Text style={{ color: "#fff" }}>请对准用户扫码页面</Text>
+            {isCameraVisible && (
+              <Text style={{ color: "#fff" }}>请对准用户扫码页面</Text>
+            )}
           </View>
           <Modal
             requestRetryScan={this.retryScan}

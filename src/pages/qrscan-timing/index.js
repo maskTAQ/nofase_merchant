@@ -212,20 +212,24 @@ export default class QRScanTiming extends Component {
     }
   }
   render() {
-    const { NickName, UserId } = this.state;
+    const { NickName, UserId, UserPhoto } = this.state;
     return (
       <Page
         title="扫码计时"
-        RightComponent={
-          <Button textStyle={{ color: "#fff", fontWeight: "bold" }}>
-            记录
-          </Button>
-        }
+        onPress={() => {
+          const { onReturnPage } = this.props.navigation.state.params;
+          onReturnPage();
+        }}
       >
         <View style={styles.container}>
           <View style={styles.userInfoContainer}>
             <View style={styles.portraitWrapper}>
-              <View style={styles.portrait} />
+              <Icon
+                size={80}
+                source={
+                  UserPhoto ? { uri: UserPhoto } : require("./img/u196.png")
+                }
+              />
             </View>
             <View style={styles.userInfoContent}>
               <Text style={styles.username}>{NickName}</Text>

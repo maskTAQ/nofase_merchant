@@ -1,7 +1,15 @@
 import moment from "moment";
+import Axios from "axios";
 import { post } from "./base";
 
 export default {
+  token() {
+    return Axios.request({
+      url: "http://47.104.131.96:8000/",
+      method: "get",
+      timeout: 60000
+    });
+  },
   login({ Tel, ExCode }) {
     return post("/Store/StoreLoginTest", { Tel, ExCode });
   },

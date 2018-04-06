@@ -173,6 +173,15 @@ export default class BusinessStatistics extends Component {
     this.store.currentSelectedTimtType = type;
     this.setState({ isDateTimePickerVisible: true });
   }
+  getDateByMinute(minute) {
+    const pad = s => String(s).padStart("2", "0");
+    const t = minute * 60;
+    const d = Math.floor(t / (24 * 3600));
+    const h = Math.floor((t - 24 * 3600 * d) / 3600);
+    const m = Math.floor((t - 24 * 3600 * d - h * 3600) / 60);
+    const s = Math.floor(t - 24 * 3600 * d - h * 3600 - m * 60);
+    return pad(h) + ":" + pad(m) + ":" + pad(s);
+  }
   renderChooseDay() {
     const { activeIndex } = this.state;
     const days = ["所有", "当日", "上一日", "三日", "十日", "本月"];
@@ -270,12 +279,23 @@ export default class BusinessStatistics extends Component {
   }
   renderItem(item) {
     const portraitSource = require("../current-user/img/u45.png");
-    const { NickName, PayMoney, UserId, TimeLong, LastInDate } = item;
+    const {
+      NickName,
+      PayMoney,
+      UserId,
+      TimeLong,
+      LastInDate,
+      UserPhoto
+    } = item;
     const getTimestamp = s => /\/Date\(([0-9]+)\)/.exec(s)[1];
     const date = new Date(+getTimestamp(LastInDate));
+    console.log(UserPhoto, "1212");
     return (
       <View style={styles.item}>
-        <Image style={styles.portrait} source={portraitSource} />
+        <Image
+          style={styles.portrait}
+          source={UserPhoto ? { uri: UserPhoto } : portraitSource}
+        />
         <View style={styles.itemContent}>
           <View style={styles.itemContentItem}>
             <Text style={styles.itemTitle}>{NickName}</Text>
@@ -283,7 +303,9 @@ export default class BusinessStatistics extends Component {
           </View>
           <View style={styles.itemContentItem}>
             <Text style={styles.itemText}>ID:{UserId}</Text>
-            <Text style={styles.itemText}>在线时长{TimeLong}</Text>
+            <Text style={styles.itemText}>
+              在线时长{TimeLong ? this.getDateByMinute(TimeLong) : "00:00:00"}
+            </Text>
           </View>
           <View style={styles.itemContentItem}>
             <Text style={styles.itemText}>
