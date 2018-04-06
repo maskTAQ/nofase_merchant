@@ -35,8 +35,43 @@ export default class BusinessStatistics extends Component {
     this.getData();
   }
   store = {
-    //保存自定义时间区的时间参数
-    params: {}
+    currentSelectedTimtType: "",
+    //当前查询的时间参数
+    params: {},
+    dates: [
+      {
+        SDate: `${moment(new Date("1997")).format("YYYY-MM-DD")} 00:00:00`,
+        EDate: `${moment().format("YYYY-MM-DD")} 23:59:59`
+      },
+      {
+        SDate: `${moment().format("YYYY-MM-DD")} 00:00:00`,
+        EDate: `${moment().format("YYYY-MM-DD")} 23:59:59`
+      },
+      {
+        SDate: `${moment()
+          .subtract({ hours: 24 })
+          .format("YYYY-MM-DD")} 00:00:00`,
+        EDate: `${moment().format("YYYY-MM-DD")} 23:59:59`
+      },
+      {
+        SDate: `${moment()
+          .subtract({ hours: 24 * 3 })
+          .format("YYYY-MM-DD")} 00:00:00`,
+        EDate: `${moment().format("YYYY-MM-DD")} 23:59:59`
+      },
+      {
+        SDate: `${moment()
+          .subtract({ hours: 24 * 10 })
+          .format("YYYY-MM-DD")} 00:00:00`,
+        EDate: `${moment().format("YYYY-MM-DD")} 23:59:59`
+      },
+      {
+        SDate: `${moment()
+          .startOf("month")
+          .format("YYYY-MM-DD")} 00:00:00`,
+        EDate: `${moment().format("YYYY-MM-DD")} 23:59:59`
+      }
+    ]
   };
   onRefresh = () => {
     const { activeIndex } = this.state;
@@ -85,43 +120,7 @@ export default class BusinessStatistics extends Component {
         console.log("getStoreUserListByDate:error", e);
       });
   }
-  store = {
-    currentSelectedTimtType: "",
-    dates: [
-      {
-        SDate: `${moment(new Date("1997")).format("YYYY-MM-DD")} 00:00:00`,
-        EDate: `${moment().format("YYYY-MM-DD")} 23:59:59`
-      },
-      {
-        SDate: `${moment().format("YYYY-MM-DD")} 00:00:00`,
-        EDate: `${moment().format("YYYY-MM-DD")} 23:59:59`
-      },
-      {
-        SDate: `${moment()
-          .subtract({ hours: 24 })
-          .format("YYYY-MM-DD")} 00:00:00`,
-        EDate: `${moment().format("YYYY-MM-DD")} 23:59:59`
-      },
-      {
-        SDate: `${moment()
-          .subtract({ hours: 24 * 3 })
-          .format("YYYY-MM-DD")} 00:00:00`,
-        EDate: `${moment().format("YYYY-MM-DD")} 23:59:59`
-      },
-      {
-        SDate: `${moment()
-          .subtract({ hours: 24 * 10 })
-          .format("YYYY-MM-DD")} 00:00:00`,
-        EDate: `${moment().format("YYYY-MM-DD")} 23:59:59`
-      },
-      {
-        SDate: `${moment()
-          .startOf("month")
-          .format("YYYY-MM-DD")} 00:00:00`,
-        EDate: `${moment().format("YYYY-MM-DD")} 23:59:59`
-      }
-    ]
-  };
+
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
   _handleDatePicked = date => {

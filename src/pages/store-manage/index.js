@@ -3,7 +3,7 @@ import { View, FlatList, Text, ScrollView } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { Page, Button, Icon, Alert, Input } from "src/components";
+import { Button, Icon, Alert, Input } from "src/components";
 import action from "src/action";
 import api from "src/api";
 import { Tip } from "src/common";
@@ -248,41 +248,42 @@ export default class StoreManage extends Component {
     const { isModifMobileVisible } = this.state;
     const { storeInfo, StoreId } = this.props;
     return (
-      <Page title="店铺管理" LeftComponent={<View />}>
-        <View style={styles.container}>
-          <ScrollView>
-            <View style={styles.content}>
-              {this.renderTop()}
-              {this.renderBottom()}
-            </View>
-            <View style={styles.nav}>
-              <Button textStyle={styles.navItemText}>没脸运动</Button>
-              <View style={styles.navBorder} />
-              <Button
-                onPress={() => {
-                  this.props.navigation.dispatch(
-                    action.navigate.go({ routeName: "Feedback" })
-                  );
-                }}
-                textStyle={styles.navItemText}
-              >
-                常见问题
-              </Button>
-            </View>
-          </ScrollView>
-          <ModifMobile
-            close={() => {
-              this.setState({
-                isModifMobileVisible: false
-              });
-            }}
-            dispatch={this.props.dispatch}
-            CsTel={storeInfo.CsTel}
-            StoreId={StoreId}
-            isVisible={isModifMobileVisible}
-          />
+      <View style={styles.container}>
+        <View style={styles.title}>
+          <Text style={styles.titleText}>商家管理</Text>
         </View>
-      </Page>
+        <ScrollView>
+          <View style={styles.content}>
+            {this.renderTop()}
+            {this.renderBottom()}
+          </View>
+          <View style={styles.nav}>
+            <Button textStyle={styles.navItemText}>没脸运动</Button>
+            <View style={styles.navBorder} />
+            <Button
+              onPress={() => {
+                this.props.navigation.dispatch(
+                  action.navigate.go({ routeName: "Feedback" })
+                );
+              }}
+              textStyle={styles.navItemText}
+            >
+              常见问题
+            </Button>
+          </View>
+        </ScrollView>
+        <ModifMobile
+          close={() => {
+            this.setState({
+              isModifMobileVisible: false
+            });
+          }}
+          dispatch={this.props.dispatch}
+          CsTel={storeInfo.CsTel}
+          StoreId={StoreId}
+          isVisible={isModifMobileVisible}
+        />
+      </View>
     );
   }
 }

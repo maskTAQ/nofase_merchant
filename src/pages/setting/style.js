@@ -10,6 +10,18 @@ export default {
     marginBottom: 10,
     backgroundColor: "#fff"
   },
+  title: {
+    height: 60,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#1b9ce4"
+  },
+  titleText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    lineHeight: 40,
+    color: "#fff"
+  },
   portrait: {
     marginRight: 10,
     width: 80,

@@ -4,30 +4,40 @@ export default {
     position: "relative",
     backgroundColor: "transparent"
   },
-  containers: {
-    flex: 1,
-    position: "relative",
-    backgroundColor: "transparent",
-    marginTop: 50
-  },
   bgContainer: {
     position: "absolute",
     top: 0,
     left: 0,
     width: "100%",
     height: "100%",
-    paddingTop: 30,
+    zIndex: 1,
     backgroundColor: "#1a9be3"
   },
+  bgImg: {
+    width: "100%"
+  },
   content: {
+    flex: 1,
     position: "absolute",
-    zIndex: 1,
     top: 0,
     left: 0,
     width: "100%",
-    height: "100%"
+    height: "100%",
+    zIndex: 2,
+    backgroundColor: "transparent"
   },
-
+  title: {
+    height: 60,
+    paddingTop: 20,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  titleText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    lineHeight: 40,
+    color: "#1a9be3"
+  },
   balanceValue: {
     textAlign: "center",
     fontSize: 22,
@@ -75,11 +85,7 @@ export default {
     backgroundColor: "#0a9ae4",
     bottom: 0
   },
-  bjImg: {
-    width: "100%",
-    height: "100%",
-    flex: 1
-  },
+
   list: {
     flex: 1,
     padding: 10,

@@ -61,9 +61,8 @@ export default class Login extends Component {
     return (
       <View style={styles.container}>
         <StatusBar
-          // backgroundColor={"red"}
+          backgroundColor="transparent"
           translucent={true}
-          hidden={true}
           barStyle="light-content"
         />
         <View style={styles.logo}>

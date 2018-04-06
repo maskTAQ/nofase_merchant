@@ -4,6 +4,19 @@ export default {
     justifyContent: "space-between",
     backgroundColor: "#efefef"
   },
+  title: {
+    height: 60,
+    paddingTop: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#1b9ce4"
+  },
+  titleText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    lineHeight: 40,
+    color: "#fff"
+  },
   list: {
     paddingLeft: 15,
     paddingRight: 15,

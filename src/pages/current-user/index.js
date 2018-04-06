@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import api from "src/api";
-import { Header, Button, Icon, Input } from "src/components";
+import { Button, Icon, Input } from "src/components";
 import { Tip } from "src/common";
 import action from "src/action";
 import styles from "./style";
@@ -117,11 +117,7 @@ export default class CurrentUser extends Component {
           />
         </View>
         <View style={styles.headerContent}>
-          <Header
-            title=""
-            LeftComponent={<View />}
-            style={{ height: 40, backgroundColor: "transparent" }}
-          />
+          <View style={{ height: 20 }} />
           <View style={styles.headerTop}>
             <View>
               <Text style={styles.headerTime}>

@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import {
-  Page,
   Button,
   Icon,
   Input,
@@ -204,10 +203,12 @@ export default class Setting extends Component {
       if (e) {
         Tip.fail("设置失败");
       } else {
-        this.setState({
-          isRemind: !isRemind
-        });
-        Tip.dismiss();
+        setTimeout(() => {
+          this.setState({
+            isRemind: !isRemind
+          });
+          Tip.dismiss();
+        }, 1500);
       }
     });
   };
@@ -292,20 +293,21 @@ export default class Setting extends Component {
     const { isModifMobileVisible, verifySetp } = this.state;
     const { LegTel } = this.props.storeInfo;
     return (
-      <Page title="设置" LeftComponent={<View />}>
-        <View style={styles.container}>
-          <View>
-            {this.renderHeader()}
-            {this.renderList()}
+      <View style={styles.container}>
+        <View>
+          <View style={styles.title}>
+            <Text style={styles.titleText}>设置</Text>
           </View>
-          <Button
-            onPress={this.logout}
-            style={styles.logout}
-            textStyle={styles.logoutText}
-          >
-            退出
-          </Button>
+          {this.renderHeader()}
+          {this.renderList()}
         </View>
+        <Button
+          onPress={this.logout}
+          style={styles.logout}
+          textStyle={styles.logoutText}
+        >
+          退出
+        </Button>
         <ModifMobile
           close={() => {
             this.setState({
@@ -323,7 +325,7 @@ export default class Setting extends Component {
           verifySetp={verifySetp}
           logout={this.logout}
         />
-      </Page>
+      </View>
     );
   }
 }
