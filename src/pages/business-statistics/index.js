@@ -277,7 +277,7 @@ export default class BusinessStatistics extends Component {
       </View>
     );
   }
-  renderItem(item) {
+  renderItem = item => {
     const portraitSource = require("../current-user/img/u45.png");
     const {
       NickName,
@@ -289,7 +289,6 @@ export default class BusinessStatistics extends Component {
     } = item;
     const getTimestamp = s => /\/Date\(([0-9]+)\)/.exec(s)[1];
     const date = new Date(+getTimestamp(LastInDate));
-    console.log(UserPhoto, "1212");
     return (
       <View style={styles.item}>
         <Image
@@ -315,7 +314,7 @@ export default class BusinessStatistics extends Component {
         </View>
       </View>
     );
-  }
+  };
   renderList() {
     const { storeUserListByDate } = this.props;
     const { refreshing } = this.state;

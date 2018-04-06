@@ -3,7 +3,7 @@ import { NavigationActions } from "react-navigation";
 import AppNavigator from "src/Navigation";
 import actionMap from "src/action";
 const nav = (state, action) => {
-  const { type, payload } = action;
+  const { type } = action;
   switch (type) {
     case actionMap.NAVIGATE_GO: {
       const { payload: { routeName: nextRouteName, params } } = action;
@@ -29,9 +29,8 @@ const nav = (state, action) => {
       );
     }
     case actionMap.NAVIGATE_BACK: {
-      console.log("return", payload.params);
       return AppNavigator.router.getStateForAction(
-        NavigationActions.back({ params: { s: 1 } }),
+        NavigationActions.back(),
         state
       );
     }
