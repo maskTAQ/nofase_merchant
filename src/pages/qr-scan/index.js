@@ -221,7 +221,11 @@ export default class QRScan extends Component {
             }}
           >
             {isCameraVisible && (
-              <Text style={{ color: "#fff" }}>请对准用户扫码页面</Text>
+              <Button
+                onPress={() => this.barcodeReceived({ data: '{"UserId":1}' })}
+              >
+                <Text style={{ color: "#fff" }}>请对准用户扫码页面</Text>
+              </Button>
             )}
           </View>
           <Modal

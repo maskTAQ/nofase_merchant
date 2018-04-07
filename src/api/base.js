@@ -73,6 +73,7 @@ const post = (
         if (handleCatch) {
           Tip.fail(`error:${String(e)}`);
         }
+        console.log(url);
         return reject(String(e));
       });
   });

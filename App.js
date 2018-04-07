@@ -52,6 +52,9 @@ class App extends Component {
           Platform.OS === "android" && BackHandler.exitApp();
         }
       })
+      .catch(e=>{
+        console.log(e)
+      })
   }
   componentDidMount() {
     if (Platform.OS === "android") {
