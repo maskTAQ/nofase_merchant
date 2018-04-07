@@ -64,7 +64,13 @@ export default class QRScanTiming extends Component {
   }
   ticktTimer = NaN;
   tickts = (isEnd, STimeStamp) => {
-    const pad = s => String(s).padStart("2", "0");
+    const pad = s => {
+      if (s.length === 0) {
+        return "0" + s;
+      } else {
+        return s;
+      }
+    };
     const m = () => {
       const t = Date.now() / 1000 - STimeStamp;
       const d = Math.floor(t / (24 * 3600));

@@ -85,7 +85,7 @@ export default class BusinessStatistics extends Component {
       this.setState({ refreshing: false });
     });
   };
-  getData = (p, isLoading) => {
+  getData = (p, isLoading = true) => {
     const { activeIndex } = this.state;
     const { dates } = this.store;
     const params = p || dates[activeIndex];
@@ -97,7 +97,7 @@ export default class BusinessStatistics extends Component {
       .dispatch({
         type: "storeBusInfoByDate",
         api: () => {
-          return api.getStoreBusInfoByDate(params, isLoading);
+          return api.getStoreBusInfoByDate(params, isLoading || true);
         },
         promise: true
       })
@@ -173,7 +173,13 @@ export default class BusinessStatistics extends Component {
     this.setState({ isDateTimePickerVisible: true });
   }
   getDateByMinute(minute) {
-    const pad = s => String(s).padStart("2", "0");
+    const pad = s => {
+      if (s.length === 0) {
+        return "0" + s;
+      } else {
+        return s;
+      }
+    };
     const t = minute * 60;
     const d = Math.floor(t / (24 * 3600));
     const h = Math.floor((t - 24 * 3600 * d) / 3600);
