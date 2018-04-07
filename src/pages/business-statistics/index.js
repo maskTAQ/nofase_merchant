@@ -174,7 +174,7 @@ export default class BusinessStatistics extends Component {
   }
   getDateByMinute(minute) {
     const pad = s => {
-      if (s.length === 0) {
+      if (s.length === 1) {
         return "0" + s;
       } else {
         return s;
