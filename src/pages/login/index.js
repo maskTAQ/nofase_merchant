@@ -16,7 +16,7 @@ export default class Login extends Component {
   };
   state = {
     phone: "",
-    code: "768790"
+    code: ""
   };
   componentWillMount() {
     AsyncStorage.getItem("mobile", (e, m) => {
