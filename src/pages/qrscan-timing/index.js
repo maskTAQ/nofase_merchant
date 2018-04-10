@@ -65,7 +65,7 @@ export default class QRScanTiming extends Component {
   ticktTimer = NaN;
   tickts = (isEnd, STimeStamp) => {
     const pad = s => {
-      if (s.length === 0) {
+      if (String(s).length === 1) {
         return "0" + s;
       } else {
         return s;
