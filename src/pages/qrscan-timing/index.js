@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, Image, ScrollView, BackHandler } from "react-native";
+import { View, Text, Image, ScrollView } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import moment from "moment";
@@ -33,21 +33,15 @@ export default class QRScanTiming extends Component {
     OrderType: ""
   };
   componentWillMount() {
-    BackHandler.addEventListener("hardwareBackPress", this.handleBack);
     this.propsToState();
   }
   componentWillReceiveProps(nextProps) {
     this.propsToState(nextProps);
   }
   componentWillUnmount() {
-    BackHandler.addEventListener("removeEventListener", this.handleBack);
     clearInterval(this.ticktTimer);
   }
-  handleBack = () => {
-    const { onReturnPage } = this.props.navigation.state.params;
-    onReturnPage();
-    return false;
-  };
+
   propsToState(props) {
     const nextProps = props || this.props;
     const { params } = nextProps.navigation.state;
@@ -63,7 +57,6 @@ export default class QRScanTiming extends Component {
       } else {
         this.tickts(true, STimeStamp);
       }
-      console.log(params);
       this.setState({
         ...params
       });
@@ -229,21 +222,23 @@ export default class QRScanTiming extends Component {
     }
   }
   render() {
-    const { NickName, UserId, Photo } = this.state;
+    const { NickName, UserId, UserPhoto } = this.state;
+    console.log(
+      UserPhoto,
+      "UserPhoto",
+      UserPhoto ? { uri: UserPhoto } : require("./img/u196.png")
+    );
     return (
-      <Page
-        title="扫码计时"
-        onPress={() => {
-          const { onReturnPage } = this.props.navigation.state.params;
-          onReturnPage();
-        }}
-      >
+      <Page title="扫码计时">
         <View style={styles.container}>
           <View style={styles.userInfoContainer}>
             <View style={styles.portraitWrapper}>
-              <Icon
-                size={80}
-                source={Photo ? { uri: Photo } : require("./img/u196.png")}
+              <Image
+                style={{ width: 80, height: 80, backgroundColor: "#fff" }}
+                resizeMode="stretch"
+                source={
+                  UserPhoto ? { uri: UserPhoto } : require("./img/u196.png")
+                }
               />
             </View>
             <View style={styles.userInfoContent}>

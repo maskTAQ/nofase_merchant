@@ -94,13 +94,14 @@ Modal.propTypes = {
 };
 
 @connect(state => {
-  const { auth: { StoreId } } = state;
-  return { StoreId };
+  const { auth: { StoreId }, nav } = state;
+  return { StoreId, nav };
 })
 export default class QRScan extends Component {
   static propTypes = {
     StoreId: PropTypes.number,
-    navigation: PropTypes.object
+    navigation: PropTypes.object,
+    nav: PropTypes.object
   };
   state = {
     OrderType: 1, //1开始计费 2结束计费(扣费)
@@ -112,7 +113,15 @@ export default class QRScan extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    console.log(this.props.navigation, "115");
+    const { index, routes } = this.props.nav;
+    const { nav } = nextProps;
+    const prevRouteName = routes[index].routeName;
+    const nextRouteName = nav.routes[nav.index].routeName;
+    if (nextRouteName === "QRScan" && prevRouteName === "QRScanTiming") {
+      this.setState({
+        isCameraVisible: true
+      });
+    }
   }
   isScaning = false;
   barcodeReceived = e => {
@@ -171,13 +180,7 @@ export default class QRScan extends Component {
           action.navigate.go({
             routeName: "QRScanTiming",
             params: {
-              ...currentOrderInfo,
-              onReturnPage: () => {
-                this.props.navigation.dispatch(action.navigate.back());
-                this.setState({
-                  isCameraVisible: true
-                });
-              }
+              ...currentOrderInfo
             }
           })
         );
