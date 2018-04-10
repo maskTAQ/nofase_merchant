@@ -134,6 +134,7 @@ export default class QRScan extends Component {
     return api
       .scanUserQR({ UserId, StoreId })
       .then(res => {
+        console.log(res);
         this.isScaning = false;
         this.setState({
           isCameraVisible: false,

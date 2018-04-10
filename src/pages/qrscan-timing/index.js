@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, ScrollView } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import moment from "moment";
@@ -176,49 +176,53 @@ export default class QRScanTiming extends Component {
       case "1":
         return (
           <View style={styles.content}>
-            {this.renderHeader()}
-            {this.renderCommon([
-              ["Per hour", "每一小时"],
-              ["Cost", `￥:${Charge}元`]
-            ])}
-            <Button
-              onPress={this.stopOrder}
-              style={styles.end}
-              textStyle={styles.endText}
-            >
-              结束
-            </Button>
+            <ScrollView>
+              {this.renderHeader()}
+              {this.renderCommon([
+                ["Per hour", "每一小时"],
+                ["Cost", `￥:${Charge}元`]
+              ])}
+              <Button
+                onPress={this.stopOrder}
+                style={styles.end}
+                textStyle={styles.endText}
+              >
+                结束
+              </Button>
+            </ScrollView>
           </View>
         );
       default:
         return (
           <View style={styles.content}>
-            {this.renderHeader()}
-            {this.renderCommon([
-              ["Per hour", "每一小时"],
-              ["Cost", `￥:${Charge}元`]
-            ])}
-            {this.renderCommon([
-              ["Charge", "收费"],
-              ["Price", `￥:${Money}元`]
-            ])}
-            {this.renderCommon([
-              ["Discount", "优惠"],
-              ["Price", `￥:${SaleAmont}元`]
-            ])}
-            <View style={styles.starScore}>
-              <View style={{ alignItems: "flex-end" }}>
-                <Text style={styles.starScoreExpend}>
-                  支出:{Money - SaleAmont}元
-                </Text>
+            <ScrollView>
+              {this.renderHeader()}
+              {this.renderCommon([
+                ["Per hour", "每一小时"],
+                ["Cost", `￥:${Charge}元`]
+              ])}
+              {this.renderCommon([
+                ["Charge", "收费"],
+                ["Price", `￥:${Money}元`]
+              ])}
+              {this.renderCommon([
+                ["Discount", "优惠"],
+                ["Price", `￥:${SaleAmont}元`]
+              ])}
+              <View style={styles.starScore}>
+                <View style={{ alignItems: "flex-end" }}>
+                  <Text style={styles.starScoreExpend}>
+                    支出:{Money - SaleAmont}元
+                  </Text>
+                </View>
               </View>
-            </View>
+            </ScrollView>
           </View>
         );
     }
   }
   render() {
-    const { NickName, UserId, UserPhoto } = this.state;
+    const { NickName, UserId, Photo } = this.state;
     return (
       <Page
         title="扫码计时"
@@ -232,9 +236,7 @@ export default class QRScanTiming extends Component {
             <View style={styles.portraitWrapper}>
               <Icon
                 size={80}
-                source={
-                  UserPhoto ? { uri: UserPhoto } : require("./img/u196.png")
-                }
+                source={Photo ? { uri: Photo } : require("./img/u196.png")}
               />
             </View>
             <View style={styles.userInfoContent}>
