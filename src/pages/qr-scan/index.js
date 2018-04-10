@@ -131,6 +131,7 @@ export default class QRScan extends Component {
     return api
       .scanUserQR({ UserId, StoreId })
       .then(res => {
+        console.log(res);
         this.isScaning = false;
         this.setState({
           isCameraVisible: false,
@@ -221,11 +222,7 @@ export default class QRScan extends Component {
             }}
           >
             {isCameraVisible && (
-              <Button
-                onPress={() => this.barcodeReceived({ data: '{"UserId":1}' })}
-              >
-                <Text style={{ color: "#fff" }}>请对准用户扫码页面</Text>
-              </Button>
+              <Text style={{ color: "#fff" }}>请对准用户扫码页面</Text>
             )}
           </View>
           <Modal

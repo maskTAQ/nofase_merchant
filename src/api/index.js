@@ -7,7 +7,7 @@ export default {
     return Axios.request({
       url: "http://47.104.131.96:8000/",
       method: "get",
-      timeout: 60000
+      timeout: 6000
     });
   },
   login({ Tel, ExCode }) {

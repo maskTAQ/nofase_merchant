@@ -15,7 +15,7 @@ import Navigation from "src/Navigation";
 import api from "src/api";
 import { Tip } from 'src/components';
 import action from "src/action";
-import { EventHub, CreateReduxField } from "src/common";
+import { EventHub } from "src/common";
 
 @connect(state => {
   return { auth: state.auth }
@@ -27,7 +27,6 @@ class App extends Component {
     auth: PropTypes.object
   };
   componentWillMount() {
-    //监听dispatch事件 由onDispatch统一发送action
     AsyncStorage.getItem('mobile', (e, m) => {
       if (!e && m) {
         api.rememberLogin({ Tel: m })
@@ -52,7 +51,7 @@ class App extends Component {
           Platform.OS === "android" && BackHandler.exitApp();
         }
       })
-      .catch(e=>{
+      .catch(e => {
         console.log(e)
       })
   }
@@ -66,11 +65,11 @@ class App extends Component {
     const { isLogin } = this.props.auth;
     const { isLogin: nextIsLogin } = nextProps.auth;
     if (!isLogin && nextIsLogin) {
-      EventHub.emit(
-        "dispatch",
-        "getStoreInfo",
-        "storeInfo"
-      );
+      // EventHub.emit(
+      //   "dispatch",
+      //   "getStoreInfo",
+      //   "storeInfo"
+      // );
     }
   }
   componentWillUnmount() {
@@ -78,20 +77,6 @@ class App extends Component {
       BackHandler.removeEventListener("hardwareBackPress", this.handleBack);
     }
 
-  }
-  onDispatch = (apiUrl, reduxStoreKey, params) => {
-    const { dispatch } = this.props;
-    dispatch(CreateReduxField.action(reduxStoreKey, "loading"));
-    api[apiUrl](params)
-      .then(res => {
-        dispatch(
-          CreateReduxField.action(reduxStoreKey, "success", res)
-        );
-      })
-      .catch(e => {
-        dispatch(CreateReduxField.action(reduxStoreKey, "error"));
-      });
-    return 1;
   }
   handleBack = () => {
     const { nav } = this.props;
