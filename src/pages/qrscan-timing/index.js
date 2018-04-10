@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, Image, ScrollView } from "react-native";
+import { View, Text, Image, ScrollView, BackHandler } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import moment from "moment";
@@ -33,14 +33,21 @@ export default class QRScanTiming extends Component {
     OrderType: ""
   };
   componentWillMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.handleBack);
     this.propsToState();
   }
   componentWillReceiveProps(nextProps) {
     this.propsToState(nextProps);
   }
   componentWillUnmount() {
+    BackHandler.addEventListener("removeEventListener", this.handleBack);
     clearInterval(this.ticktTimer);
   }
+  handleBack = () => {
+    const { onReturnPage } = this.props.navigation.state.params;
+    onReturnPage();
+    return false;
+  };
   propsToState(props) {
     const nextProps = props || this.props;
     const { params } = nextProps.navigation.state;
