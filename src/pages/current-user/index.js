@@ -71,7 +71,13 @@ export default class CurrentUser extends Component {
     );
   };
   getDateByMinute(minute) {
-    const pad = s => String(s).padStart("2", "0");
+    const pad = s => {
+      if (String(s).length === 1) {
+        return "0" + s;
+      } else {
+        return s;
+      }
+    };
     const t = minute * 60;
     const d = Math.floor(t / (24 * 3600));
     const h = Math.floor((t - 24 * 3600 * d) / 3600);
