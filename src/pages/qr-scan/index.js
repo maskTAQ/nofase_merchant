@@ -16,7 +16,8 @@ const Modal = ({
   isModalVisible,
   requestRetryScan,
   requestIntoOrderDetail,
-  requestCancel
+  requestCancel,
+  errorMessage
 }) => {
   let iconSource, label;
   const singleButotn = orderStatus === "error";
@@ -38,6 +39,7 @@ const Modal = ({
       label = "扫码失败 请重试!";
       break;
   }
+  label = errorMessage ? errorMessage : label;
   return (
     <Alert style={styles.modalContainer} isVisible={isModalVisible}>
       <View style={styles.modalContent}>
@@ -90,7 +92,8 @@ Modal.propTypes = {
   requestRetryScan: PropTypes.func,
   requestIntoOrderDetail: PropTypes.func,
   requestCancel: PropTypes.func,
-  orderStatus: PropTypes.string
+  orderStatus: PropTypes.string,
+  errorMessage: PropTypes.string
 };
 
 @connect(state => {
@@ -159,7 +162,8 @@ export default class QRScan extends Component {
           isCameraVisible: false,
           isModalVisible: true,
           OrderType: 1,
-          orderStatus: "error"
+          orderStatus: "error",
+          errorMessage: typeof e === "string" ? e : ""
         });
       });
   };
@@ -202,7 +206,8 @@ export default class QRScan extends Component {
       isCameraVisible,
       isModalVisible,
       OrderType,
-      orderStatus
+      orderStatus,
+      errorMessage
     } = this.state;
     return (
       <Page title="扫码计时">
@@ -228,7 +233,11 @@ export default class QRScan extends Component {
             }}
           >
             {isCameraVisible && (
-              <Text style={{ color: "#fff" }}>请对准用户扫码页面</Text>
+              <Button
+                onPress={() => this.barcodeReceived({ data: '{"UserId":10}' })}
+              >
+                <Text style={{ color: "#fff" }}>请对准用户扫码页面</Text>
+              </Button>
             )}
           </View>
           <Modal
@@ -238,6 +247,7 @@ export default class QRScan extends Component {
             isModalVisible={isModalVisible}
             OrderType={OrderType}
             orderStatus={orderStatus}
+            errorMessage={errorMessage}
           />
         </View>
       </Page>
