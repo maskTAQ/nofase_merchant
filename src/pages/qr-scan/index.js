@@ -130,8 +130,10 @@ export default class QRScan extends Component {
   barcodeReceived = e => {
     const data = e.data;
     let UserId = "";
+    let CardId = "";
     try {
       UserId = JSON.parse(data).UserId;
+      CardId = JSON.parse(data).CardId;
     } catch (e) {
       return Tip.fail("请扫描正确的用户二维码");
     }
@@ -141,7 +143,7 @@ export default class QRScan extends Component {
     }
     this.isScaning = true;
     return api
-      .scanUserQR({ UserId, StoreId })
+      .scanUserQR({ UserId, StoreId, CardId })
       .then(res => {
         console.log(res);
         this.isScaning = false;

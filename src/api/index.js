@@ -100,8 +100,8 @@ export default {
     return post("/Store/SaveStoreEquip", params);
   },
   //扫描二维码 http://101.200.196.202:8888/User/ScanUserQR
-  scanUserQR({ UserId, StoreId }) {
-    return post("/User/ScanUserQR", { UserId, StoreId });
+  scanUserQR({ UserId, StoreId, CardId }) {
+    return post("/User/ScanUserQR", { UserId, StoreId, CardId });
   },
   //完成订单
   completeOrder({ OrderId }) {
