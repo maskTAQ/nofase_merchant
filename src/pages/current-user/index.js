@@ -82,8 +82,8 @@ export default class CurrentUser extends Component {
     const d = Math.floor(t / (24 * 3600));
     const h = Math.floor((t - 24 * 3600 * d) / 3600);
     const m = Math.floor((t - 24 * 3600 * d - h * 3600) / 60);
-    const s = Math.floor(t - 24 * 3600 * d - h * 3600 - m * 60);
-    return pad(h) + ":" + pad(m) + ":" + pad(s);
+    //const s = Math.floor(t - 24 * 3600 * d - h * 3600 - m * 60);
+    return pad(h) + ":" + pad(m);
   }
   stopOrder = OrderId => {
     if (!OrderId) {
@@ -93,6 +93,7 @@ export default class CurrentUser extends Component {
         .completeOrder({ OrderId })
         .then(res => {
           Tip.success("结束订单成功");
+          this.onRefresh();
         })
         .catch(e => {
           console.log(e);
@@ -208,9 +209,11 @@ export default class CurrentUser extends Component {
       OrderId,
       isHaveMoney
     } = item;
+
     const portraitSource = require("./img/u45.png");
     const getTimestamp = s => /\/Date\(([0-9]+)\)/.exec(s)[1];
     const date = new Date(+getTimestamp(SDate));
+    console.log(item, UserPhoto ? { uri: UserPhoto } : portraitSource, 111);
     return (
       <View style={styles.item}>
         <Image
@@ -240,12 +243,12 @@ export default class CurrentUser extends Component {
           </View>
           <View style={styles.itemDetail}>
             <Text style={styles.itemStartTime}>
-              开始时间:{moment(date).format("YYYY/MM/DD HH:mm")}
+              开始时间:{moment(date).format("MM-DD HH:mm")}
             </Text>
             <Text style={styles.itemDuration}>
               <Text style={styles.itemStartTime}>使用时长</Text>:{TimeLong
                 ? this.getDateByMinute(TimeLong)
-                : "00:00:00"}
+                : "00:00"}
             </Text>
           </View>
         </View>
