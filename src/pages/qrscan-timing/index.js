@@ -172,6 +172,7 @@ export default class QRScanTiming extends Component {
   renderContent() {
     const { OrderType, Money, SaleAmont } = this.state;
     const { Charge } = this.props;
+    console.log(this.state);
     switch (String(OrderType)) {
       case "1":
         return (
@@ -207,15 +208,14 @@ export default class QRScanTiming extends Component {
               ])}
               {this.renderCommon([
                 ["Discount", "优惠"],
-                ["Price", `￥:${SaleAmont}元`]
+                ["Price", `￥:${Money - SaleAmont}元`]
               ])}
               <View style={styles.starScore}>
                 <View style={{ alignItems: "flex-end" }}>
-                  <Text style={styles.starScoreExpend}>
-                    支出:{Money - SaleAmont}元
-                  </Text>
+                  <Text style={styles.starScoreExpend}>支出:{SaleAmont}元</Text>
                 </View>
               </View>
+              <View style={{ height: 15 }} />
             </ScrollView>
           </View>
         );
