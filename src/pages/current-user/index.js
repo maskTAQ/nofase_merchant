@@ -10,6 +10,11 @@ import { Tip } from "src/common";
 import action from "src/action";
 import styles from "./style";
 
+const navigationIcon = <Icon size={30} source={require("./img/u85.png")} />;
+const sortIcon = <Icon size={14} source={require("./img/u41.png")} />;
+const portraitIcon = (
+  <Image style={styles.portrait} source={require("./img/u45.png")} />
+);
 @connect(state => {
   const { storeBusInfo, storeUserList } = state;
   return { storeBusInfo, storeUserList };
@@ -134,7 +139,7 @@ export default class CurrentUser extends Component {
             </View>
             <View style={styles.calendarWrapper}>
               <Button onPress={() => this.go("BusinessStatistics")}>
-                <Icon size={30} source={require("./img/u85.png")} />
+                {navigationIcon}
               </Button>
             </View>
           </View>
@@ -174,7 +179,7 @@ export default class CurrentUser extends Component {
             style={styles.chooseLabelWrapper}
           >
             <Text style={styles.chooseLabel}>时长</Text>
-            <Icon size={14} source={require("./img/u41.png")} />
+            {sortIcon}
           </Button>
           <View style={styles.chooseBorder} />
           <View style={styles.chooseInputContainer}>
@@ -210,16 +215,15 @@ export default class CurrentUser extends Component {
       isHaveMoney
     } = item;
 
-    const portraitSource = require("./img/u45.png");
     const getTimestamp = s => /\/Date\(([0-9]+)\)/.exec(s)[1];
     const date = new Date(+getTimestamp(SDate));
-    console.log(item, UserPhoto ? { uri: UserPhoto } : portraitSource, 111);
     return (
       <View style={styles.item}>
-        <Image
-          style={styles.portrait}
-          source={UserPhoto ? { uri: UserPhoto } : portraitSource}
-        />
+        {UserPhoto ? (
+          <Image style={styles.portrait} source={{ uri: UserPhoto }} />
+        ) : (
+          { portraitIcon }
+        )}
         <View style={styles.itemContent}>
           <View style={styles.itemContentTop}>
             <View style={styles.itemContentTopLeft}>
