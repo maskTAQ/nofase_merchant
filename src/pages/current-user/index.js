@@ -222,7 +222,7 @@ export default class CurrentUser extends Component {
         {UserPhoto ? (
           <Image style={styles.portrait} source={{ uri: UserPhoto }} />
         ) : (
-          { portraitIcon }
+          portraitIcon
         )}
         <View style={styles.itemContent}>
           <View style={styles.itemContentTop}>
