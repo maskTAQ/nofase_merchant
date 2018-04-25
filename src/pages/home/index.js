@@ -80,6 +80,7 @@ class Home extends React.Component {
         logoutModalVisible: false
       },
       () => {
+        this.props.dispatch(action.logout());
         this.props.navigation.dispatch(
           action.navigate.go({ routeName: "Login" })
         );

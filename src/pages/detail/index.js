@@ -8,6 +8,9 @@ import api from "src/api";
 import { Button, Page, DataView } from "src/components";
 import styles from "./style";
 
+const portraitImg = (
+  <Image style={styles.portrait} source={require("./img/logo.png")} />
+);
 @connect(state => {
   const { incomeInfo, withdrawalsInfo } = state;
   return { incomeInfo, withdrawalsInfo };
@@ -93,24 +96,17 @@ export default class Detail extends Component {
     return api.getIncomeInfo({ PageIndex, PageNum: 20 });
   }
   getWithdrawalsInfo(PageIndex) {
-    return api.getWithdrawalsInfo({ PageIndex, PageNum: 20 });
+    return api.getWithdrawalsInfo({ PageIndex, PageNum: 20 }).then(res => {
+      console.log(res);
+      return res;
+    });
   }
   changeTab(i) {
     const { activeIndex } = this.state;
     if (activeIndex !== i) {
-      this.setState(
-        {
-          activeIndex: i
-        },
-        () => {
-          //更改tab重新渲染数据 否则显示的是另一个tab的数据
-          if (i === 0) {
-            this.incomeInfoList && this.incomeInfoList.triggerRefresh();
-          } else {
-            this.withdrawalsInfo && this.withdrawalsInfo.triggerRefresh();
-          }
-        }
-      );
+      this.setState({
+        activeIndex: i
+      });
     }
   }
   renderTab() {
@@ -139,72 +135,84 @@ export default class Detail extends Component {
       </View>
     );
   }
-  renderItem(item) {
-    const { activeIndex } = this.state;
-    if (activeIndex === 0) {
-      const portraitSource = require("../current-user/img/u45.png");
-      const { NickName, UserId, Amont, EDate } = item;
-      const timestamp = +/\/Date\(([0-9]+)\)/.exec(EDate)[1];
-      return (
-        <View style={styles.item}>
-          <Image style={styles.portrait} source={portraitSource} />
-          <View style={styles.itemContent}>
-            <View style={styles.itemContentRow}>
-              <Text style={styles.itemName}>{NickName}</Text>
-            </View>
-            <View style={styles.itemContentRow}>
-              <Text style={styles.itemId}>{UserId}</Text>
-              <Text style={styles.itemIncome}>+{Amont}</Text>
-            </View>
-            <View style={styles.itemContentRow}>
-              <Text style={styles.itemTime}>
-                {moment(timestamp).format("YYYY/MM/DD HH:ss")}
-              </Text>
-            </View>
+  renderIncomeInfoItem(item) {
+    const { NickName, UserId, Amont, EDate, PhotoUrl = "" } = item;
+    const timestamp = +/\/Date\(([0-9]+)\)/.exec(EDate)[1];
+    return (
+      <View style={styles.item}>
+        {PhotoUrl.includes("https") ? (
+          <Image style={styles.portrait} source={{ uri: PhotoUrl }} />
+        ) : (
+          portraitImg
+        )}
+        <View style={styles.itemContent}>
+          <View style={styles.itemContentRow}>
+            <Text style={styles.itemName}>{NickName}</Text>
+          </View>
+          <View style={styles.itemContentRow}>
+            <Text style={styles.itemId}>{UserId}</Text>
+            <Text style={styles.itemIncome}>+{Amont}</Text>
+          </View>
+          <View style={styles.itemContentRow}>
+            <Text style={styles.itemTime}>
+              {moment(timestamp).format("YYYY/MM/DD HH:ss")}
+            </Text>
           </View>
         </View>
-      );
-    } else {
-      const { time, expend, balance } = item;
-      return (
-        <View style={styles.item}>
-          <View style={styles.itemContent}>
-            <View style={styles.itemContentRow}>
-              <Text style={styles.itemText}>时间:{time}</Text>
-            </View>
-            <View style={styles.itemContentRow}>
-              <Text style={styles.itemText}>余额剩余:{balance}</Text>
-              <Text style={styles.itemExpend}>{expend}</Text>
-            </View>
+      </View>
+    );
+  }
+  renderWithdrawalsInfoItem(item) {
+    const { BankName, CardNo, WDate, PhotoUrl = "", WAmont } = item;
+    const timestamp = +/\/Date\(([0-9]+)\)/.exec(WDate)[1];
+    return (
+      <View style={styles.item}>
+        {PhotoUrl.includes("https") ? (
+          <Image style={styles.portrait} source={{ uri: PhotoUrl }} />
+        ) : (
+          portraitImg
+        )}
+        <View style={styles.itemContent}>
+          <View style={styles.itemContentRow}>
+            <Text style={styles.itemName}>{BankName}</Text>
+          </View>
+          <View style={styles.itemContentRow}>
+            <Text style={styles.itemId}>{CardNo}</Text>
+            <Text style={styles.itemIncome}>+{WAmont}</Text>
+          </View>
+          <View style={styles.itemContentRow}>
+            <Text style={styles.itemTime}>
+              {moment(timestamp).format("YYYY/MM/DD HH:ss")}
+            </Text>
           </View>
         </View>
-      );
-    }
+      </View>
+    );
   }
   renderList() {
     const { activeIndex } = this.state;
     if (activeIndex === 0) {
       return (
         <DataView
+          key="1"
           ref={e => (this.incomeInfoList = e)}
           style={styles.listContainer}
           getData={this.getIncomeInfo}
-          dataSource={[]}
           ListEmptyComponent={<Text>暂时没有数据哦</Text>}
           ItemSeparatorComponent={() => <View style={styles.itemBorder} />}
-          renderItem={({ item }) => this.renderItem(item)}
+          renderItem={({ item }) => this.renderIncomeInfoItem(item)}
         />
       );
     } else {
       return (
         <DataView
+          key="2"
           ref={e => (this.withdrawalsInfo = e)}
           style={styles.listContainer}
-          dataSource={[]}
           getData={this.getWithdrawalsInfo}
           ListEmptyComponent={<Text>暂时没有数据哦</Text>}
           ItemSeparatorComponent={() => <View style={styles.itemBorder} />}
-          renderItem={({ item }) => this.renderItem(item)}
+          renderItem={({ item }) => this.renderWithdrawalsInfoItem(item)}
         />
       );
     }

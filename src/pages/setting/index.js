@@ -172,7 +172,8 @@ export default class Setting extends Component {
     });
   };
   logout = () => {
-    AsyncStorage.removeItem("mobile");
+    //AsyncStorage.removeItem("mobile");
+    this.props.navigation.dispatch(action.logout());
     this.props.navigation.dispatch(action.navigate.go({ routeName: "Login" }));
   };
   getRemind = async () => {

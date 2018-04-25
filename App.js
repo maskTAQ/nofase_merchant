@@ -5,17 +5,17 @@
  */
 
 import React, { Component } from 'react';
-import { BackHandler, Platform, ToastAndroid, View, AsyncStorage } from "react-native";
+import { BackHandler, Platform, ToastAndroid, View, AsyncStorage,Alert } from "react-native";
 import { Provider, connect } from "react-redux";
 import { addNavigationHelpers } from "react-navigation";
 import PropTypes from 'prop-types';
+import JPushModule from 'jpush-react-native'
 
 import store from 'src/store';
 import Navigation from "src/Navigation";
 import api from "src/api";
 import { Tip } from 'src/components';
 import action from "src/action";
-import { EventHub } from "src/common";
 
 @connect(state => {
   return { auth: state.auth }
@@ -27,33 +27,8 @@ class App extends Component {
     auth: PropTypes.object
   };
   componentWillMount() {
-    AsyncStorage.getItem('mobile', (e, m) => {
-      if (!e && m) {
-        api.rememberLogin({ Tel: m })
-          .then(res => {
-            this.props.dispatch(
-              action.login(res)
-            );
-            this.props.dispatch(
-              action.navigate.go({ routeName: "Home" })
-            );
-          })
-          .catch(e => {
-
-          })
-      }
-    });
-
-    api.token()
-      .then(res => {
-
-        if (res.data !== 'token') {
-          Platform.OS === "android" && BackHandler.exitApp();
-        }
-      })
-      .catch(e => {
-        console.log(e)
-      })
+    this.autoLogin();
+    this.verifyToken();
   }
   componentDidMount() {
     if (Platform.OS === "android") {
@@ -63,13 +38,12 @@ class App extends Component {
   }
   componentWillReceiveProps(nextProps) {
     const { isLogin } = this.props.auth;
-    const { isLogin: nextIsLogin } = nextProps.auth;
+    const { isLogin: nextIsLogin, StoreId } = nextProps.auth;
     if (!isLogin && nextIsLogin) {
-      // EventHub.emit(
-      //   "dispatch",
-      //   "getStoreInfo",
-      //   "storeInfo"
-      // );
+      //this.addReceiveNotificationListener(StoreId)
+    }
+    if (isLogin && !nextIsLogin) {
+      JPushModule.stopPush();
     }
   }
   componentWillUnmount() {
@@ -77,6 +51,74 @@ class App extends Component {
       BackHandler.removeEventListener("hardwareBackPress", this.handleBack);
     }
 
+  }
+  autoLogin() {
+    AsyncStorage.getItem('mobile', (e, m) => {
+      if (!e && m) {
+        api.rememberLogin({ Tel: m })
+          .then(res => {
+            this.props.dispatch(
+              action.login(res)
+            );
+            this.props.dispatch(action.navigate.go({ routeName: "Home" }));
+          })
+          .catch(e => {
+
+          })
+      }
+    });
+  }
+  verifyToken() {
+    api.token()
+      .then(res => {
+        if (res.data !== 'token') {
+          Platform.OS === "android" && BackHandler.exitApp();
+        }
+      })
+      .catch(e => {
+        //console.log(e)
+      })
+  }
+  addReceiveNotificationListener(StoreId) {
+    
+    if (Platform.OS === 'android') {
+      JPushModule.initPush()
+      JPushModule.getInfo(map => {
+        this.setState({
+          appkey: map.myAppKey,
+          imei: map.myImei,
+          package: map.myPackageName,
+          deviceId: map.myDeviceId,
+          version: map.myVersion
+        })
+      })
+      JPushModule.notifyJSDidLoad(resultCode => {
+        console.log(resultCode)
+      })
+    } else {
+      
+      JPushModule.setupPush()
+    }
+    /**
+       * 请注意这个接口要传一个数组过去，这里只是个简单的示范
+       */
+      
+    JPushModule.setTags([String(StoreId)], map => {
+      if (map.errorCode === 0) {
+        console.log('Tag operate succeed, tags: ' + map.tags)
+      } else {
+        console.log('error code: ' + map.errorCode)
+      }
+    })
+    JPushModule.addReceiveOpenNotificationListener(map => {
+      // const { isLogin } = this.props.auth;
+      // if (isLogin) {
+      //   this.props.dispatch(
+      //     action.navigate.go({ routeName: "Pay" })
+      //   );
+      // }
+
+    })
   }
   handleBack = () => {
     const { nav } = this.props;
