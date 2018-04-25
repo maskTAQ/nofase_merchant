@@ -1,7 +1,7 @@
 package com.nofase_merchant;
 
 import android.app.Application;
-
+import cn.jpush.reactnativejpush.JPushPackage;
 import com.facebook.react.ReactApplication;
 import com.burnweb.rnwebview.RNWebViewPackage;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
@@ -14,7 +14,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
-
+// 设置为 true 将不会弹出 toast
+private boolean SHUTDOWN_TOAST = true;
+// 设置为 true 将不会打印 log
+private boolean SHUTDOWN_LOG = true;
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
     public boolean getUseDeveloperSupport() {
@@ -26,7 +29,8 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new RNWebViewPackage(),
-            new RCTCameraPackage()
+            new RCTCameraPackage(),
+            new JPushPackage(SHUTDOWN_TOAST, SHUTDOWN_LOG)
       );
     }
 
