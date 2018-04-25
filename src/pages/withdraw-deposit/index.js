@@ -45,6 +45,13 @@ export default class WithdrawDeposit extends Component {
     return api
       .applyForWithdrawals(WAmont)
       .then(res => {
+        this.props.navigation.dispatch({
+          type: "storeInfo",
+          api: () => {
+            return api.getStoreInfo();
+          },
+          promise: true
+        });
         Tip.success("申请提现成功");
       })
       .catch(e => {

@@ -2,6 +2,7 @@ const NAVIGATE_GO = "NAVIGATE_GO";
 const NAVIGATE_BACK = "NAVIGATE_BACK";
 const NAVIGATE_TAb_GO = "NAVIGATE_TAb_GO";
 const LOGIN = "LOGIN";
+const LOGOUT = "LOGOUT";
 const action = {
   navigate: {
     go({ routeName, params = {} }) {
@@ -37,6 +38,13 @@ const action = {
       payload: data
     };
   },
+  logout(payload) {
+    return {
+      type: LOGOUT,
+      payload
+    };
+  },
+  LOGOUT,
   NAVIGATE_GO,
   NAVIGATE_BACK,
   NAVIGATE_TAb_GO,

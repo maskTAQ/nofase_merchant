@@ -10,6 +10,9 @@ const appReducer = combineReducers({
     if (type === actionMap.LOGIN) {
       return { ...state, isLogin: true, ...payload };
     }
+    if (type === actionMap.LOGOUT) {
+      return { ...state, isLogin: false, ...payload };
+    }
     return state;
   },
   nav,
