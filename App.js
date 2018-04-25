@@ -40,7 +40,7 @@ class App extends Component {
     const { isLogin } = this.props.auth;
     const { isLogin: nextIsLogin, StoreId } = nextProps.auth;
     if (!isLogin && nextIsLogin) {
-      //this.addReceiveNotificationListener(StoreId)
+      this.addReceiveNotificationListener(StoreId)
     }
     if (isLogin && !nextIsLogin) {
       JPushModule.stopPush();
