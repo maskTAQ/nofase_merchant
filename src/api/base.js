@@ -35,12 +35,13 @@ import { baseURL } from "src/config";
 // );
 
 const requestWrapper = (url, param = {}) => {
+  const { StoreId } = require("../store").default.getState().auth;
   return Axios.request({
     baseURL: baseURL,
     url,
     method: "post",
     timeout: 60000,
-    data: param
+    data: Object.assign(param, { StoreId })
   });
 };
 const post = (
