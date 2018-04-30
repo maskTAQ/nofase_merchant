@@ -40,12 +40,20 @@ export default {
     return post("/Store/GetStoreUserList", {}, { loading });
   },
   //获取商家今日营业信息
-  getStoreBusInfoByDate({ SDate, EDate }, loading) {
-    return post("/Store/GetStoreBusInfoByDate", { SDate, EDate }, { loading });
+  getStoreBusInfoByDate({ SDate, EDate }) {
+    return post(
+      "/Store/GetStoreBusInfoByDate",
+      { SDate, EDate },
+      { loading: false }
+    );
   },
   //获取用户消费记录(日期查询)
-  getStoreUserListByDate({ SDate, EDate }, loading) {
-    return post("/Store/GetStoreUserListByDate", { SDate, EDate }, { loading });
+  getStoreUserListByDate({ SDate, EDate }) {
+    return post(
+      "/Store/GetStoreUserListByDate",
+      { SDate, EDate },
+      { loading: false }
+    );
   },
   getStoreInfo() {
     return post("/Store/GetStoreInfo");

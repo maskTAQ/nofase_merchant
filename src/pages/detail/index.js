@@ -24,74 +24,6 @@ export default class Detail extends Component {
   state = {
     activeIndex: 0
   };
-  store = {
-    data: [
-      [
-        {
-          portraitSource: require("../current-user/img/u45.png"),
-          name: "奋斗的小鸟",
-          id: "ID:GYM_Y676556",
-          income: 13,
-          time: "12-27 14:30"
-        },
-        {
-          portraitSource: require("../current-user/img/u45.png"),
-          name: "奋斗的小鸟2",
-          id: "ID:GYM_Y676556",
-          income: 13,
-          time: "12-27 14:30"
-        },
-        {
-          portraitSource: require("../current-user/img/u45.png"),
-          name: "奋斗的小鸟3",
-          id: "ID:GYM_Y676556",
-          income: 13,
-          time: "12-27 14:30"
-        },
-        {
-          portraitSource: require("../current-user/img/u45.png"),
-          name: "奋斗的小鸟4",
-          id: "ID:GYM_Y676556",
-          income: 13,
-          time: "12-27 14:30"
-        },
-        {
-          portraitSource: require("../current-user/img/u45.png"),
-          name: "奋斗的小鸟5",
-          id: "ID:GYM_Y676556",
-          income: 13,
-          time: "12-27 14:30"
-        },
-        {
-          portraitSource: require("../current-user/img/u45.png"),
-          name: "奋斗的小鸟6",
-          id: "ID:GYM_Y676556",
-          income: 13,
-          time: "12-27 14:30"
-        },
-        {
-          portraitSource: require("../current-user/img/u45.png"),
-          name: "奋斗的小鸟7",
-          id: "ID:GYM_Y676556",
-          income: 13,
-          time: "12-27 14:30"
-        },
-        {
-          portraitSource: require("../current-user/img/u45.png"),
-          name: "奋斗的小鸟8",
-          id: "ID:GYM_Y676556",
-          income: 13,
-          time: "12-27 14:30"
-        }
-      ],
-      [
-        { time: "12-12 14:30", balance: "156.00", expend: "-45" },
-        { time: "12-12 14:30", balance: "112.00", expend: "-45" },
-        { time: "12-12 14:30", balance: "15613.00", expend: "-45" },
-        { time: "12-12 14:30", balance: "1561.00", expend: "-45" }
-      ]
-    ]
-  };
   getIncomeInfo(PageIndex) {
     return api.getIncomeInfo({ PageIndex, PageNum: 20 });
   }
@@ -165,6 +97,7 @@ export default class Detail extends Component {
   renderWithdrawalsInfoItem(item) {
     const { BankName, CardNo, WDate, PhotoUrl = "", WAmont } = item;
     const timestamp = +/\/Date\(([0-9]+)\)/.exec(WDate)[1];
+    console.log(item);
     return (
       <View style={styles.item}>
         {PhotoUrl.includes("https") ? (

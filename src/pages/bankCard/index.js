@@ -54,9 +54,7 @@ export default class BankCard extends Component {
                   });
                 }}
                 style={styles.formItemInput}
-              >
-                请选择
-              </Button>
+              />
               <Picker
                 data={weeks}
                 visible={isPickerVisible}

@@ -64,9 +64,9 @@ export default class BusinessHours extends Component {
     endWeek: "周日",
     endWeekValue: "5",
     isDateTimePickerVisible: false,
-    startTime: "请选择开始时间",
+    startTime: "开始时间",
     startTimeData: null,
-    endTime: "请选择结束时间",
+    endTime: "结束时间",
     endTimeData: null,
     Flag: 1 //1营业 2未营业
   };
@@ -75,7 +75,7 @@ export default class BusinessHours extends Component {
     const weeks = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
     const time = BusinessTimes
       ? BusinessTimes.split("-")
-      : ["请选择开始时间", "请选择结束时间"];
+      : ["开始时间", "结束时间"];
     this.setState({
       Flag,
       startTime: time[0],
@@ -153,7 +153,7 @@ export default class BusinessHours extends Component {
     const isHasInitTime = startTime.includes(":") && endTime.includes(":");
 
     if (!isHasInitTime) {
-      Tip.fail("请选择时间");
+      Tip.fail("时间");
     } else {
       api
         .updateStore({
