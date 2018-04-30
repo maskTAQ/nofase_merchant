@@ -41,6 +41,18 @@ export default {
     paddingLeft: 10,
     paddingRight: 10
   },
+  itemGroup: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  incomeItem: {
+    height: 80,
+    padding: 10
+  },
+  incomeTitle: {
+    color: "#333"
+  },
   itemBorder: {
     marginTop: 6,
     marginBottom: 6,

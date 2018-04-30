@@ -214,16 +214,22 @@ export default class Setting extends Component {
     });
   };
   renderHeader() {
-    const { StoreName, Id, LegalName, Address } = this.props.storeInfo;
+    const {
+      StoreName,
+      Id,
+      SalesmanName,
+      storeAddrDes,
+      StoreImg
+    } = this.props.storeInfo;
     return (
       <View style={styles.header}>
-        <Image style={styles.portrait} source={require("./img/u71.png")} />
+        <Image style={styles.portrait} source={{ uri: StoreImg }} />
         <View style={styles.headerRight}>
-          <Text style={styles.storeName}>{StoreName}</Text>
+          <Text style={styles.storeName}>店铺名:{StoreName}</Text>
           <Text style={styles.storeInfo}>
-            ID:{Id} 负责人：{LegalName}
+            ID:{Id} 负责人：{SalesmanName}
           </Text>
-          <Text style={styles.storeAddr}>{Address}</Text>
+          <Text style={styles.storeAddr}>{storeAddrDes}</Text>
         </View>
       </View>
     );
@@ -293,6 +299,7 @@ export default class Setting extends Component {
   render() {
     const { isModifMobileVisible, verifySetp } = this.state;
     const { LegTel } = this.props.storeInfo;
+    console.log(this.props);
     return (
       <View style={styles.container}>
         <View>

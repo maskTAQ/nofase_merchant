@@ -1,14 +1,14 @@
 import React, { Component } from "react";
-import { View, Text, FlatList, Image } from "react-native";
+import { View, Text, Image } from "react-native";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from "moment";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { Page, Button, Icon } from "src/components";
+import { Page, Button, Icon, DataView } from "src/components";
 import api from "src/api";
-import { Tip } from "src/common";
 import styles from "./style";
+const portraitSource = require("../current-user/img/u45.png");
 
 @connect(state => {
   const { storeBusInfoByDate, storeUserListByDate } = state;
@@ -24,16 +24,13 @@ export default class BusinessStatistics extends Component {
   state = {
     activeIndex: 0,
     isDateTimePickerVisible: false,
-    startTime: "请选择开始时间",
+    startTime: "开始时间",
     startTimeDate: null,
-    endTime: "请选择结束时间",
+    endTime: "结束时间",
     endTimeDate: null,
-    refreshing: false
+    storeBusInfoByDate: {}
   };
 
-  componentWillMount() {
-    this.getData();
-  }
   store = {
     currentSelectedTimtType: "",
     //当前查询的时间参数
@@ -73,53 +70,24 @@ export default class BusinessStatistics extends Component {
       }
     ]
   };
-  onRefresh = () => {
+  getData = () => {
     const { activeIndex } = this.state;
     const { dates } = this.store;
     const params = isNaN(activeIndex) ? this.store.params : dates[activeIndex];
-    this.setState({ refreshing: true });
-    Promise.all(
-      this.getStoreBusInfoByDate(params, false),
-      this.getStoreUserListByDate(params, false)
-    ).then(res => {
-      this.setState({ refreshing: false });
+
+    api.getStoreBusInfoByDate(params).then(res => {
+      this.setState({
+        storeBusInfoByDate: res
+      });
+    });
+    return api.getStoreUserListByDate(params).then(res => {
+      const result = res.sort((prev, next) => {
+        const getTimestamp = s => /\/Date\(([0-9]+)\)/.exec(s)[1];
+        return getTimestamp(next.LastInDate) - getTimestamp(prev.LastInDate);
+      });
+      return result;
     });
   };
-  getData = (p, isLoading = true) => {
-    const { activeIndex } = this.state;
-    const { dates } = this.store;
-    const params = p || dates[activeIndex];
-    this.getStoreBusInfoByDate(params, isLoading);
-    this.getStoreUserListByDate(params, isLoading);
-  };
-  getStoreBusInfoByDate(params, isLoading) {
-    return this.props
-      .dispatch({
-        type: "storeBusInfoByDate",
-        api: () => {
-          return api.getStoreBusInfoByDate(params, isLoading || true);
-        },
-        promise: true
-      })
-      .catch(e => {
-        Tip.loading("getStoreBusInfoByDate:error");
-        console.log("getStoreBusInfoByDate:error", e);
-      });
-  }
-  getStoreUserListByDate(params, isLoading) {
-    return this.props
-      .dispatch({
-        type: "storeUserListByDate",
-        api: () => {
-          return api.getStoreUserListByDate(params, isLoading);
-        },
-        promise: true
-      })
-      .catch(e => {
-        Tip.loading("getStoreUserListByDate:error");
-        console.log("getStoreUserListByDate:error", e);
-      });
-  }
 
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
@@ -139,7 +107,7 @@ export default class BusinessStatistics extends Component {
           EDate: `${moment(endTimeDate).format("YYYY-MM-DD")} 23:59:59`
         };
         this.setState({ activeIndex: NaN }, () => {
-          this.getData(this.store.params);
+          this.dataRef.triggerRefresh();
         });
       }
     } else {
@@ -153,7 +121,7 @@ export default class BusinessStatistics extends Component {
           EDate: `${moment(date).format("YYYY-MM-DD")} 23:59:59`
         };
         this.setState({ activeIndex: NaN }, () => {
-          this.getData(this.store.params);
+          this.dataRef.triggerRefresh();
         });
       }
     }
@@ -164,7 +132,7 @@ export default class BusinessStatistics extends Component {
     this.setState(
       { activeIndex: i, startTimeDate: null, endTimeDate: null },
       () => {
-        this.getData();
+        this.dataRef.triggerRefresh();
       }
     );
   }
@@ -173,19 +141,19 @@ export default class BusinessStatistics extends Component {
     this.setState({ isDateTimePickerVisible: true });
   }
   getDateByMinute(minute) {
-    const pad = s => {
-      if (String(s).length === 1) {
-        return "0" + s;
-      } else {
-        return s;
-      }
-    };
+    // const pad = s => {
+    //   if (String(s).length === 1) {
+    //     return "0" + s;
+    //   } else {
+    //     return s;
+    //   }
+    // };
     const t = minute * 60;
     const d = Math.floor(t / (24 * 3600));
     const h = Math.floor((t - 24 * 3600 * d) / 3600);
     const m = Math.floor((t - 24 * 3600 * d - h * 3600) / 60);
-    const s = Math.floor(t - 24 * 3600 * d - h * 3600 - m * 60);
-    return pad(h) + ":" + pad(m) + ":" + pad(s);
+    //const s = Math.floor(t - 24 * 3600 * d - h * 3600 - m * 60);
+    return `${h}小时${m}分钟`;
   }
   renderChooseDay() {
     const { activeIndex } = this.state;
@@ -248,15 +216,22 @@ export default class BusinessStatistics extends Component {
     );
   }
   renderDetail() {
+    const { activeIndex, startTime, endTime } = this.state;
+    const { dates } = this.store;
+    const date = isNaN(activeIndex)
+      ? { SDate: startTime, EDate: endTime }
+      : dates[activeIndex];
     const {
       InPeople,
       TimeLongs,
       Amont,
       AveAmont
-    } = this.props.storeBusInfoByDate;
+    } = this.state.storeBusInfoByDate;
     return (
       <View style={styles.detail}>
-        <Text style={styles.detailTitle}>2017-12-21至2017-12-20 </Text>
+        <Text style={styles.detailTitle}>
+          {date.SDate}至{date.EDate}{" "}
+        </Text>
         <View style={styles.detailItemRow}>
           <View style={styles.detailItem}>
             <Text style={styles.detailItemLabel}>营业额:</Text>
@@ -270,7 +245,9 @@ export default class BusinessStatistics extends Component {
         <View style={styles.detailItemRow}>
           <View style={styles.detailItem}>
             <Text style={styles.detailItemLabel}>在线时长:</Text>
-            <Text style={styles.detailItemValue}>{TimeLongs}h</Text>
+            <Text style={styles.detailItemValue}>
+              {this.getDateByMinute(TimeLongs)}
+            </Text>
           </View>
           <View style={styles.detailItem}>
             <Text style={styles.detailItemLabel}>平均消费:</Text>
@@ -283,7 +260,6 @@ export default class BusinessStatistics extends Component {
     );
   }
   renderItem = item => {
-    const portraitSource = require("../current-user/img/u45.png");
     const {
       NickName,
       PayMoney,
@@ -321,17 +297,15 @@ export default class BusinessStatistics extends Component {
     );
   };
   renderList() {
-    const { storeUserListByDate } = this.props;
-    const { refreshing } = this.state;
     return (
       <View style={styles.listContainer}>
-        <FlatList
-          data={storeUserListByDate}
+        <DataView
+          getData={this.getData}
+          ref={e => (this.dataRef = e)}
+          isPulldownLoadMore={false}
           ItemSeparatorComponent={() => (
             <View style={{ height: 1, backgroundColor: "#ccc" }} />
           )}
-          onRefresh={this.onRefresh}
-          refreshing={refreshing}
           renderItem={({ item }) => this.renderItem(item)}
           keyExtractor={(item, i) => i}
           style={{ flex: 1 }}

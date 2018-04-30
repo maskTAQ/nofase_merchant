@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Alert } from "react-native";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
@@ -7,6 +7,7 @@ import { Page, Input, Button } from "src/components";
 import { Tip } from "src/common";
 import styles from "./style";
 import api from "src/api";
+import action from "src/action";
 
 @connect(state => {
   const { bankInfo, storeInfo: { StoreMoney } } = state;
@@ -52,7 +53,14 @@ export default class WithdrawDeposit extends Component {
           },
           promise: true
         });
-        Tip.success("申请提现成功");
+        Alert.alert("提示", "申请提现成功", [
+          {
+            text: "确定",
+            onPress: () => {
+              this.props.navigation.dispatch(action.navigate.back());
+            }
+          }
+        ]);
       })
       .catch(e => {
         Tip.fail(`申请提现失败:${e}`);
