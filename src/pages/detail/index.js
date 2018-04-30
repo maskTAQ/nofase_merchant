@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, Image } from "react-native";
-import { connect } from "react-redux";
+
 import PropTypes from "prop-types";
 import moment from "moment";
 
@@ -11,26 +11,33 @@ import styles from "./style";
 const portraitImg = (
   <Image style={styles.portrait} source={require("./img/logo.png")} />
 );
-@connect(state => {
-  const { incomeInfo, withdrawalsInfo } = state;
-  return { incomeInfo, withdrawalsInfo };
-})
+
 export default class Detail extends Component {
   static defaultProps = {};
   static propTypes = {
     incomeInfo: PropTypes.object,
-    withdrawalsInfo: PropTypes.object
+    withdrawalsInfo: PropTypes.object,
+    storeInfo: PropTypes.object
   };
   state = {
     activeIndex: 0
   };
   getIncomeInfo(PageIndex) {
-    return api.getIncomeInfo({ PageIndex, PageNum: 20 });
+    return api.getIncomeInfo({ PageIndex, PageNum: 20 }).then(res => {
+      const result = res.sort((prev, next) => {
+        const getTimestamp = s => /\/Date\(([0-9]+)\)/.exec(s)[1];
+        return getTimestamp(next.EDate) - getTimestamp(prev.EDate);
+      });
+      return result;
+    });
   }
   getWithdrawalsInfo(PageIndex) {
     return api.getWithdrawalsInfo({ PageIndex, PageNum: 20 }).then(res => {
-      console.log(res);
-      return res;
+      const result = res.sort((prev, next) => {
+        const getTimestamp = s => /\/Date\(([0-9]+)\)/.exec(s)[1];
+        return getTimestamp(next.WDate) - getTimestamp(prev.WDate);
+      });
+      return result;
     });
   }
   changeTab(i) {
@@ -68,21 +75,21 @@ export default class Detail extends Component {
     );
   }
   renderIncomeInfoItem(item) {
-    const { NickName, UserId, Amont, EDate, PhotoUrl = "" } = item;
+    const { NickName, UserCode, Amont, EDate, UserPhoto } = item;
     const timestamp = +/\/Date\(([0-9]+)\)/.exec(EDate)[1];
     return (
       <View style={styles.item}>
-        {PhotoUrl.includes("https") ? (
-          <Image style={styles.portrait} source={{ uri: PhotoUrl }} />
+        {UserPhoto ? (
+          <Image style={styles.portrait} source={{ uri: UserPhoto }} />
         ) : (
           portraitImg
         )}
         <View style={styles.itemContent}>
           <View style={styles.itemContentRow}>
-            <Text style={styles.itemName}>{NickName}</Text>
+            <Text style={styles.itemName}>用户昵称:{NickName}</Text>
           </View>
           <View style={styles.itemContentRow}>
-            <Text style={styles.itemId}>{UserId}</Text>
+            <Text style={styles.itemId}>ID:{UserCode}</Text>
             <Text style={styles.itemIncome}>+{Amont}</Text>
           </View>
           <View style={styles.itemContentRow}>
@@ -95,29 +102,39 @@ export default class Detail extends Component {
     );
   }
   renderWithdrawalsInfoItem(item) {
-    const { BankName, CardNo, WDate, PhotoUrl = "", WAmont } = item;
+    const { BankName, CardNo, Flag, WDate, StoreMoney, WAmont } = item;
     const timestamp = +/\/Date\(([0-9]+)\)/.exec(WDate)[1];
-    console.log(item);
+    const map = ["关闭", "处理中", "已提现", "提现失败"];
     return (
-      <View style={styles.item}>
-        {PhotoUrl.includes("https") ? (
-          <Image style={styles.portrait} source={{ uri: PhotoUrl }} />
-        ) : (
-          portraitImg
-        )}
-        <View style={styles.itemContent}>
-          <View style={styles.itemContentRow}>
-            <Text style={styles.itemName}>{BankName}</Text>
-          </View>
-          <View style={styles.itemContentRow}>
-            <Text style={styles.itemId}>{CardNo}</Text>
-            <Text style={styles.itemIncome}>+{WAmont}</Text>
-          </View>
-          <View style={styles.itemContentRow}>
-            <Text style={styles.itemTime}>
-              {moment(timestamp).format("YYYY/MM/DD HH:ss")}
-            </Text>
-          </View>
+      <View style={styles.incomeItem}>
+        <View style={styles.itemGroup}>
+          <Text style={[styles.itemText, styles.incomeTitle]}>
+            {BankName} {CardNo}
+          </Text>
+        </View>
+        <View
+          style={[
+            styles.itemGroup,
+            { flexDirection: "row", justifyContent: "space-between" }
+          ]}
+        >
+          <Text style={styles.itemText}>当前余额:{StoreMoney}元</Text>
+          <Text style={[styles.itemText, { color: "#008000" }]}>
+            -{WAmont}元
+          </Text>
+        </View>
+        <View style={styles.itemGroup}>
+          <Text style={styles.itemText}>
+            时间:{moment(timestamp).format("YYYY/MM/DD HH:ss")}
+          </Text>
+          <Text
+            style={[
+              styles.itemText,
+              { color: Flag === 2 ? "#008000" : "#fc6722", marginLeft: 6 }
+            ]}
+          >
+            {map[Flag]}
+          </Text>
         </View>
       </View>
     );
