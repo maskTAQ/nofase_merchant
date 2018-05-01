@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Image, Text, Switch, AsyncStorage, Alert } from "react-native";
+import { View, Text, Switch, AsyncStorage, Alert } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
@@ -15,6 +15,7 @@ import action from "src/action";
 import api from "src/api";
 import { Tip } from "src/common";
 
+const logo = require("./img/logo.png");
 class ModifMobile extends Component {
   static propTypes = {
     isVisible: PropTypes.bool,
@@ -217,17 +218,21 @@ export default class Setting extends Component {
     const {
       StoreName,
       Id,
-      SalesmanName,
+      LegalName,
       storeAddrDes,
       StoreImg
     } = this.props.storeInfo;
     return (
       <View style={styles.header}>
-        <Image style={styles.portrait} source={{ uri: StoreImg }} />
+        {StoreImg ? (
+          <Icon size={60} source={{ uri: StoreImg }} />
+        ) : (
+          <Icon size={60} source={logo} />
+        )}
         <View style={styles.headerRight}>
           <Text style={styles.storeName}>店铺名:{StoreName}</Text>
           <Text style={styles.storeInfo}>
-            ID:{Id} 负责人：{SalesmanName}
+            ID:{Id} 负责人：{LegalName || "暂不存在负责人"}
           </Text>
           <Text style={styles.storeAddr}>{storeAddrDes}</Text>
         </View>
