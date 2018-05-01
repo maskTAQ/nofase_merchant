@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import { Page, Button, Icon, DataView } from "src/components";
 import api from "src/api";
 import styles from "./style";
-const portraitSource = require("../current-user/img/u45.png");
+const portraitSource = require("./img/logo.png");
 
 @connect(state => {
   const { storeBusInfoByDate, storeUserListByDate } = state;
@@ -284,7 +284,7 @@ export default class BusinessStatistics extends Component {
           <View style={styles.itemContentItem}>
             <Text style={styles.itemText}>ID:{UserId}</Text>
             <Text style={styles.itemText}>
-              在线时长{TimeLong ? this.getDateByMinute(TimeLong) : "00:00:00"}
+              在线时长{TimeLong ? this.getDateByMinute(TimeLong) : "0分钟"}
             </Text>
           </View>
           <View style={styles.itemContentItem}>
