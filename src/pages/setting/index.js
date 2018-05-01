@@ -219,6 +219,7 @@ export default class Setting extends Component {
       StoreName,
       Id,
       LegalName,
+      Address,
       storeAddrDes,
       StoreImg
     } = this.props.storeInfo;
@@ -234,7 +235,10 @@ export default class Setting extends Component {
           <Text style={styles.storeInfo}>
             ID:{Id} 负责人：{LegalName || "暂不存在负责人"}
           </Text>
-          <Text style={styles.storeAddr}>{storeAddrDes}</Text>
+          <Text style={styles.storeAddr}>
+            {Address}
+            {storeAddrDes}
+          </Text>
         </View>
       </View>
     );
