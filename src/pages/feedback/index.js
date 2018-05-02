@@ -4,21 +4,24 @@ import {
   Text,
   FlatList,
   Modal,
-  TouchableWithoutFeedback,
   Linking,
-  ScrollView
+  ScrollView,
+  Image,
+  Dimensions
 } from "react-native";
 import action from "src/action";
 import PropTypes from "prop-types";
 
+import data from "./data";
 import { Page, Button, Icon } from "src/components";
 import styles from "./style";
-
+const { width } = Dimensions.get("window");
 const QAModal = ({ QA, isVisible, onRequestClose }) => {
   if (!QA) {
     return null;
   }
   const { q, a } = QA;
+  console.log(a.split(/\n/));
   return (
     <Modal
       animationType={"slide"}
@@ -26,21 +29,39 @@ const QAModal = ({ QA, isVisible, onRequestClose }) => {
       visible={isVisible}
       onRequestClose={() => {}}
     >
-      <TouchableWithoutFeedback onPress={onRequestClose}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>{q}</Text>
-              <Button onPress={onRequestClose}>
-                <Icon size={20} source={require("./img/u284.png")} />
-              </Button>
-            </View>
-            <View style={styles.modalDetailsWrapper}>
-              <Text style={styles.modalDetails}>{a}</Text>
-            </View>
+      <View style={styles.modalContainer}>
+        <View style={styles.modalContent}>
+          <View style={styles.modalHeader}>
+            <Text style={styles.modalTitle}>{q}</Text>
+            <Button onPress={onRequestClose}>
+              <Icon size={20} source={require("./img/u284.png")} />
+            </Button>
+          </View>
+
+          <View style={styles.modalDetailsWrapper}>
+            <ScrollView>
+              {a.split(/\n/).map(item => {
+                if (item.includes("source")) {
+                  return (
+                    <Image
+                      resizeMode="stretch"
+                      style={{ width: "100%", height: width * 0.3 }}
+                      source={/source:([0-9]+)/.exec(item)[1]}
+                      key={item}
+                    />
+                  );
+                } else {
+                  return (
+                    <Text style={styles.modalDetails} key={item}>
+                      {item}
+                    </Text>
+                  );
+                }
+              })}
+            </ScrollView>
           </View>
         </View>
-      </TouchableWithoutFeedback>
+      </View>
     </Modal>
   );
 };
@@ -59,14 +80,7 @@ export default class Feedback extends Component {
     activeQA: null
   };
   store = {
-    data: [
-      { q: "商家提现分成规则", a: "----" },
-      { q: "如何修改绑定银行卡信息", a: "----" },
-      { q: "如何提高账户的安全性", a: "----" },
-      { q: "收款后域名提示内容", a: "----" },
-      { q: "查看剩余额度", a: "----" },
-      { q: "关于用户余额不足的提示", a: "----" }
-    ]
+    data
   };
   feedback = () => {
     this.props.navigation.dispatch(
@@ -153,11 +167,11 @@ export default class Feedback extends Component {
                 </View>
                 <Button
                   onPress={() => {
-                    this.call("075521034275");
+                    this.call("4008650152");
                   }}
                   style={styles.call}
                 >
-                  <Text style={styles.callText}>0755-2103-4275</Text>
+                  <Text style={styles.callText}>4008-650-152</Text>
                   <Icon size={20} source={require("./img/u204.png")} />
                 </Button>
               </View>
@@ -167,21 +181,6 @@ export default class Feedback extends Component {
                     广东省-深圳市-罗湖区
                   </Text>
                   <Text style={styles.contactItemLabelText}>分站客服:</Text>
-                </View>
-                <Button
-                  onPress={() => {
-                    this.call("150489218870");
-                  }}
-                  style={styles.call}
-                >
-                  <Text style={styles.callText}>150489218870</Text>
-                  <Icon size={20} source={require("./img/u204.png")} />
-                </Button>
-              </View>
-              <View style={styles.contactItem}>
-                <View style={styles.contactItemLabel}>
-                  <Text style={styles.contactItemLabelText}>专线客服-冯龙</Text>
-                  <Text style={styles.contactItemLabelText} />
                 </View>
                 <Button
                   onPress={() => {
