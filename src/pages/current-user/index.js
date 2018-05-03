@@ -229,11 +229,11 @@ export default class CurrentUser extends Component {
             <View style={styles.itemContentTopLeft}>
               <View style={styles.itemTitle}>
                 <Text style={styles.itemName}>{NickName}</Text>
-                <View style={styles.warn}>
-                  <Text style={styles.warnText}>
-                    {isHaveMoney ? "" : "余额不足"}
-                  </Text>
-                </View>
+                {!isHaveMoney && (
+                  <View style={styles.warn}>
+                    <Text style={styles.warnText}>余额不足</Text>
+                  </View>
+                )}
               </View>
               <Text style={styles.itemId}>ID:{UserId}</Text>
             </View>

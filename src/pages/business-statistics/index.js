@@ -263,7 +263,7 @@ export default class BusinessStatistics extends Component {
     const {
       NickName,
       PayMoney,
-      UserId,
+      UserCode,
       TimeLong,
       LastInDate,
       UserPhoto
@@ -282,7 +282,7 @@ export default class BusinessStatistics extends Component {
             <Text style={styles.itemText}>消费:{PayMoney}元</Text>
           </View>
           <View style={styles.itemContentItem}>
-            <Text style={styles.itemText}>ID:{UserId}</Text>
+            <Text style={styles.itemText}>ID:{UserCode}</Text>
             <Text style={styles.itemText}>
               在线时长{TimeLong ? this.getDateByMinute(TimeLong) : "0分钟"}
             </Text>
