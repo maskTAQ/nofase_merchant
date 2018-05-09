@@ -17,7 +17,7 @@ const Tip = {
 };
 const styles = {
   codeButton: {
-    width: 100,
+    width: 85,
     height: "100%",
     alignItems: "center",
     justifyContent: "center",
@@ -29,7 +29,7 @@ const styles = {
     color: "#1a98e0"
   },
   loading: {
-    width: 90
+    width: 85
   }
 };
 export default class CodeButton extends Component {

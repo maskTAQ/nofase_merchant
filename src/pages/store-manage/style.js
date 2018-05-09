@@ -29,8 +29,8 @@ export default {
     alignItems: "center"
   },
   itemBorder: {
-    height: 1,
-    backgroundColor: "#d7d7d7"
+    height: 10
+    //backgroundColor: "#d7d7d7"
   },
   itemLabel: {
     flexDirection: "row",

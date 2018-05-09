@@ -16,6 +16,10 @@ export default {
   logo: {
     alignItems: "center"
   },
+  logoWrapper: {
+    borderRadius: 60,
+    overflow: "hidden"
+  },
   logoLabel: {
     color: "#fff",
     fontSize: 18,
@@ -40,8 +44,8 @@ export default {
   formItemImg: {
     marginLeft: 12,
     marginRight: 12,
-    width: 24,
-    height: 24
+    width: 20,
+    height: 20
   },
   formItemInput: {
     flex: 1,
@@ -53,7 +57,7 @@ export default {
     justifyContent: "center",
     backgroundColor: "#fff",
     height: 36,
-    marginTop: 20,
+    marginTop: 23,
     borderRadius: 25
   },
   loginText: {

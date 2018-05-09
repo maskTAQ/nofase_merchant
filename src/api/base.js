@@ -60,6 +60,11 @@ const post = (
           const d = data || message;
           return resolve(d);
         } else {
+          console.log("------ start -------");
+          console.log("error:", Data);
+          console.log("地址:" + url);
+          console.log("参数:", params);
+          console.log("------ end -------");
           Tip.fail(`error:${message}`);
           return reject(message);
         }
