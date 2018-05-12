@@ -18,6 +18,16 @@ export default {
     fontSize: 16,
     color: "#666666"
   },
+  notif: {
+    height: 20,
+    paddingLeft: 15,
+    justifyContent: "center",
+    backgroundColor: "#f8b84a"
+  },
+  notifText: {
+    fontSize: 12,
+    color: "#fff"
+  },
   center: {
     marginTop: 10,
     padding: 10,
@@ -47,6 +57,7 @@ export default {
     color: "#fff"
   },
   zhi: {
+    flex: 1,
     lineHeight: 30,
     paddingLeft: 10,
     paddingRight: 10,
@@ -77,7 +88,7 @@ export default {
     backgroundColor: "#fff"
   },
   saveButton: {
-    width: "70%",
+    width: "80%",
     height: 40,
     justifyContent: "center",
     alignItems: "center",

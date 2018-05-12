@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import moment from "moment";
@@ -249,8 +249,6 @@ export default class BusinessHours extends Component {
         >
           保存
         </Button>
-        <Text style={styles.info}>请您仔细填写，切勿随意更改</Text>
-        <Text style={styles.info}>营业时间及营业状态直接影响店铺经营情况</Text>
       </View>
     );
   }
@@ -260,6 +258,16 @@ export default class BusinessHours extends Component {
     return (
       <Page title="营业时间">
         <View style={styles.container}>
+          <View style={styles.notif}>
+            <ScrollView horizontal={true} style={{ flex: 1 }}>
+              <View style={{ flex: 1, justifyContent: "center" }}>
+                <Text style={styles.notifText}>
+                  请慎重调整营业时间及状态,营业时间外所有计费将关闭!
+                </Text>
+              </View>
+            </ScrollView>
+          </View>
+
           {this.renderHeader()}
           {this.renderCenter()}
           {this.renderButton()}
