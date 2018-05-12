@@ -38,73 +38,59 @@ export default {
     lineHeight: 40,
     color: "#1a9be3"
   },
+  balanceValueWrapper: {
+    height: 40,
+    justifyContent: "flex-end",
+    alignItems: "center"
+  },
   balanceValue: {
-    textAlign: "center",
     fontSize: 22,
-    fontWeight: "bold",
-
     color: "#0399e7"
   },
+  balanceLabelWrapper: {
+    height: 40,
+    alignItems: "center"
+  },
   balanceLabel: {
-    textAlign: "center",
-    width: "100%",
     fontWeight: "bold",
-    lineHeight: 26,
     fontSize: 14,
     color: "#0399e7"
   },
-  tabContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
+  incomeWrapper: {
     height: 60,
-    marginLeft: 40,
-    marginRight: 40,
-    borderRadius: 6
+    paddingLeft: 22,
+    paddingRight: 22
   },
-  tabItem: {
-    position: "relative",
+  incomeBox: {
     flex: 1,
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center"
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingLeft: 17,
+    paddingRight: 17,
+    borderRadius: 4,
+    backgroundColor: "#fff"
   },
-  Itemmoney: {
-    color: "#0399e7",
-    fontSize: 20
+  incomeLabel: {
+    fontSize: 16,
+    color: "#1a9be3"
   },
-  tabItemBorder: {
-    width: 1,
-    height: "80%",
-    backgroundColor: "#0399e7"
+  incomeValue: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#1a9be3"
   },
-  tabItemActiveBorder: {
-    position: "absolute",
-    width: "50%",
-    height: 3,
-    backgroundColor: "#0a9ae4",
-    bottom: 0
-  },
-
   list: {
     flex: 1,
-    padding: 10,
-    paddingBottom: 0
+    paddingLeft: 12,
+    paddingRight: 12
   },
   item: {
+    marginTop: 20,
+    height: 70,
+    borderRadius: 6,
     justifyContent: "center",
-    backgroundColor: "#fff",
-    height: 80,
-    padding: 10,
-    borderRadius: 10
-  },
-  itemBottom: {
-    flexDirection: "row",
-    justifyContent: "space-between"
-  },
-  bjimgs: {
-    width: "100%",
-    transform: [{ rotate: "180deg" }],
-    backgroundColor: "#1a9be3"
+    paddingLeft: 12,
+    backgroundColor: "#fff"
   }
 };

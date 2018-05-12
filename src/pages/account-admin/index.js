@@ -54,7 +54,6 @@ export default class AccountAdmin extends Component {
     return (
       <FlatList
         style={styles.list}
-        ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
         keyExtractor={(item, index) => index}
         data={data}
         renderItem={({ item }) => this.renderItem(item)}
@@ -62,12 +61,8 @@ export default class AccountAdmin extends Component {
     );
   }
   render() {
-    const tabMap = [
-      ["今日营收", this.props.storeBusInfo.Amont, 0],
-      "border",
-      ["店铺押金", "--.--", 1]
-    ];
     const { StoreMoney = 0 } = this.props.storeInfo;
+    const { Amont } = this.props.storeBusInfo;
     return (
       <View style={styles.container}>
         <View style={styles.bgContainer}>
@@ -77,27 +72,21 @@ export default class AccountAdmin extends Component {
             resizeMode="stretch"
           />
         </View>
-
         <View style={styles.content}>
           <View style={styles.title}>
             <Text style={styles.titleText}>账户管理</Text>
           </View>
-          <Text style={styles.balanceValue}>{StoreMoney}</Text>
-          <Text style={styles.balanceLabel}>(余额)</Text>
-          <View style={styles.tabContainer}>
-            {tabMap.map(tab => {
-              if (tab === "border") {
-                return <View style={styles.tabItemBorder} key="border" />;
-              }
-              const [label, money] = tab;
-              return (
-                <View style={styles.tabItem} key={label}>
-                  <Text style={styles.Itemmoney}>{money}</Text>
-
-                  <Text style={{ color: "#0399e7" }}>{label}</Text>
-                </View>
-              );
-            })}
+          <View style={styles.balanceValueWrapper}>
+            <Text style={styles.balanceValue}>{StoreMoney.toFixed(2)}</Text>
+          </View>
+          <View style={styles.balanceLabelWrapper}>
+            <Text style={styles.balanceLabel}>(余额)</Text>
+          </View>
+          <View style={styles.incomeWrapper}>
+            <View style={styles.incomeBox}>
+              <Text style={styles.incomeLabel}>今日营收</Text>
+              <Text style={styles.incomeValue}>{Amont}</Text>
+            </View>
           </View>
           {this.renderList()}
         </View>
