@@ -1,63 +1,45 @@
 export default {
   container: {
     flex: 1,
+    paddingTop: 5,
+    backgroundColor: "#eee"
+  },
 
-    backgroundColor: "#fff"
-  },
-  tabContainer: {
-    flexDirection: "row",
-    height: 40,
-    paddingLeft: 10,
-    paddingRight: 10
-  },
-  tabItem: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    borderBottomWidth: 1,
-    borderColor: "#000"
-  },
-  tabItemText: {
-    fontSize: 14,
-    fontWeight: "bold",
-    color: "#b3b3b3"
-  },
-  tabActiveItem: {
-    borderBottomWidth: 1.5,
-    borderColor: "#3a9bfc"
-  },
-  tabActiveItemText: {
-    fontSize: 14,
-    fontWeight: "bold",
-    color: "#3a9bfc"
-  },
   listContainer: {
     flex: 1,
-    paddingTop: 10
+    paddingTop: 5
   },
   item: {
-    height: 60,
+    height: 70,
     flexDirection: "row",
-    paddingLeft: 10,
-    paddingRight: 10
+    padding: 12,
+    paddingTop: 6,
+    paddingBottom: 6,
+    alignItems: "center",
+    backgroundColor: "#fff"
+  },
+  withdrawItem: {
+    height: 80,
+    padding: 12,
+    backgroundColor: "#fff"
+  },
+  itemBorder: {
+    height: 5
   },
   itemGroup: {
     flex: 1,
     flexDirection: "row",
     alignItems: "center"
   },
-  incomeItem: {
-    height: 80,
-    padding: 10
-  },
   incomeTitle: {
-    color: "#333"
+    fontSize: 14,
+    color: "#7c7c7c"
   },
-  itemBorder: {
-    marginTop: 6,
-    marginBottom: 6,
-    height: 1,
-    backgroundColor: "#f2f2f2"
+  portraitWrapper: {
+    width: 56,
+    height: 56,
+    borderRadius: 56,
+    overflow: "hidden"
   },
   portrait: {
     width: 56,
@@ -89,7 +71,7 @@ export default {
     color: "#999"
   },
   itemExpend: {
-    color: "#008000"
+    color: "#f9be61"
   },
   itemIncome: {
     fontSize: 14,

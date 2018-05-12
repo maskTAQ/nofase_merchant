@@ -1,17 +1,17 @@
 import React, { Component } from "react";
 import { View, Text, Image } from "react-native";
-
+import ScrollableTabView from "react-native-scrollable-tab-view";
 import PropTypes from "prop-types";
 import moment from "moment";
 
 import api from "src/api";
-import { Button, Page, DataView } from "src/components";
+import { Page, DataView } from "src/components";
 import styles from "./style";
 
 const portraitImg = (
   <Image style={styles.portrait} source={require("./img/logo.png")} />
 );
-
+console.log("ScrollableTabView", ScrollableTabView);
 export default class Detail extends Component {
   static defaultProps = {};
   static propTypes = {
@@ -40,50 +40,18 @@ export default class Detail extends Component {
       return result;
     });
   }
-  changeTab(i) {
-    const { activeIndex } = this.state;
-    if (activeIndex !== i) {
-      this.setState({
-        activeIndex: i
-      });
-    }
-  }
-  renderTab() {
-    const tab = ["收入", "提现"];
-    const { activeIndex } = this.state;
-    return (
-      <View style={styles.tabContainer}>
-        {tab.map((item, i) => {
-          const isActive = i === activeIndex;
-          return (
-            <Button
-              onPress={() => {
-                this.changeTab(i);
-              }}
-              style={[styles.tabItem, isActive ? styles.tabActiveItem : null]}
-              textStyle={[
-                styles.tabItemText,
-                isActive ? styles.tabActiveItemText : null
-              ]}
-              key={item}
-            >
-              {item}
-            </Button>
-          );
-        })}
-      </View>
-    );
-  }
   renderIncomeInfoItem(item) {
     const { NickName, UserCode, Amont, EDate, UserPhoto } = item;
     const timestamp = +/\/Date\(([0-9]+)\)/.exec(EDate)[1];
     return (
       <View style={styles.item}>
-        {UserPhoto ? (
-          <Image style={styles.portrait} source={{ uri: UserPhoto }} />
-        ) : (
-          portraitImg
-        )}
+        <View style={styles.portraitWrapper}>
+          {UserPhoto ? (
+            <Image style={styles.portrait} source={{ uri: UserPhoto }} />
+          ) : (
+            portraitImg
+          )}
+        </View>
         <View style={styles.itemContent}>
           <View style={styles.itemContentRow}>
             <Text style={styles.itemName}>用户昵称:{NickName}</Text>
@@ -106,7 +74,7 @@ export default class Detail extends Component {
     const timestamp = +/\/Date\(([0-9]+)\)/.exec(WDate)[1];
     const map = ["关闭", "处理中", "已提现", "提现失败"];
     return (
-      <View style={styles.incomeItem}>
+      <View style={styles.withdrawItem}>
         <View style={styles.itemGroup}>
           <Text style={[styles.itemText, styles.incomeTitle]}>
             {BankName} {CardNo}
@@ -139,40 +107,36 @@ export default class Detail extends Component {
       </View>
     );
   }
-  renderList() {
-    const { activeIndex } = this.state;
-    if (activeIndex === 0) {
-      return (
-        <DataView
-          key="1"
-          ref={e => (this.incomeInfoList = e)}
-          style={styles.listContainer}
-          getData={this.getIncomeInfo}
-          ListEmptyComponent={<Text>暂时没有数据哦</Text>}
-          ItemSeparatorComponent={() => <View style={styles.itemBorder} />}
-          renderItem={({ item }) => this.renderIncomeInfoItem(item)}
-        />
-      );
-    } else {
-      return (
-        <DataView
-          key="2"
-          ref={e => (this.withdrawalsInfo = e)}
-          style={styles.listContainer}
-          getData={this.getWithdrawalsInfo}
-          ListEmptyComponent={<Text>暂时没有数据哦</Text>}
-          ItemSeparatorComponent={() => <View style={styles.itemBorder} />}
-          renderItem={({ item }) => this.renderWithdrawalsInfoItem(item)}
-        />
-      );
-    }
-  }
   render() {
+    const tabProps = {
+      tabBarUnderlineStyle: {
+        height: 2,
+        backgroundColor: "#1a99e2"
+      },
+      tabBarBackgroundColor: "#fff",
+      tabBarActiveTextColor: "#1a99e2"
+    };
     return (
       <Page title="明细">
         <View style={styles.container}>
-          {this.renderTab()}
-          {this.renderList()}
+          <ScrollableTabView {...tabProps} style={styles.tab}>
+            <DataView
+              tabLabel="收入"
+              style={styles.listContainer}
+              getData={this.getIncomeInfo}
+              ListEmptyComponent={<Text>暂时没有数据哦</Text>}
+              ItemSeparatorComponent={() => <View style={styles.itemBorder} />}
+              renderItem={({ item }) => this.renderIncomeInfoItem(item)}
+            />
+            <DataView
+              tabLabel="提现"
+              style={styles.listContainer}
+              getData={this.getWithdrawalsInfo}
+              ListEmptyComponent={<Text>暂时没有数据哦</Text>}
+              ItemSeparatorComponent={() => <View style={styles.itemBorder} />}
+              renderItem={({ item }) => this.renderWithdrawalsInfoItem(item)}
+            />
+          </ScrollableTabView>
         </View>
       </Page>
     );
