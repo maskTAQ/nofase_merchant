@@ -17,20 +17,19 @@ export default {
     lineHeight: 40,
     color: "#fff"
   },
-  list: {
-    paddingLeft: 15,
-    paddingRight: 15,
-    backgroundColor: "#fff"
-  },
+  list: {},
   item: {
     height: 50,
+    paddingLeft: 15,
+    paddingRight: 15,
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: "#fff"
   },
   itemBorder: {
-    height: 10
-    //backgroundColor: "#d7d7d7"
+    height: 10,
+    backgroundColor: "#efefef"
   },
   itemLabel: {
     flexDirection: "row",

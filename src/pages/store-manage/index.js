@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, FlatList, Text, ScrollView } from "react-native";
+import { View, FlatList, Text, ScrollView, Switch } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
@@ -103,7 +103,8 @@ export default class StoreManage extends Component {
     StoreId: PropTypes.number
   };
   state = {
-    isModifMobileVisible: false
+    isModifMobileVisible: false,
+    IsFristFree: false
     // storeInfo: {
     //   StoreName: "-",
     //   Address: "-",
@@ -127,6 +128,9 @@ export default class StoreManage extends Component {
         promise: true
       })
       .then(data => {
+        this.setState({
+          IsFristFree: data.IsFristFree
+        });
         this.setState({
           storeInfo: data
         });
@@ -245,7 +249,7 @@ export default class StoreManage extends Component {
     );
   }
   render() {
-    const { isModifMobileVisible } = this.state;
+    const { isModifMobileVisible, IsFristFree } = this.state;
     const { storeInfo, StoreId } = this.props;
     return (
       <View style={styles.container}>
@@ -256,6 +260,28 @@ export default class StoreManage extends Component {
           <View style={styles.content}>
             {this.renderTop()}
             {this.renderBottom()}
+            <View style={[styles.item, { marginTop: 10 }]}>
+              <View style={styles.itemLabel}>
+                <Text style={styles.itemLabelText}>
+                  新用户首次免费:{IsFristFree ? "开启" : "关闭"}
+                </Text>
+              </View>
+              <Switch
+                value={IsFristFree}
+                onValueChange={v => {
+                  api
+                    .updateStore({ IsFristFree: v })
+                    .then(res => {
+                      this.setState({
+                        IsFristFree: v
+                      });
+                    })
+                    .catch(e => {
+                      Tip.fail("设置失败");
+                    });
+                }}
+              />
+            </View>
           </View>
           <View style={styles.nav}>
             <Button textStyle={styles.navItemText}>没脸运动</Button>
