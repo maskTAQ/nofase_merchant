@@ -129,7 +129,7 @@ export default class CurrentUser extends Component {
           />
         </View>
         <View style={styles.headerContent}>
-          <View style={{ height: 20 }} />
+          <View style={styles.statusBar} />
           <View style={styles.headerTop}>
             <View>
               <Text style={styles.headerTime}>
@@ -143,18 +143,14 @@ export default class CurrentUser extends Component {
               </Button>
             </View>
           </View>
-          <Text style={styles.turnoverValue}>￥{Amont}</Text>
+          <View style={styles.turnoverValueWrapper}>
+            <Text style={styles.turnoverValue}>￥{Amont}</Text>
+          </View>
           <View style={styles.headerList}>
             {data.map((item, i) => {
               const { label, value } = item;
               return (
-                <View
-                  style={[
-                    styles.headerListItem,
-                    i === 0 ? { alignItems: "flex-start" } : null
-                  ]}
-                  key={label}
-                >
+                <View style={styles.headerListItem} key={label}>
                   <Text style={styles.headerListItemLabel}>{label}</Text>
                   <Text style={styles.headerListItemValue}>{value}</Text>
                 </View>
@@ -190,7 +186,6 @@ export default class CurrentUser extends Component {
                 style={styles.chooseInput}
                 placeholder="名称/ID搜索在线用户"
               />
-              <View style={styles.chooseInputBorder} />
               <Button>
                 <Icon
                   size={20}
@@ -207,7 +202,7 @@ export default class CurrentUser extends Component {
   renderItem(item) {
     const {
       NickName,
-      UserId,
+      UserCode,
       SDate,
       TimeLong,
       UserPhoto,
@@ -219,11 +214,13 @@ export default class CurrentUser extends Component {
     const date = new Date(+getTimestamp(SDate));
     return (
       <View style={styles.item}>
-        {UserPhoto ? (
-          <Image style={styles.portrait} source={{ uri: UserPhoto }} />
-        ) : (
-          portraitIcon
-        )}
+        <View style={styles.portraitWrapper}>
+          {UserPhoto ? (
+            <Image style={styles.portrait} source={{ uri: UserPhoto }} />
+          ) : (
+            portraitIcon
+          )}
+        </View>
         <View style={styles.itemContent}>
           <View style={styles.itemContentTop}>
             <View style={styles.itemContentTopLeft}>
@@ -235,14 +232,14 @@ export default class CurrentUser extends Component {
                   </View>
                 )}
               </View>
-              <Text style={styles.itemId}>ID:{UserId}</Text>
+              <Text style={styles.itemId}>ID:{UserCode}</Text>
             </View>
             <Button
               onPress={() => this.stopOrder(OrderId)}
               style={styles.stopButton}
               textStyle={styles.stopButtonText}
             >
-              停止
+              结束
             </Button>
           </View>
           <View style={styles.itemDetail}>
@@ -290,6 +287,7 @@ export default class CurrentUser extends Component {
         refreshing={refreshing}
         renderItem={({ item }) => this.renderItem(item)}
         keyExtractor={(item, i) => item.UserId + i}
+        ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
         style={styles.listContainer}
       />
     );

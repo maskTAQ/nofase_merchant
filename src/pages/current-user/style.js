@@ -1,14 +1,18 @@
 export default {
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "#e3e3e3"
+  },
+  statusBar: {
+    height: 20,
+    paddingTop: 18
   },
   header: {
     position: "relative"
   },
   headerContent: {
-    paddingLeft: 15,
-    paddingRight: 15
+    paddingLeft: 12,
+    paddingRight: 12
   },
   headerBG: {
     position: "absolute",
@@ -20,7 +24,8 @@ export default {
   },
   headerTop: {
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    alignItems: "flex-end"
   },
   headerTime: {
     fontSize: 14,
@@ -33,9 +38,12 @@ export default {
     fontWeight: "bold",
     color: "#fff"
   },
+  turnoverValueWrapper: {
+    height: 112,
+    paddingTop: 30,
+    alignItems: "center"
+  },
   turnoverValue: {
-    lineHeight: 40,
-    textAlign: "center",
     fontSize: 34,
     fontWeight: "bold",
     color: "#fff"
@@ -47,41 +55,43 @@ export default {
   },
   headerListItem: {
     flex: 1,
-    alignItems: "center"
+    alignItems: "center",
+    justifyContent: "center"
   },
   headerListItemLabel: {
-    fontSize: 14,
+    fontSize: 13,
     lineHeight: 30,
+    textAlign: "center",
     fontWeight: "bold",
     color: "#fff"
   },
   headerListItemValue: {
     fontSize: 18,
     fontWeight: "bold",
+    textAlign: "center",
     color: "#e47b2c"
   },
   choose: {
-    height: 44,
-    paddingLeft: 10,
-    paddingRight: 10
+    height: 40,
+    margin: 4,
+    marginBottom: 0,
+    backgroundColor: "#fff"
   },
   chooseContent: {
     flex: 1,
-    borderBottomWidth: 1,
     flexDirection: "row",
-    alignItems: "center",
-    borderColor: "#23cdfd"
+    alignItems: "center"
   },
   chooseLabelWrapper: {
+    width: 80,
     flexDirection: "row",
     alignItems: "center",
-    paddingLeft: 5,
-    paddingRight: 5
+    justifyContent: "center"
   },
   chooseBorder: {
     height: "80%",
-    width: 1,
-    backgroundColor: "#23cdfd"
+    width: 2,
+    backgroundColor: "#f9f9f9"
   },
   chooseInputContainer: {
     flex: 1,
@@ -93,32 +103,44 @@ export default {
   chooseInputContent: {
     flexDirection: "row",
     flex: 1,
-    alignItems: "center",
-    borderRadius: 8,
-    borderWidth: 1.5,
-    borderColor: "#23cdfd"
+    alignItems: "center"
+    // borderRadius: 8,
+    // borderWidth: 1.5,
+    // borderColor: "#23cdfd"
+  },
+  chooseLabel: {
+    color: "#4ca1a6"
   },
   chooseInput: {
     flex: 1,
-    paddingLeft: 10
+    paddingLeft: 30
   },
   chooseInputBorder: {
     width: 1,
     height: "80%",
-    backgroundColor: "#23cdfd"
+    backgroundColor: "#f9f9f9"
   },
   chooseInputIcon: {
     padding: 6
   },
   listContainer: {
-    flex: 1
+    flex: 1,
+    margin: 4
   },
   item: {
-    height: 66,
+    //height: 66,
     flexDirection: "row",
-    padding: 10,
-    paddingLeft: 15,
-    paddingRight: 15
+    padding: 6,
+    paddingLeft: 12,
+    paddingRight: 12,
+    backgroundColor: "#fff"
+  },
+  itemSeparator: {
+    height: 4
+  },
+  portraitWrapper: {
+    borderRadius: 56,
+    overflow: "hidden"
   },
   portrait: {
     width: 56,
@@ -126,7 +148,7 @@ export default {
   },
   itemContent: {
     flex: 1,
-    paddingLeft: 10
+    paddingLeft: 15
   },
   itemContentTop: {
     flexDirection: "row",
@@ -145,20 +167,22 @@ export default {
     fontSize: 14,
     fontWeight: "bold",
 
-    color: "#333"
+    color: "#686868"
   },
   warn: {
     marginLeft: 4,
-    height: 20,
-    paddingLeft: 4,
-    paddingRight: 4,
+    width: 50,
+    height: 16,
+
     borderRadius: 6,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fc0d1b"
+    backgroundColor: "#fa4145"
   },
   warnText: {
-    fontSize: 12,
+    fontWeight: "bold",
+
+    fontSize: 10,
     color: "#fff"
   },
   itemId: {
@@ -167,12 +191,12 @@ export default {
     color: "#9f9f9f"
   },
   stopButton: {
-    width: 60,
-    height: 28,
+    width: 100,
+    height: 25,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 8,
-    backgroundColor: "#fc6621"
+    borderRadius: 6,
+    backgroundColor: "#f1b248"
   },
   stopButtonText: {
     color: "#fff"
@@ -192,6 +216,6 @@ export default {
   },
   itemDuration: {
     fontSize: 12,
-    color: "#ff3300"
+    color: "#9f9f9f"
   }
 };
