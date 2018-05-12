@@ -1,12 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, StatusBar, Text } from "react-native";
+import {
+  View,
+  StatusBar,
+  Text,
+  Platform,
+  Linking,
+  AsyncStorage
+} from "react-native";
 import { connect } from "react-redux";
 import TabNavigation from "src/TabNavigation";
 import { addNavigationHelpers } from "react-navigation";
 
 import { WebSocket } from "src/common";
-import { Alert, Icon, Button } from "src/components";
+import api from "src/api";
+import { Alert, Icon, Button, UpdateModal } from "src/components";
 import action from "src/action";
 
 const LogoutModal = ({ logout, isVisible }) => {
@@ -65,7 +73,8 @@ class Home extends React.Component {
     StoreId: PropTypes.number
   };
   state = {
-    logoutModalVisible: false
+    logoutModalVisible: false,
+    isUpdateModalVisible: false
   };
   componentWillMount() {
     WebSocket.uniqueLoginWebsocket(this.props.StoreId, () => {
@@ -73,6 +82,12 @@ class Home extends React.Component {
         logoutModalVisible: true
       });
     }).catch(e => {});
+    this.getNewApp();
+  }
+  getNewApp() {
+    api.getNewApp().then(res => {
+      console.log("---", res, "res");
+    });
   }
   logout = () => {
     this.setState(
@@ -80,6 +95,7 @@ class Home extends React.Component {
         logoutModalVisible: false
       },
       () => {
+        AsyncStorage.removeItem("mobile");
         this.props.dispatch(action.logout());
         this.props.navigation.dispatch(
           action.navigate.go({ routeName: "Login" })
@@ -87,8 +103,18 @@ class Home extends React.Component {
       }
     );
   };
+  update = () => {
+    let url = "";
+    if (Platform.OS === "ios") {
+      url =
+        "itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?mt=8&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software&id=APP_ID";
+    } else {
+      url = "http://www.baidu.com";
+    }
+    Linking.openURL(url);
+  };
   render() {
-    const { logoutModalVisible } = this.state;
+    const { logoutModalVisible, isUpdateModalVisible } = this.state;
     return (
       <View style={{ flex: 1 }}>
         <StatusBar
@@ -104,6 +130,17 @@ class Home extends React.Component {
               state: this.props.tabNav
             })
           }}
+        />
+        <UpdateModal
+          version={1.0}
+          fileSize={"20M"}
+          ok={this.update}
+          close={() => {
+            this.setState({
+              isUpdateModalVisible: false
+            });
+          }}
+          isVisible={isUpdateModalVisible}
         />
         <LogoutModal logout={this.logout} isVisible={logoutModalVisible} />
       </View>
