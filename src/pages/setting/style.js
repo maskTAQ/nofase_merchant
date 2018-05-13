@@ -5,8 +5,9 @@ export default {
     backgroundColor: "#f2f2f2"
   },
   header: {
+    marginTop: 5,
     flexDirection: "row",
-    padding: 10,
+    padding: 5,
     marginBottom: 10,
     backgroundColor: "#fff"
   },
@@ -29,7 +30,8 @@ export default {
     borderRadius: 6
   },
   headerRight: {
-    flex: 1
+    flex: 1,
+    paddingLeft: 10
   },
   storeName: {
     fontSize: 15,
@@ -47,7 +49,9 @@ export default {
     lineHeight: 20
   },
   list: {
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+    paddingLeft: 12,
+    paddingRight: 12
   },
   item: {
     height: 50,

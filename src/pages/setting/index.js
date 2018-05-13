@@ -250,7 +250,11 @@ export default class Setting extends Component {
       {
         label: "提醒",
         rightComponent: (
-          <Switch value={isRemind} onValueChange={this.setRemind} />
+          <Switch
+            value={isRemind}
+            onValueChange={this.setRemind}
+            onTintColor="#1a99e2"
+          />
         )
       },
       { type: "border" },
@@ -308,7 +312,6 @@ export default class Setting extends Component {
   render() {
     const { isModifMobileVisible, verifySetp } = this.state;
     const { LegTel } = this.props.storeInfo;
-    console.log(this.props);
     return (
       <View style={styles.container}>
         <View>
