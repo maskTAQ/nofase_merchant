@@ -22,26 +22,40 @@ export default {
     color: "#fff"
   },
   list: {
-    backgroundColor: "#fff"
+    backgroundColor: "#f4f4f4"
   },
   listTitleWrapper: {
     height: 40,
+    marginTop: 5,
+    marginBottom: 5,
     justifyContent: "center",
     paddingLeft: 15,
-    borderBottomWidth: 1,
-    borderColor: "#ccc"
+    backgroundColor: "#fff"
   },
   listTitle: {
     fontSize: 14,
     fontWeight: "bold",
     color: "#333"
   },
+  listContent: {
+    // paddingLeft:12,
+    // paddingRight:12,
+  },
   item: {
     height: 40,
     justifyContent: "center",
     paddingLeft: 15,
-    borderBottomWidth: 1,
-    borderColor: "#ccc"
+    backgroundColor: "#fff"
+  },
+  itemSeparatorBox: {
+    height: 1,
+    paddingLeft: 15,
+    paddingRight: 15,
+    backgroundColor: "#fff"
+  },
+  itemSeparator: {
+    flex: 1,
+    backgroundColor: "#aaa"
   },
   itemLabel: {
     fontSize: 14,

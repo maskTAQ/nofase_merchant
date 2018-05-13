@@ -15,17 +15,17 @@ export default class Login extends Component {
     navigation: PropTypes.object
   };
   state = {
-    phone: "",
+    phone: "15048921980",
     code: ""
   };
   componentWillMount() {
-    AsyncStorage.getItem("mobile", (e, m) => {
-      if (!e && m) {
-        this.setState({
-          phone: m
-        });
-      }
-    });
+    // AsyncStorage.getItem("mobile", (e, m) => {
+    //   if (!e && m) {
+    //     this.setState({
+    //       phone: m
+    //     });
+    //   }
+    // });
   }
   handleValueChange(type, value) {
     this.setState({

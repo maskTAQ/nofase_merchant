@@ -91,11 +91,13 @@ export default {
 
   //modal
   modalContianer: {
-    width: "100%",
+    marginLeft: 10,
+    marginRight: 10,
     borderWidth: 1,
     borderRadius: 8,
-    padding: 10,
-
+    padding: 20,
+    paddingLeft: 25,
+    paddingRight: 25,
     borderColor: "#157ffb",
     backgroundColor: "#fff"
   },

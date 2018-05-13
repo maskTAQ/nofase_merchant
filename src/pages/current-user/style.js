@@ -125,7 +125,8 @@ export default {
   },
   listContainer: {
     flex: 1,
-    margin: 4
+    margin: 4,
+    backgroundColor: "#fff"
   },
   item: {
     //height: 66,
@@ -133,7 +134,7 @@ export default {
     padding: 6,
     paddingLeft: 12,
     paddingRight: 12,
-    backgroundColor: "#fff"
+    backgroundColor: "#f4f4f4"
   },
   itemSeparator: {
     height: 4

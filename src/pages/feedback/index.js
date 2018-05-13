@@ -110,7 +110,7 @@ export default class Feedback extends Component {
   renderHeader() {
     return (
       <View style={styles.header}>
-        <Text style={styles.title}>Hi,掌柜</Text>
+        <Text style={styles.title}>Hi,这里是没脸运动</Text>
         <Text style={styles.subtitle}>已为您定制以下内容</Text>
       </View>
     );
@@ -131,9 +131,15 @@ export default class Feedback extends Component {
           <Text style={styles.listTitle}>猜你想问</Text>
         </View>
         <FlatList
+          style={styles.listContent}
           data={data}
           extraData={this.state}
           keyExtractor={item => item.q}
+          ItemSeparatorComponent={() => (
+            <View style={styles.itemSeparatorBox}>
+              <View style={styles.itemSeparator} />
+            </View>
+          )}
           renderItem={({ item }) => this.renderItem(item)}
         />
       </View>
@@ -174,20 +180,20 @@ export default class Feedback extends Component {
                   <Icon size={20} source={require("./img/u204.png")} />
                 </Button>
               </View>
+              <View style={styles.itemSeparatorBox}>
+                <View style={styles.itemSeparator} />
+              </View>
               <View style={styles.contactItem}>
                 <View style={styles.contactItemLabel}>
-                  <Text style={styles.contactItemLabelText}>
-                    广东省-深圳市-罗湖区
-                  </Text>
-                  <Text style={styles.contactItemLabelText}>分站客服:</Text>
+                  <Text style={styles.contactItemLabelText}>一对一客服:</Text>
                 </View>
                 <Button
                   onPress={() => {
-                    this.call("150489218870");
+                    this.call("18529541235");
                   }}
                   style={styles.call}
                 >
-                  <Text style={styles.callText}>150489218870</Text>
+                  <Text style={styles.callText}>18529541235</Text>
                   <Icon size={20} source={require("./img/u204.png")} />
                 </Button>
               </View>

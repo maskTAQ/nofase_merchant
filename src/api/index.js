@@ -48,12 +48,9 @@ export default {
     );
   },
   //获取用户消费记录(日期查询)
-  getStoreUserListByDate({ SDate, EDate }) {
-    return post(
-      "/Store/GetStoreUserListByDate",
-      { SDate, EDate },
-      { loading: false }
-    );
+  getStoreUserListByDate(params) {
+    console.log(params);
+    return post("/Store/GetStoreUserListByDate", params, { loading: false });
   },
   getStoreInfo() {
     return post("/Store/GetStoreInfo");
@@ -114,5 +111,9 @@ export default {
   //完成订单
   completeOrder({ OrderId }) {
     return post("/User/SettlementOrder", { OrderId });
+  },
+  //获取最新版app
+  getNewApp(params) {
+    return post("/Admin/GetNewApp", params, { loading: false });
   }
 };

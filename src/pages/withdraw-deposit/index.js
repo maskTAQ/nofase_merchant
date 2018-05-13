@@ -100,7 +100,9 @@ export default class WithdrawDeposit extends Component {
                 style={styles.input}
               />
             </View>
-            <Text style={styles.banlance}>当前余额{StoreMoney}元</Text>
+            <Text style={styles.banlance}>
+              当前余额{StoreMoney.toFixed(2)}元
+            </Text>
             <View style={styles.contentBottom}>
               <Button
                 onPress={this.withdrawDeposit}

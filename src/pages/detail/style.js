@@ -6,8 +6,8 @@ export default {
   },
 
   listContainer: {
-    flex: 1,
-    paddingTop: 5
+    flex: 1
+    //paddingTop: 5
   },
   item: {
     height: 70,

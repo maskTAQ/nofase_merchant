@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { View, Text, FlatList, Image } from "react-native";
+import { View, Text, Image } from "react-native";
 import moment from "moment";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import api from "src/api";
-import { Button, Icon, Input } from "src/components";
+import { Button, Icon, Input, DataView } from "src/components";
 import { Tip } from "src/common";
 import action from "src/action";
 import styles from "./style";
@@ -37,32 +37,41 @@ export default class CurrentUser extends Component {
     this.onRefresh();
   }
   getStoreBusInfo(isLoading) {
-    return this.props
-      .dispatch({
-        type: "storeBusInfo",
-        api: () => {
-          return api.getStoreBusInfo(isLoading);
-        },
-        promise: true
-      })
-      .catch(e => {
-        Tip.loading("getStoreBusInfo:error");
-        console.log("getStoreBusInfo:error", e);
-      });
+    return this.props.dispatch({
+      type: "storeBusInfo",
+      api: () => {
+        return api.getStoreBusInfo(isLoading);
+      },
+      promise: true
+    });
   }
   getStoreUserList(isLoading) {
-    return this.props
-      .dispatch({
-        type: "storeUserList",
-        api: () => {
-          return api.getStoreUserList(isLoading);
-        },
-        promise: true
-      })
-      .catch(e => {
-        Tip.loading("getStoreUserList:error");
-        console.log("getStoreUserList:error", e);
-      });
+    return api.getStoreUserList(isLoading).then(res => {
+      const { searchValue, isPositiveSequence } = this.state;
+      return res
+        .filter(item => {
+          if (!searchValue) {
+            return true;
+          }
+          const { NickName, UserId } = item;
+
+          return (
+            NickName.includes(searchValue) ||
+            String(UserId).includes(searchValue)
+          );
+        })
+        .sort((prev, next) => {
+          if (isPositiveSequence) {
+            return (
+              this.getTimestamp(prev.SDate) - this.getTimestamp(next.SDate)
+            );
+          } else {
+            return (
+              this.getTimestamp(next.SDate) - this.getTimestamp(prev.SDate)
+            );
+          }
+        });
+    });
   }
   go(routeName) {
     this.props.navigation.dispatch(action.navigate.go({ routeName }));
@@ -260,35 +269,15 @@ export default class CurrentUser extends Component {
     return +/\/Date\(([0-9]+)\)/.exec(s)[1];
   }
   renderList() {
-    const { storeUserList = [] } = this.props;
-    const { searchValue, refreshing, isPositiveSequence } = this.state;
-    const data = storeUserList
-      .filter(item => {
-        if (!searchValue) {
-          return true;
-        }
-        const { NickName, UserId } = item;
-
-        return (
-          NickName.includes(searchValue) || String(UserId).includes(searchValue)
-        );
-      })
-      .sort((prev, next) => {
-        if (isPositiveSequence) {
-          return this.getTimestamp(prev.SDate) - this.getTimestamp(next.SDate);
-        } else {
-          return this.getTimestamp(next.SDate) - this.getTimestamp(prev.SDate);
-        }
-      });
     return (
-      <FlatList
-        data={data}
-        onRefresh={this.onRefresh}
-        refreshing={refreshing}
+      <DataView
+        getData={this.getStoreUserList}
         renderItem={({ item }) => this.renderItem(item)}
         keyExtractor={(item, i) => item.UserId + i}
         ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
         style={styles.listContainer}
+        isPulldownLoadMore={false}
+        // ListEmptyComponent={<View style={{}}><Text style={{}}>暂无数据</Text></View>}
       />
     );
   }

@@ -5,7 +5,7 @@
  */
 
 import React, { Component } from 'react';
-import { BackHandler, Platform, ToastAndroid, View, AsyncStorage,Alert } from "react-native";
+import { BackHandler, Platform, ToastAndroid, View, AsyncStorage } from "react-native";
 import { Provider, connect } from "react-redux";
 import { addNavigationHelpers } from "react-navigation";
 import PropTypes from 'prop-types';

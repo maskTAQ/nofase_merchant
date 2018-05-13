@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 import { Alert, Icon, Button } from "../index";
 
-const UpdateModal = ({ close, isVisible, version, fileSize, ok }) => {
+const UpdateModal = ({ close, isVisible, appUpdateInfo, ok }) => {
   const styles = {
     container: {
       padding: 10,
@@ -50,12 +50,13 @@ const UpdateModal = ({ close, isVisible, version, fileSize, ok }) => {
       color: "#1a98e0"
     }
   };
+  const { appVersion, appSize } = appUpdateInfo;
   return (
     <Alert isVisible={isVisible} close={close}>
       <View style={styles.container}>
         <Icon size={45} source={require("./img/hint.png")} />
-        <Text style={styles.version}>软件版本: {version}</Text>
-        <Text style={styles.fileSize}>文件大小:{fileSize}</Text>
+        <Text style={styles.version}>软件版本: {appVersion}</Text>
+        <Text style={styles.fileSize}>文件大小:{appSize}M</Text>
         <View style={styles.buttonGroup}>
           <Button
             onPress={ok}
@@ -79,8 +80,7 @@ const UpdateModal = ({ close, isVisible, version, fileSize, ok }) => {
 UpdateModal.propTypes = {
   close: PropTypes.func,
   ok: PropTypes.func,
-  version: PropTypes.any,
-  fileSize: PropTypes.string,
+  appUpdateInfo: PropTypes.object,
   isVisible: PropTypes.bool
 };
 

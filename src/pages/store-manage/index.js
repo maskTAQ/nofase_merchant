@@ -238,7 +238,7 @@ export default class StoreManage extends Component {
       }
     ];
     return (
-      <View style={[styles.list, { marginTop: 10 }]}>
+      <View style={[styles.list, { marginTop: 5 }]}>
         <FlatList
           data={editable}
           keyExtractor={item => item.label}

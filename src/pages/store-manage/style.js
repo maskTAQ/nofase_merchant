@@ -28,7 +28,7 @@ export default {
     backgroundColor: "#fff"
   },
   itemBorder: {
-    height: 10,
+    height: 5,
     backgroundColor: "#efefef"
   },
   itemLabel: {
