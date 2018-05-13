@@ -1,13 +1,14 @@
 export default {
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "#f4f4f4"
   },
   chooseDay: {
+    marginTop: 5,
     flexDirection: "row",
-    paddingTop: 12,
-    paddingBottom: 12,
-    justifyContent: "space-around"
+    padding: 5,
+    justifyContent: "space-around",
+    backgroundColor: "#fff"
   },
   dayItem: {
     height: 22,
@@ -30,10 +31,12 @@ export default {
     color: "#1e9ce4"
   },
   chooseTime: {
+    marginTop: 5,
     flexDirection: "row",
-    paddingLeft: 10,
-    paddingRight: 10,
-    alignItems: "center"
+    paddingLeft: 5,
+    paddingRight: 5,
+    alignItems: "center",
+    backgroundColor: "#fff"
   },
   chooseTimeLabel: {
     fontSize: 14,
@@ -67,11 +70,12 @@ export default {
     // padding: 10
   },
   detail: {
+    marginTop: 5,
     paddingTop: 6,
     paddingLeft: 10,
     paddingRight: 10,
     paddingBottom: 10,
-    backgroundColor: "#f9f9f9"
+    backgroundColor: "#fff"
   },
   detailTitle: {
     lineHeight: 20,
@@ -95,17 +99,25 @@ export default {
   detailItemValue: {
     fontSize: 12,
     fontWeight: "bold",
-    color: "#FF6600"
+    color: "#f8b84a"
   },
   listContainer: {
-    flex: 1
+    flex: 1,
+    paddingTop: 5
   },
   item: {
-    height: 66,
-    paddingLeft: 10,
-    paddingRight: 10,
+    // height: 66,
+    paddingLeft: 12,
+    paddingRight: 12,
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: "#fff"
+  },
+  portraitWrapper: {
+    width: 56,
+    height: 56,
+    borderRadius: 56,
+    overflow: "hidden"
   },
   portrait: {
     width: 56,
@@ -114,11 +126,14 @@ export default {
 
   itemContent: {
     flex: 1,
-    padding: 5
+    paddingLeft: 15,
+    paddingTop: 4,
+    paddingBottom: 4
   },
   itemContentItem: {
     flex: 1,
     flexDirection: "row",
+    height: 20,
     justifyContent: "space-between",
     alignItems: "center"
   },

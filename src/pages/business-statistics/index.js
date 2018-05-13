@@ -37,36 +37,36 @@ export default class BusinessStatistics extends Component {
     params: {},
     dates: [
       {
-        SDate: `${moment(new Date("1997")).format("YYYY-MM-DD")} 00:00:00`,
-        EDate: `${moment().format("YYYY-MM-DD")} 23:59:59`
+        SDate: `${moment(new Date("1997")).format("YYYY-MM-DD")}`,
+        EDate: `${moment().format("YYYY-MM-DD")}`
       },
       {
-        SDate: `${moment().format("YYYY-MM-DD")} 00:00:00`,
-        EDate: `${moment().format("YYYY-MM-DD")} 23:59:59`
+        SDate: `${moment().format("YYYY-MM-DD")}`,
+        EDate: `${moment().format("YYYY-MM-DD")}`
       },
       {
         SDate: `${moment()
           .subtract({ hours: 24 })
-          .format("YYYY-MM-DD")} 00:00:00`,
-        EDate: `${moment().format("YYYY-MM-DD")} 23:59:59`
+          .format("YYYY-MM-DD")}`,
+        EDate: `${moment().format("YYYY-MM-DD")}`
       },
       {
         SDate: `${moment()
           .subtract({ hours: 24 * 3 })
-          .format("YYYY-MM-DD")} 00:00:00`,
-        EDate: `${moment().format("YYYY-MM-DD")} 23:59:59`
+          .format("YYYY-MM-DD")}`,
+        EDate: `${moment().format("YYYY-MM-DD")}`
       },
       {
         SDate: `${moment()
           .subtract({ hours: 24 * 10 })
-          .format("YYYY-MM-DD")} 00:00:00`,
-        EDate: `${moment().format("YYYY-MM-DD")} 23:59:59`
+          .format("YYYY-MM-DD")}`,
+        EDate: `${moment().format("YYYY-MM-DD")}`
       },
       {
         SDate: `${moment()
           .startOf("month")
-          .format("YYYY-MM-DD")} 00:00:00`,
-        EDate: `${moment().format("YYYY-MM-DD")} 23:59:59`
+          .format("YYYY-MM-DD")}`,
+        EDate: `${moment().format("YYYY-MM-DD")}`
       }
     ]
   };
@@ -103,8 +103,8 @@ export default class BusinessStatistics extends Component {
       });
       if (endTimeDate) {
         this.store.params = {
-          SDate: `${moment(date).format("YYYY-MM-DD")} 00:00:00`,
-          EDate: `${moment(endTimeDate).format("YYYY-MM-DD")} 23:59:59`
+          SDate: `${moment(date).format("YYYY-MM-DD")}`,
+          EDate: `${moment(endTimeDate).format("YYYY-MM-DD")}`
         };
         this.setState({ activeIndex: NaN }, () => {
           this.dataRef.triggerRefresh();
@@ -117,8 +117,8 @@ export default class BusinessStatistics extends Component {
       });
       if (startTimeDate) {
         this.store.params = {
-          SDate: `${moment(startTimeDate).format("YYYY-MM-DD")} 00:00:00`,
-          EDate: `${moment(date).format("YYYY-MM-DD")} 23:59:59`
+          SDate: `${moment(startTimeDate).format("YYYY-MM-DD")}`,
+          EDate: `${moment(date).format("YYYY-MM-DD")}`
         };
         this.setState({ activeIndex: NaN }, () => {
           this.dataRef.triggerRefresh();
@@ -183,7 +183,7 @@ export default class BusinessStatistics extends Component {
     const { startTime, endTime } = this.state;
     return (
       <View style={styles.chooseTime}>
-        <Text style={styles.chooseTimeLabel}>自定义时间区:</Text>
+        <Text style={styles.chooseTimeLabel}>自定义价格</Text>
         <View style={styles.inputWrapper}>
           <Button
             onPress={() => this.selectTime("start")}
@@ -234,7 +234,7 @@ export default class BusinessStatistics extends Component {
         </Text>
         <View style={styles.detailItemRow}>
           <View style={styles.detailItem}>
-            <Text style={styles.detailItemLabel}>营业额:</Text>
+            <Text style={styles.detailItemLabel}>营业时长:</Text>
             <Text style={styles.detailItemValue}>{Amont}元</Text>
           </View>
           <View style={styles.detailItem}>
@@ -272,10 +272,12 @@ export default class BusinessStatistics extends Component {
     const date = new Date(+getTimestamp(LastInDate));
     return (
       <View style={styles.item}>
-        <Image
-          style={styles.portrait}
-          source={UserPhoto ? { uri: UserPhoto } : portraitSource}
-        />
+        <View style={styles.portraitWrapper}>
+          <Image
+            style={styles.portrait}
+            source={UserPhoto ? { uri: UserPhoto } : portraitSource}
+          />
+        </View>
         <View style={styles.itemContent}>
           <View style={styles.itemContentItem}>
             <Text style={styles.itemTitle}>{NickName}</Text>
@@ -289,7 +291,7 @@ export default class BusinessStatistics extends Component {
           </View>
           <View style={styles.itemContentItem}>
             <Text style={styles.itemText}>
-              最后到店时间：{moment(date).format("YYYY/MM/DD HH:mm")}
+              最后到店时间：{moment(date).format("YYYY/MM/DD")}
             </Text>
           </View>
         </View>
@@ -303,12 +305,9 @@ export default class BusinessStatistics extends Component {
           getData={this.getData}
           ref={e => (this.dataRef = e)}
           isPulldownLoadMore={false}
-          ItemSeparatorComponent={() => (
-            <View style={{ height: 1, backgroundColor: "#ccc" }} />
-          )}
+          ItemSeparatorComponent={() => <View style={{ height: 5 }} />}
           renderItem={({ item }) => this.renderItem(item)}
           keyExtractor={(item, i) => i}
-          style={{ flex: 1 }}
           ListEmptyComponent={
             <Text style={styles.noData}>暂时没有数据哦!</Text>
           }
