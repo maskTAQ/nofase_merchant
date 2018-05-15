@@ -98,7 +98,8 @@ export default class Login extends Component {
                 this.handleValueChange("code", v);
               }}
               style={styles.formItemInput}
-              placeholder="密码"
+              placeholder="验证码"
+              keyboardType="numeric"
               placeholderTextColor="#fff"
             />
             <CodeButton

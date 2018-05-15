@@ -1,67 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  View,
-  StatusBar,
-  Text,
-  Platform,
-  Linking,
-  AsyncStorage
-} from "react-native";
+import { View, StatusBar, Platform, Linking } from "react-native";
 import { connect } from "react-redux";
 import TabNavigation from "src/TabNavigation";
 import { addNavigationHelpers } from "react-navigation";
 
-import { WebSocket } from "src/common";
 import api from "src/api";
 import { version } from "src/config";
-import { Alert, Icon, Button, UpdateModal } from "src/components";
-import action from "src/action";
+import { UpdateModal } from "src/components";
 
-const LogoutModal = ({ logout, isVisible }) => {
-  const styles = {
-    container: {
-      padding: 6,
-      borderWidth: 1,
-      borderColor: "#1a98e0",
-      borderRadius: 6,
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: "rgb(255,255,255)"
-    },
-    detail: {
-      lineHeight: 30,
-      color: "#000"
-    },
-    button: {
-      width: "100%",
-      height: 40,
-      justifyContent: "center",
-      alignItems: "center",
-      borderRadius: 6,
-      backgroundColor: "#1a98e0"
-    }
-  };
-  return (
-    <Alert isVisible={isVisible}>
-      <View style={styles.container}>
-        <Icon size={30} source={require("./img/error.png")} />
-        <Text style={styles.detail}>此账号在别处登录!</Text>
-        <Button
-          onPress={logout}
-          style={styles.button}
-          textStyle={{ color: "#fff" }}
-        >
-          退出登录
-        </Button>
-      </View>
-    </Alert>
-  );
-};
-LogoutModal.propTypes = {
-  logout: PropTypes.func,
-  isVisible: PropTypes.bool
-};
 @connect(state => {
   const { tabNav, auth: { StoreId } } = state;
   return { tabNav, StoreId };
@@ -74,18 +21,12 @@ class Home extends React.Component {
     StoreId: PropTypes.number
   };
   state = {
-    logoutModalVisible: false,
     isUpdateModalVisible: false,
     appUpdateInfo: {}
   };
-  componentWillMount() {
-    WebSocket.uniqueLoginWebsocket(this.props.StoreId, () => {
-      this.setState({
-        logoutModalVisible: true
-      });
-    }).catch(e => {});
+  componentWillMount = async () => {
     this.getNewApp();
-  }
+  };
   getNewApp() {
     api
       .getNewApp({
@@ -117,20 +58,7 @@ class Home extends React.Component {
     const res = c.join("");
     return res;
   }
-  logout = () => {
-    this.setState(
-      {
-        logoutModalVisible: false
-      },
-      () => {
-        AsyncStorage.removeItem("mobile");
-        this.props.dispatch(action.logout());
-        this.props.navigation.dispatch(
-          action.navigate.go({ routeName: "Login" })
-        );
-      }
-    );
-  };
+
   update = () => {
     const { appUrl } = this.state.appUpdateInfo;
     let url = "";
@@ -142,11 +70,7 @@ class Home extends React.Component {
     Linking.openURL(url);
   };
   render() {
-    const {
-      logoutModalVisible,
-      isUpdateModalVisible,
-      appUpdateInfo
-    } = this.state;
+    const { isUpdateModalVisible, appUpdateInfo } = this.state;
     return (
       <View style={{ flex: 1 }}>
         <StatusBar
@@ -173,7 +97,6 @@ class Home extends React.Component {
           }}
           isVisible={isUpdateModalVisible}
         />
-        <LogoutModal logout={this.logout} isVisible={logoutModalVisible} />
       </View>
     );
   }

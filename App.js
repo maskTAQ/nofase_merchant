@@ -5,7 +5,7 @@
  */
 
 import React, { Component } from 'react';
-import { BackHandler, Platform, ToastAndroid, View, AsyncStorage } from "react-native";
+import { BackHandler, Platform, ToastAndroid, View, Text, AsyncStorage } from "react-native";
 import { Provider, connect } from "react-redux";
 import { addNavigationHelpers } from "react-navigation";
 import PropTypes from 'prop-types';
@@ -14,8 +14,54 @@ import JPushModule from 'jpush-react-native'
 import store from 'src/store';
 import Navigation from "src/Navigation";
 import api from "src/api";
-import { Tip } from 'src/components';
+import { Tip, Alert, Icon, Button, } from 'src/components';
 import action from "src/action";
+import { WebSocket } from "src/common";
+
+const LogoutModal = ({ logout, isVisible }) => {
+  const styles = {
+    container: {
+      padding: 6,
+      borderWidth: 1,
+      borderColor: "#1a98e0",
+      borderRadius: 6,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "rgb(255,255,255)"
+    },
+    detail: {
+      lineHeight: 30,
+      color: "#000"
+    },
+    button: {
+      width: "100%",
+      height: 40,
+      justifyContent: "center",
+      alignItems: "center",
+      borderRadius: 6,
+      backgroundColor: "#1a98e0"
+    }
+  };
+  return (
+    <Alert isVisible={isVisible}>
+      <View style={styles.container}>
+        <Icon size={30} source={require("./img/error.png")} />
+        <Text style={styles.detail}>此账号在别处登录!</Text>
+        <Button
+          onPress={logout}
+          style={styles.button}
+          textStyle={{ color: "#fff" }}
+        >
+          退出登录
+        </Button>
+      </View>
+    </Alert>
+  );
+};
+LogoutModal.propTypes = {
+  logout: PropTypes.func,
+  isVisible: PropTypes.bool
+};
 
 @connect(state => {
   return { auth: state.auth }
@@ -23,9 +69,13 @@ import action from "src/action";
 class App extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
+    navigation: PropTypes.object,
     nav: PropTypes.object.isRequired,
     auth: PropTypes.object
   };
+  state = {
+    logoutModalVisible: false,
+  }
   componentWillMount() {
     this.autoLogin();
     this.verifyToken();
@@ -34,13 +84,13 @@ class App extends Component {
     if (Platform.OS === "android") {
       BackHandler.addEventListener("hardwareBackPress", this.handleBack);
     }
-
   }
   componentWillReceiveProps(nextProps) {
     const { isLogin } = this.props.auth;
     const { isLogin: nextIsLogin, StoreId } = nextProps.auth;
     if (!isLogin && nextIsLogin) {
-      this.addReceiveNotificationListener(StoreId)
+      this.addReceiveNotificationListener(StoreId);
+      this.uniqueLoginWebsocket(StoreId);
     }
     if (isLogin && !nextIsLogin) {
       JPushModule.stopPush();
@@ -51,6 +101,14 @@ class App extends Component {
       BackHandler.removeEventListener("hardwareBackPress", this.handleBack);
     }
 
+  }
+  uniqueLoginWebsocket = async (StoreId) => {
+    this.ws = await WebSocket.uniqueLoginWebsocket(StoreId, () => {
+      this.setState({
+        logoutModalVisible: true
+      });
+    })
+      .catch(e => ({ close: () => { } }));
   }
   autoLogin() {
     AsyncStorage.getItem('mobile', (e, m) => {
@@ -80,7 +138,7 @@ class App extends Component {
       })
   }
   addReceiveNotificationListener(StoreId) {
-    
+
     if (Platform.OS === 'android') {
       JPushModule.initPush()
       JPushModule.getInfo(map => {
@@ -96,13 +154,13 @@ class App extends Component {
         console.log(resultCode)
       })
     } else {
-      
+
       JPushModule.setupPush()
     }
     /**
        * 请注意这个接口要传一个数组过去，这里只是个简单的示范
        */
-      
+
     JPushModule.setTags([String(StoreId)], map => {
       if (map.errorCode === 0) {
         console.log('Tag operate succeed, tags: ' + map.tags)
@@ -120,6 +178,20 @@ class App extends Component {
 
     })
   }
+  logout = () => {
+    this.setState(
+      {
+        logoutModalVisible: false
+      },
+      () => {
+        AsyncStorage.removeItem("mobile");
+        this.props.dispatch(action.logout());
+        this.props.navigation.dispatch(
+          action.navigate.go({ routeName: "Login" })
+        );
+      }
+    );
+  };
   handleBack = () => {
     const { nav } = this.props;
     const routeName = nav.routes[nav.index].routeName;
@@ -130,7 +202,7 @@ class App extends Component {
     }
     if (routeName === "Home") {
       if (this.lastBack && new Date().getTime() - this.lastBack < 2000) {
-        console.log(BackHandler);
+        this.ws && this.ws.close();
         BackHandler.exitApp()
       } else {
         this.lastBack = new Date().getTime();
@@ -141,9 +213,13 @@ class App extends Component {
     return false;
   };
   render() {
+    const { logoutModalVisible } = this.state;
     const { dispatch, nav } = this.props;
     return (
-      <Navigation navigation={addNavigationHelpers({ dispatch, state: nav })} />
+      <View style={{ flex: 1 }}>
+        <Navigation navigation={addNavigationHelpers({ dispatch, state: nav })} />
+        <LogoutModal logout={this.logout} isVisible={logoutModalVisible} />
+      </View>
     )
   }
 }
