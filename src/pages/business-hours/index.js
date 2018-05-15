@@ -71,7 +71,9 @@ export default class BusinessHours extends Component {
     Flag: 1 //1营业 2未营业
   };
   componentWillMount() {
-    const { Flag, BusinessTimes, BusinessWeeks = "1,0" } = this.props.storeInfo;
+    const { Flag, BusinessTimes } = this.props.storeInfo;
+    const BusinessWeeks = this.props.storeInfo.BusinessWeeks || "1,0";
+    console.log(BusinessWeeks);
     const weeks = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
     const time = BusinessTimes
       ? BusinessTimes.split("-")
@@ -153,7 +155,7 @@ export default class BusinessHours extends Component {
     const isHasInitTime = startTime.includes(":") && endTime.includes(":");
 
     if (!isHasInitTime) {
-      Tip.fail("时间");
+      Tip.fail("请输入时间");
     } else {
       api
         .updateStore({

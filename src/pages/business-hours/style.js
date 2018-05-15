@@ -57,11 +57,10 @@ export default {
     color: "#fff"
   },
   zhi: {
-    flex: 1,
+    width: 20,
     lineHeight: 30,
-    paddingLeft: 10,
-    paddingRight: 10,
-    color: "#333"
+    color: "#333",
+    textAlign: "center"
   },
   chooseTimeButton: {
     height: 30,
