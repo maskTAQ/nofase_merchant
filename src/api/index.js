@@ -36,8 +36,8 @@ export default {
       { loading }
     );
   },
-  getStoreUserList(loading) {
-    return post("/Store/GetStoreUserList", {}, { loading });
+  getStoreUserList() {
+    return post("/Store/GetStoreUserList", {}, { loading: false });
   },
   //获取商家今日营业信息
   getStoreBusInfoByDate({ SDate, EDate }) {
