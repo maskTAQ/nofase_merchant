@@ -234,7 +234,7 @@ export default class BusinessStatistics extends Component {
         </Text>
         <View style={styles.detailItemRow}>
           <View style={styles.detailItem}>
-            <Text style={styles.detailItemLabel}>营业时长:</Text>
+            <Text style={styles.detailItemLabel}>营业收入:</Text>
             <Text style={styles.detailItemValue}>{Amont}元</Text>
           </View>
           <View style={styles.detailItem}>

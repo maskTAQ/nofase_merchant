@@ -91,8 +91,6 @@ export default {
 
   //modal
   modalContianer: {
-    marginLeft: 10,
-    marginRight: 10,
     borderWidth: 1,
     borderRadius: 8,
     padding: 20,

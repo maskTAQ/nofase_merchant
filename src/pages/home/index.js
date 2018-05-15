@@ -90,7 +90,7 @@ class Home extends React.Component {
     api
       .getNewApp({
         VerType: Platform.select({
-          ios: 1,
+          ios: 2,
           android: 1
         })
       })

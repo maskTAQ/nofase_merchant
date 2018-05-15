@@ -39,8 +39,8 @@ export default {
     color: "#fff"
   },
   turnoverValueWrapper: {
-    height: 112,
-    paddingTop: 30,
+    height: 52,
+    paddingTop: 10,
     alignItems: "center"
   },
   turnoverValue: {

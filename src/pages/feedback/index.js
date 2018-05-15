@@ -172,11 +172,11 @@ export default class Feedback extends Component {
                 </View>
                 <Button
                   onPress={() => {
-                    this.call("4008650152");
+                    this.call("075521034275");
                   }}
                   style={styles.call}
                 >
-                  <Text style={styles.callText}>4008-650-152</Text>
+                  <Text style={styles.callText}>0755-21034275</Text>
                   <Icon size={20} source={require("./img/u204.png")} />
                 </Button>
               </View>

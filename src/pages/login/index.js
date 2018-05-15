@@ -15,7 +15,7 @@ export default class Login extends Component {
     navigation: PropTypes.object
   };
   state = {
-    phone: "15048921980",
+    phone: "",
     code: ""
   };
   componentWillMount() {

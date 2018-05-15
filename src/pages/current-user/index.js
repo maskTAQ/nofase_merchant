@@ -15,6 +15,7 @@ const sortIcon = <Icon size={14} source={require("./img/u41.png")} />;
 const portraitIcon = (
   <Image style={styles.portrait} source={require("./img/u45.png")} />
 );
+const headerBgSource = require("./img/head.png");
 @connect(state => {
   const { storeBusInfo, storeUserList } = state;
   return { storeBusInfo, storeUserList };
@@ -45,34 +46,39 @@ export default class CurrentUser extends Component {
       promise: true
     });
   }
-  getStoreUserList(isLoading) {
-    return api.getStoreUserList(isLoading).then(res => {
-      const { searchValue, isPositiveSequence } = this.state;
-      return res
-        .filter(item => {
-          if (!searchValue) {
-            return true;
-          }
-          const { NickName, UserId } = item;
+  getStoreUserList = isLoading => {
+    return api
+      .getStoreUserList(isLoading)
+      .then(res => {
+        const { searchValue, isPositiveSequence } = this.state;
+        return res
+          .filter(item => {
+            if (!searchValue) {
+              return true;
+            }
+            const { NickName, UserId } = item;
 
-          return (
-            NickName.includes(searchValue) ||
-            String(UserId).includes(searchValue)
-          );
-        })
-        .sort((prev, next) => {
-          if (isPositiveSequence) {
             return (
-              this.getTimestamp(prev.SDate) - this.getTimestamp(next.SDate)
+              NickName.includes(searchValue) ||
+              String(UserId).includes(searchValue)
             );
-          } else {
-            return (
-              this.getTimestamp(next.SDate) - this.getTimestamp(prev.SDate)
-            );
-          }
-        });
-    });
-  }
+          })
+          .sort((prev, next) => {
+            if (isPositiveSequence) {
+              return (
+                this.getTimestamp(prev.SDate) - this.getTimestamp(next.SDate)
+              );
+            } else {
+              return (
+                this.getTimestamp(next.SDate) - this.getTimestamp(prev.SDate)
+              );
+            }
+          });
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
   go(routeName) {
     this.props.navigation.dispatch(action.navigate.go({ routeName }));
   }
@@ -133,7 +139,7 @@ export default class CurrentUser extends Component {
         <View style={styles.headerBG}>
           <Image
             style={{ flex: 1, width: "100%" }}
-            source={require("./img/u2.png")}
+            source={headerBgSource}
             resizeMode="stretch"
           />
         </View>

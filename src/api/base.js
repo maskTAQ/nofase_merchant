@@ -70,6 +70,11 @@ const post = (
         }
       })
       .catch(e => {
+        if (e && e.response) {
+          if (e.response.status === 500) {
+            e = "请求超时";
+          }
+        }
         console.log("------ start -------");
         console.log("error:", e);
         console.log("地址:" + url);
