@@ -298,6 +298,9 @@ export default class BusinessHours extends Component {
             isVisible={this.state.isDateTimePickerVisible}
             onConfirm={this._handleDatePicked}
             onCancel={this._hideDateTimePicker}
+            cancelTextIOS="取消"
+            confirmTextIOS="确定"
+            titleIOS="选择时间"
           />
         </View>
       </Page>
