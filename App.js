@@ -5,7 +5,7 @@
  */
 
 import React, { Component } from 'react';
-import { BackHandler, Platform, ToastAndroid, View, Text, AsyncStorage } from "react-native";
+import { BackHandler, Platform, ToastAndroid, View, AsyncStorage } from "react-native";
 import { Provider, connect } from "react-redux";
 import { addNavigationHelpers } from "react-navigation";
 import PropTypes from 'prop-types';
@@ -14,54 +14,11 @@ import JPushModule from 'jpush-react-native'
 import store from 'src/store';
 import Navigation from "src/Navigation";
 import api from "src/api";
-import { Tip, Alert, Icon, Button, } from 'src/components';
+import { Tip,LogoutModal } from 'src/components';
 import action from "src/action";
 import { WebSocket } from "src/common";
 
-const LogoutModal = ({ logout, isVisible }) => {
-  const styles = {
-    container: {
-      padding: 6,
-      borderWidth: 1,
-      borderColor: "#1a98e0",
-      borderRadius: 6,
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: "rgb(255,255,255)"
-    },
-    detail: {
-      lineHeight: 30,
-      color: "#000"
-    },
-    button: {
-      width: "100%",
-      height: 40,
-      justifyContent: "center",
-      alignItems: "center",
-      borderRadius: 6,
-      backgroundColor: "#1a98e0"
-    }
-  };
-  return (
-    <Alert isVisible={isVisible}>
-      <View style={styles.container}>
-        <Icon size={30} source={require("./img/error.png")} />
-        <Text style={styles.detail}>此账号在别处登录!</Text>
-        <Button
-          onPress={logout}
-          style={styles.button}
-          textStyle={{ color: "#fff" }}
-        >
-          退出登录
-        </Button>
-      </View>
-    </Alert>
-  );
-};
-LogoutModal.propTypes = {
-  logout: PropTypes.func,
-  isVisible: PropTypes.bool
-};
+
 
 @connect(state => {
   return { auth: state.auth }

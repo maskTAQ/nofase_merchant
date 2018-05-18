@@ -24,9 +24,9 @@ class Home extends React.Component {
     isUpdateModalVisible: false,
     appUpdateInfo: {}
   };
-  componentWillMount = async () => {
+  componentWillMount() {
     this.getNewApp();
-  };
+  }
   getNewApp() {
     api
       .getNewApp({

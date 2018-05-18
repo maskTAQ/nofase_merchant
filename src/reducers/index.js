@@ -1,3 +1,4 @@
+import { AsyncStorage } from "react-native";
 import { combineReducers } from "redux";
 
 import actionMap from "src/action";
@@ -11,6 +12,7 @@ const appReducer = combineReducers({
       return { ...state, isLogin: true, ...payload };
     }
     if (type === actionMap.LOGOUT) {
+      AsyncStorage.removeItem("mobile");
       return { ...state, isLogin: false, ...payload };
     }
     return state;

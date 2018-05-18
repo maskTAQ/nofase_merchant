@@ -1,7 +1,10 @@
+import { Dimensions } from "react-native";
+const { height } = Dimensions.get("window");
 export default {
   container: {
     flex: 1,
     paddingTop: 80,
+    height,
     position: "relative",
     alignItems: "center",
     backgroundColor: "#1a98e0"

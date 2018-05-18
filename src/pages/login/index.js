@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { View, Text, Image, AsyncStorage, StatusBar } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  AsyncStorage,
+  StatusBar,
+  ScrollView
+} from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
@@ -59,67 +66,69 @@ export default class Login extends Component {
   render() {
     const { phone, code } = this.state;
     return (
-      <View style={styles.container}>
-        <StatusBar
-          backgroundColor="transparent"
-          translucent={true}
-          barStyle="light-content"
-        />
-        <View style={styles.logo}>
-          <View style={styles.logoWrapper}>
-            <Icon source={logoSource} size={90} />
+      <ScrollView style={{ flex: 1 }}>
+        <View style={styles.container}>
+          <StatusBar
+            backgroundColor="transparent"
+            translucent={true}
+            barStyle="light-content"
+          />
+          <View style={styles.logo}>
+            <View style={styles.logoWrapper}>
+              <Icon source={logoSource} size={90} />
+            </View>
+            <Text style={styles.logoLabel}>没脸运动</Text>
           </View>
-          <Text style={styles.logoLabel}>没脸运动</Text>
-        </View>
-        <View style={styles.form}>
-          <View style={styles.formItem}>
-            <Image
-              source={require("src/images/login/username.png")}
-              style={styles.formItemImg}
-            />
-            <Input
-              value={phone}
-              onChangeText={v => {
-                this.handleValueChange("phone", v);
-              }}
-              style={styles.formItemInput}
-              placeholder="手机号"
-              placeholderTextColor="#fff"
-            />
-          </View>
-          <View style={styles.formItem}>
-            <Image
-              source={require("src/images/login/password.png")}
-              style={styles.formItemImg}
-            />
-            <Input
-              value={code}
-              onChangeText={v => {
-                this.handleValueChange("code", v);
-              }}
-              style={styles.formItemInput}
-              placeholder="验证码"
-              keyboardType="numeric"
-              placeholderTextColor="#fff"
-            />
-            <CodeButton
-              ref={e => (this.codeRef = e)}
-              phone={phone}
-              loading={false}
+          <View style={styles.form}>
+            <View style={styles.formItem}>
+              <Image
+                source={require("src/images/login/username.png")}
+                style={styles.formItemImg}
+              />
+              <Input
+                value={phone}
+                onChangeText={v => {
+                  this.handleValueChange("phone", v);
+                }}
+                style={styles.formItemInput}
+                placeholder="手机号"
+                placeholderTextColor="#fff"
+              />
+            </View>
+            <View style={styles.formItem}>
+              <Image
+                source={require("src/images/login/password.png")}
+                style={styles.formItemImg}
+              />
+              <Input
+                value={code}
+                onChangeText={v => {
+                  this.handleValueChange("code", v);
+                }}
+                style={styles.formItemInput}
+                placeholder="验证码"
+                keyboardType="numeric"
+                placeholderTextColor="#fff"
+              />
+              <CodeButton
+                ref={e => (this.codeRef = e)}
+                phone={phone}
+                loading={false}
+              >
+                验证码
+              </CodeButton>
+            </View>
+            <Button
+              disabled={!phone || !code}
+              onPress={this.login}
+              style={styles.loginButton}
+              textStyle={styles.loginText}
             >
-              验证码
-            </CodeButton>
+              登录
+            </Button>
           </View>
-          <Button
-            disabled={!phone || !code}
-            onPress={this.login}
-            style={styles.loginButton}
-            textStyle={styles.loginText}
-          >
-            登录
-          </Button>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }

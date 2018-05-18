@@ -18,4 +18,5 @@ export { default as CodeButton } from "./code-button";
 export { default as WebView } from "./webview";
 export { default as DataView } from "./data-view";
 export { default as UpdateModal } from "./update-modal";
+export { default as LogoutModal } from "./logout-modal";
 //export { default as ScrollableTab } from './scrollable-tab';
