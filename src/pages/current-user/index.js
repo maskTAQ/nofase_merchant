@@ -34,8 +34,13 @@ export default class CurrentUser extends Component {
     //是否是正序
     isPositiveSequence: true
   };
+
   componentWillMount() {
     this.onRefresh();
+    this.timer = setInterval(this.onRefresh, 3000);
+  }
+  componentWillUnmount() {
+    clearInterval(this.timer);
   }
   getStoreBusInfo(isLoading) {
     return this.props.dispatch({
