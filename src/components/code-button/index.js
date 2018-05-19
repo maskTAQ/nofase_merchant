@@ -87,7 +87,7 @@ export default class CodeButton extends Component {
   getCode = () => {
     const { isCan } = this.state;
     const { phone, loading, type } = this.props;
-    if (isCan && /^1[3|4|5|8][0-9]\d{4,8}$/.test(phone)) {
+    if (isCan && /^1[3|4|5|8|7][0-9]\d{4,8}$/.test(phone)) {
       this.setState({ isRequestSmscode: true });
       api
         .sendCode(phone, loading)

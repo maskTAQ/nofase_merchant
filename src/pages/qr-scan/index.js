@@ -148,7 +148,6 @@ export default class QRScan extends Component {
     return api
       .scanUserQR({ UserId, StoreId, CardId })
       .then(res => {
-        console.log(res);
         this.isScaning = false;
         this.setState({
           isCameraVisible: false,
@@ -156,6 +155,13 @@ export default class QRScan extends Component {
           OrderType: res.OrderType,
           orderStatus: "success",
           currentOrderInfo: res
+        });
+        this.props.navigation.dispatch({
+          type: "storeInfo",
+          api: () => {
+            return api.getStoreInfo();
+          },
+          promise: true
         });
       })
       .catch(e => {
