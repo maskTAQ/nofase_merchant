@@ -63,7 +63,7 @@ class Home extends React.Component {
     const { appUrl } = this.state.appUpdateInfo;
     let url = "";
     if (Platform.OS === "ios") {
-      url = `itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?mt=8&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software&id=${appUrl}`;
+      url = `https://itunes.apple.com/cn/app/%E6%B2%A1%E8%84%B8%E8%BF%90%E5%8A%A8-%E5%95%86%E5%AE%B6%E7%AB%AF/id${appUrl}`;
     } else {
       url = appUrl;
     }

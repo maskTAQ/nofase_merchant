@@ -111,7 +111,7 @@ class App extends Component {
         console.log(resultCode)
       })
     } else {
-
+      JPushModule.setBadge(0,()=>{});
       JPushModule.setupPush()
     }
     /**

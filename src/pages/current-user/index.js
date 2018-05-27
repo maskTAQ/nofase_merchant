@@ -17,8 +17,8 @@ const portraitIcon = (
 );
 const headerBgSource = require("./img/head.png");
 @connect(state => {
-  const { storeBusInfo, storeUserList } = state;
-  return { storeBusInfo, storeUserList };
+  const { storeBusInfo, storeUserList, nav } = state;
+  return { storeBusInfo, storeUserList, nav };
 })
 export default class CurrentUser extends Component {
   static defaultProps = {};
@@ -26,7 +26,8 @@ export default class CurrentUser extends Component {
     navigation: PropTypes.object,
     storeBusInfo: PropTypes.object,
     storeUserList: PropTypes.array,
-    dispatch: PropTypes.func
+    dispatch: PropTypes.func,
+    nav: PropTypes.object
   };
   state = {
     searchValue: "",
@@ -38,6 +39,17 @@ export default class CurrentUser extends Component {
   componentWillMount() {
     this.onRefresh();
     this.timer = setInterval(this.onRefresh, 3000);
+  }
+  componentWillReceiveProps(nextProps) {
+    const { routes } = this.props.nav;
+    const { routes: nextRoutes } = nextProps.nav;
+    const prevRouteName = routes[routes.length - 1].routeName;
+    const nextRouteName = nextRoutes[nextRoutes.length - 1].routeName;
+
+    if (prevRouteName === "QRScan" && nextRouteName === "Home") {
+      this.onRefresh();
+    }
+    return true;
   }
   componentWillUnmount() {
     clearInterval(this.timer);

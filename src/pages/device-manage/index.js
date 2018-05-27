@@ -118,7 +118,7 @@ export default class DeviceManage extends Component {
     api
       .saveStoreEquip(result)
       .then(res => {
-        Tip.fail("保存设备信息成功");
+        Tip.success("保存设备信息成功");
         setTimeout(() => {
           return this.props.navigation.dispatch(action.navigate.back());
         }, 1500);
