@@ -1,3 +1,4 @@
+import { computeSize } from "src/common";
 export default {
   container: {
     flex: 1,
@@ -5,86 +6,86 @@ export default {
     backgroundColor: "#f2f2f2"
   },
   header: {
-    marginTop: 5,
+    marginTop: computeSize(5),
     flexDirection: "row",
-    padding: 5,
-    marginBottom: 10,
+    padding: computeSize(5),
+    marginBottom: computeSize(10),
     backgroundColor: "#fff"
   },
   title: {
-    height: 60,
+    height: computeSize(60),
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#1b9ce4"
   },
   titleText: {
-    fontSize: 16,
+    fontSize: computeSize(16),
     fontWeight: "bold",
-    lineHeight: 40,
+    lineHeight: computeSize(40),
     color: "#fff"
   },
   portrait: {
-    marginRight: 10,
-    width: 80,
-    height: 80,
-    borderRadius: 6
+    marginRight: computeSize(10),
+    width: computeSize(80),
+    height: computeSize(80),
+    borderRadius: computeSize(6)
   },
   headerRight: {
     flex: 1,
-    paddingLeft: 10
+    paddingLeft: computeSize(10)
   },
   storeName: {
-    fontSize: 15,
-    lineHeight: 21,
+    fontSize: computeSize(15),
+    lineHeight: computeSize(21),
     color: "#666"
   },
   storeInfo: {
-    fontSize: 12,
-    lineHeight: 21,
+    fontSize: computeSize(12),
+    lineHeight: computeSize(21),
     color: "#666"
   },
   storeAddr: {
-    fontSize: 14,
+    fontSize: computeSize(14),
     color: "#999",
-    lineHeight: 20
+    lineHeight: computeSize(20)
   },
   list: {
     backgroundColor: "#fff",
-    paddingLeft: 12,
-    paddingRight: 12
+    paddingLeft: computeSize(12),
+    paddingRight: computeSize(12)
   },
   item: {
-    height: 50,
+    height: computeSize(50),
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingLeft: 10,
-    paddingRight: 10
+    paddingLeft: computeSize(10),
+    paddingRight: computeSize(10)
   },
   itemBorder: {
     height: 1,
     backgroundColor: "#ccc"
   },
   itemLabel: {
-    fontSize: 14,
+    fontSize: computeSize(14),
     color: "#333"
   },
   itemValue: {
-    fontSize: 14,
+    fontSize: computeSize(14),
     color: "#039BE9"
   },
   logout: {
     marginLeft: "5%",
-    marginBottom: 40,
+    marginBottom: computeSize(40),
     width: "90%",
-    height: 40,
+    height: computeSize(40),
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 6,
+    borderRadius: computeSize(6),
     backgroundColor: "#039BE9"
   },
   logoutText: {
-    fontSize: 16,
+    fontSize: computeSize(16),
     fontWeight: "bold",
     color: "#fff"
   },
@@ -92,15 +93,15 @@ export default {
   //modal
   modalContianer: {
     borderWidth: 1,
-    borderRadius: 8,
-    padding: 20,
-    paddingLeft: 25,
-    paddingRight: 25,
+    borderRadius: computeSize(8),
+    padding: computeSize(20),
+    paddingLeft: computeSize(25),
+    paddingRight: computeSize(25),
     borderColor: "#157ffb",
     backgroundColor: "#fff"
   },
   modalItemWrapper: {
-    height: 36,
+    height: computeSize(36),
     alignItems: "center",
 
     flexDirection: "row",
@@ -110,7 +111,7 @@ export default {
   modalItemInput: {
     flex: 1,
     height: "100%",
-    paddingLeft: 15,
+    paddingLeft: computeSize(15),
     color: "#1b9cfe"
   },
   codeButotn: {
@@ -120,22 +121,22 @@ export default {
     backgroundColor: "#1b9cfe"
   },
   codeButotnText: {
-    paddingLeft: 15,
-    paddingRight: 15,
-    fontSize: 14,
+    paddingLeft: computeSize(15),
+    paddingRight: computeSize(15),
+    fontSize: computeSize(14),
     fontWeight: "bold",
     color: "#fff"
   },
   sumbit: {
-    height: 40,
+    height: computeSize(40),
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 30,
-    borderRadius: 8,
+    marginTop: computeSize(30),
+    borderRadius: computeSize(8),
     backgroundColor: "#1a9af7"
   },
   sumbitText: {
-    fontSize: 14,
+    fontSize: computeSize(14),
     fontWeight: "bold",
     color: "#fff"
   }

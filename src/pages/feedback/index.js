@@ -11,6 +11,7 @@ import {
 import action from "src/action";
 import PropTypes from "prop-types";
 
+import { computeSize } from "src/common";
 import data from "./data";
 import { Page, Button, Icon } from "src/components";
 import styles from "./style";
@@ -32,7 +33,7 @@ const QAModal = ({ QA, isVisible, onRequestClose }) => {
           <View style={styles.modalHeader}>
             <Text style={styles.modalTitle}>{q}</Text>
             <Button onPress={onRequestClose}>
-              <Icon size={20} source={require("./img/u284.png")} />
+              <Icon size={computeSize(20)} source={require("./img/u284.png")} />
             </Button>
           </View>
           <View style={styles.modalLine} />
@@ -177,7 +178,10 @@ export default class Feedback extends Component {
                   style={styles.call}
                 >
                   <Text style={styles.callText}>0755-21034275</Text>
-                  <Icon size={20} source={require("./img/u204.png")} />
+                  <Icon
+                    size={computeSize(20)}
+                    source={require("./img/u204.png")}
+                  />
                 </Button>
               </View>
               <View style={styles.itemSeparatorBox}>
@@ -194,7 +198,10 @@ export default class Feedback extends Component {
                   style={styles.call}
                 >
                   <Text style={styles.callText}>18529541235</Text>
-                  <Icon size={20} source={require("./img/u204.png")} />
+                  <Icon
+                    size={computeSize(20)}
+                    source={require("./img/u204.png")}
+                  />
                 </Button>
               </View>
             </View>

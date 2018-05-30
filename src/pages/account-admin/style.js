@@ -1,3 +1,4 @@
+import { computeSize } from "src/common";
 export default {
   container: {
     flex: 1,
@@ -23,74 +24,74 @@ export default {
     left: 0,
     width: "100%",
     height: "100%",
-    zIndex: 2,
+    zIndex: computeSize(2),
     backgroundColor: "transparent"
   },
   title: {
-    height: 60,
-    paddingTop: 20,
+    height: computeSize(60),
+    paddingTop: computeSize(20),
     justifyContent: "center",
     alignItems: "center"
   },
   titleText: {
-    fontSize: 16,
+    fontSize: computeSize(16),
     fontWeight: "bold",
-    lineHeight: 40,
+    lineHeight: computeSize(40),
     color: "#1a9be3"
   },
   balanceValueWrapper: {
-    height: 40,
+    height: computeSize(40),
     justifyContent: "flex-end",
     alignItems: "center"
   },
   balanceValue: {
-    fontSize: 22,
+    fontSize: computeSize(22),
     color: "#0399e7"
   },
   balanceLabelWrapper: {
-    height: 40,
+    height: computeSize(40),
     alignItems: "center"
   },
   balanceLabel: {
     fontWeight: "bold",
-    fontSize: 14,
+    fontSize: computeSize(14),
     color: "#0399e7"
   },
   incomeWrapper: {
-    height: 60,
-    paddingLeft: 22,
-    paddingRight: 22
+    height: computeSize(60),
+    paddingLeft: computeSize(22),
+    paddingRight: computeSize(22)
   },
   incomeBox: {
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingLeft: 17,
-    paddingRight: 17,
-    borderRadius: 4,
+    paddingLeft: computeSize(17),
+    paddingRight: computeSize(17),
+    borderRadius: computeSize(4),
     backgroundColor: "#fff"
   },
   incomeLabel: {
-    fontSize: 16,
+    fontSize: computeSize(16),
     color: "#1a9be3"
   },
   incomeValue: {
-    fontSize: 14,
+    fontSize: computeSize(14),
     fontWeight: "bold",
     color: "#1a9be3"
   },
   list: {
     flex: 1,
-    paddingLeft: 12,
+    paddingLeft: computeSize(12),
     paddingRight: 12
   },
   item: {
-    marginTop: 20,
-    height: 70,
-    borderRadius: 6,
+    marginTop: computeSize(20),
+    height: computeSize(70),
+    borderRadius: computeSize(6),
     justifyContent: "center",
-    paddingLeft: 12,
+    paddingLeft: computeSize(12),
     backgroundColor: "#fff"
   }
 };

@@ -1,3 +1,4 @@
+import { computeSize } from "src/common";
 export default {
   container: {
     flex: 1,
@@ -14,33 +15,33 @@ export default {
     left: 0,
     width: "100%",
     height: "100%",
-    backgroundColor: "rgb(3,159,238)"
+    backgroundColor: "rgb(3,computeSize(159),238)"
   },
   balanceWrapper: {
-    padding: 6
+    padding: computeSize(6)
   },
   balanceLabel: {
     textAlign: "center",
-    fontSize: 14,
+    fontSize: computeSize(14),
     color: "#0399e7"
   },
   balanceValue: {
     textAlign: "center",
     fontWeight: "bold",
-    //lineHeight: 35,
-    fontSize: 30,
+    //lineHeight: computeSize(35),
+    fontSize: computeSize(30),
     color: "#0399e7"
   },
   tabContainer: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#fff",
-    height: 60,
-    marginLeft: 10,
-    marginRight: 10,
-    paddingLeft: 40,
-    paddingRight: 40,
-    borderRadius: 10
+    height: computeSize(60),
+    marginLeft: computeSize(10),
+    marginRight: computeSize(10),
+    paddingLeft: computeSize(40),
+    paddingRight: computeSize(40),
+    borderRadius: computeSize(10)
   },
   tabItem: {
     position: "relative",
@@ -53,13 +54,13 @@ export default {
     color: "#0399e7",
     fontWeight: "bold",
 
-    lineHeight: 30,
-    fontSize: 20
+    lineHeight: computeSize(30),
+    fontSize: computeSize(20)
   },
   itemmoneyLabel: {
     color: "#0399e7",
     fontWeight: "bold",
-    fontSize: 12
+    fontSize: computeSize(12)
   },
   tabItemBorder: {
     width: 1,
@@ -69,7 +70,7 @@ export default {
   tabItemActiveBorder: {
     position: "absolute",
     width: "50%",
-    height: 3,
+    height: computeSize(3),
     backgroundColor: "#0a9ae4",
     bottom: 0
   },
@@ -80,20 +81,20 @@ export default {
   },
   list: {
     flex: 1,
-    padding: 10,
+    padding: computeSize(10),
     paddingBottom: 0
   },
   item: {
     justifyContent: "center",
     backgroundColor: "#fff",
-    height: 80,
-    padding: 10,
-    borderRadius: 10
+    height: computeSize(80),
+    padding: computeSize(10),
+    borderRadius: computeSize(10)
   },
   itemText: {
     color: "#0399e7",
     fontWeight: "bold",
-    fontSize: 16
+    fontSize: computeSize(16)
   },
   itemBottom: {
     flexDirection: "row",

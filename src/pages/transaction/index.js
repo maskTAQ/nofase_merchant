@@ -3,7 +3,7 @@ import { View, Text, FlatList, Image } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-//import { EventHub } from "src/common";
+import { computeSize } from "src/common";
 import { Page, Button, Icon } from "src/components";
 import styles from "./style";
 import action from "src/action";
@@ -44,7 +44,9 @@ export default class Transacion extends Component {
           <Text style={styles.itemText}>
             {type}
             {i === 1 ? (
-              <Text style={{ fontSize: 12 }}>(免手续费，次日到账)</Text>
+              <Text style={{ fontSize: computeSize(12) }}>
+                (免手续费，次日到账)
+              </Text>
             ) : null}
           </Text>
         </View>
@@ -73,7 +75,9 @@ export default class Transacion extends Component {
     return (
       <FlatList
         style={styles.list}
-        ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+        ItemSeparatorComponent={() => (
+          <View style={{ height: computeSize(10) }} />
+        )}
         keyExtractor={(item, index) => index}
         data={data}
         renderItem={({ item, index }) => this.renderItem(item, index)}
@@ -100,7 +104,7 @@ export default class Transacion extends Component {
           title="交易管理"
           LeftComponent={
             <Button onPress={this.back}>
-              <Icon size={20} source={require("./img/u326.png")} />
+              <Icon size={computeSize(20)} source={require("./img/u326.png")} />
             </Button>
           }
           headerStyle={{ backgroundColor: "#fff" }}

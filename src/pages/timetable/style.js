@@ -1,3 +1,4 @@
+import { computeSize } from "src/common";
 const color = "#1b9ee7";
 export default {
   container: {
@@ -9,7 +10,7 @@ export default {
     //height:'50%'
   },
   selectTime: {
-    fontSize: 12,
+    fontSize: computeSize(12),
     color: "#1a97df"
   },
   input: {
@@ -25,18 +26,18 @@ export default {
     color: "red"
   },
   addButton: {
-    marginLeft: 10,
-    marginRight: 10,
-    marginBottom: 20,
+    marginLeft: computeSize(10),
+    marginRight: computeSize(10),
+    marginBottom: computeSize(20),
     //width: "90%",
-    height: 40,
+    height: computeSize(40),
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 6,
+    borderRadius: computeSize(6),
     backgroundColor: color
   },
   addButtonText: {
-    fontSize: 16,
+    fontSize: computeSize(16),
     fontWeight: "bold",
     color: "#fff"
   },
@@ -45,49 +46,49 @@ export default {
     width: "100%",
     backgroundColor: "#fff",
     alignItems: "center",
-    paddingBottom: 20
+    paddingBottom: computeSize(20)
   },
   modalTitle: {
-    fontSize: 16,
-    paddingTop: 25
+    fontSize: computeSize(16),
+    paddingTop: computeSize(25)
   },
   inputGroup: {
     flexDirection: "row",
-    height: 40,
+    height: computeSize(40),
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 20
+    marginTop: computeSize(20)
   },
   startTimeButton: {
     width: "40%",
     justifyContent: "center",
-    borderRadius: 5,
-    height: 40,
+    borderRadius: computeSize(5),
+    height: computeSize(40),
     alignItems: "center",
     borderWidth: 1,
     borderColor: "#019af5",
-    marginRight: 10
+    marginRight: computeSize(10)
   },
   endTimeButton: {
     width: "40%",
     justifyContent: "center",
-    borderRadius: 5,
-    height: 40,
+    borderRadius: computeSize(5),
+    height: computeSize(40),
     alignItems: "center",
-    paddingRight: 70,
+    paddingRight: computeSize(70),
     borderWidth: 1,
     borderColor: "#019af5",
-    marginLeft: 10
+    marginLeft: computeSize(10)
   },
   buttonGroup: {
     flexDirection: "row",
-    height: 45,
+    height: computeSize(45),
     width: "75%",
     borderWidth: 1,
     borderColor: "#019af5",
-    borderRadius: 5,
+    borderRadius: computeSize(5),
     overflow: "hidden",
-    marginTop: 15
+    marginTop: computeSize(15)
   },
   cancel: {
     width: "35%",

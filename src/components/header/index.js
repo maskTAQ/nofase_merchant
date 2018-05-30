@@ -3,13 +3,14 @@ import { View, Text, StatusBar, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
+import { computeSize } from "src/common";
 import action from "src/action";
 import { Icon } from "src/components";
 import styles from "./style";
 
 const Left = onPress => (
   <TouchableOpacity onPress={onPress}>
-    <Icon size={20} source={require("./img/return.png")} />
+    <Icon size={computeSize(20)} source={require("./img/return.png")} />
   </TouchableOpacity>
 );
 Left.propTypes = {
@@ -35,9 +36,9 @@ export default class Header extends Component {
       null
     ]),
     RightComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+    titleComponent: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     style: PropTypes.object,
-    title: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
-      .isRequired,
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     onLeftPress: PropTypes.func,
     titleStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     dispatch: PropTypes.func,
@@ -49,6 +50,7 @@ export default class Header extends Component {
       onLeftPress,
       LeftComponent,
       RightComponent,
+      titleComponent,
       title,
       style = {},
       titleStyle,
@@ -71,10 +73,16 @@ export default class Header extends Component {
           <View style={styles.item}>
             {LeftComponent ||
               Left(function() {
-                onLeftPress ? onLeftPress() : dispatch(action.navigate.back());
+                if (onLeftPress) {
+                  onLeftPress();
+                } else {
+                  dispatch(action.navigate.back());
+                }
               })}
           </View>
-          <View style={styles.title}>{renderTitle(title, titleStyle)}</View>
+          <View style={styles.title}>
+            {titleComponent || renderTitle(title, titleStyle)}
+          </View>
           <View style={styles.item}>{RightComponent}</View>
         </View>
       </View>

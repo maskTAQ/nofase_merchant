@@ -35,6 +35,7 @@ export default class Tabbar extends Component {
     this.props.navigation.dispatch(action.navigate.tabGo({ routeName }));
   }
   scan = () => {
+    console.log();
     this.props.navigation.dispatch(action.navigate.go({ routeName: "QRScan" }));
   };
   render() {
@@ -59,7 +60,7 @@ export default class Tabbar extends Component {
                 style={styles.tabBarItem}
                 key={routeName}
               >
-                <Icon size={28} source={routeInfo[routeName].icon} />
+                <Icon size={30} source={routeInfo[routeName].icon} />
                 <Text style={styles.tabBarItemLabel}>
                   {routeInfo[routeName].label}
                 </Text>

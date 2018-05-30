@@ -47,7 +47,7 @@ class App extends Component {
     const { isLogin: nextIsLogin, StoreId } = nextProps.auth;
     if (!isLogin && nextIsLogin) {
       this.addReceiveNotificationListener(StoreId);
-      this.uniqueLoginWebsocket(StoreId);
+      //this.uniqueLoginWebsocket(StoreId);
     }
     if (isLogin && !nextIsLogin) {
       JPushModule.stopPush();

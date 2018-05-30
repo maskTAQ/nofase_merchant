@@ -1,18 +1,19 @@
+import { computeSize } from "src/common";
 export default {
   container: {
     flex: 1,
     backgroundColor: "#e3e3e3"
   },
   statusBar: {
-    height: 20,
-    paddingTop: 18
+    height: computeSize(20),
+    paddingTop: computeSize(18)
   },
   header: {
     position: "relative"
   },
   headerContent: {
-    paddingLeft: 12,
-    paddingRight: 12
+    paddingLeft: computeSize(12),
+    paddingRight: computeSize(12)
   },
   headerBG: {
     position: "absolute",
@@ -28,30 +29,30 @@ export default {
     alignItems: "flex-end"
   },
   headerTime: {
-    fontSize: 14,
+    fontSize: computeSize(14),
     color: "#fff",
     fontWeight: "bold",
-    lineHeight: 30
+    lineHeight: computeSize(30)
   },
   turnoverLabel: {
-    fontSize: 15,
+    fontSize: computeSize(15),
     fontWeight: "bold",
     color: "#fff"
   },
   turnoverValueWrapper: {
-    height: 52,
-    paddingTop: 10,
+    height: computeSize(52),
+    paddingTop: computeSize(10),
     alignItems: "center"
   },
   turnoverValue: {
-    fontSize: 34,
+    fontSize: computeSize(34),
     fontWeight: "bold",
     color: "#fff"
   },
   headerList: {
     flexDirection: "row",
-    paddingTop: 10,
-    paddingBottom: 10
+    paddingTop: computeSize(10),
+    paddingBottom: computeSize(10)
   },
   headerListItem: {
     flex: 1,
@@ -59,21 +60,21 @@ export default {
     justifyContent: "center"
   },
   headerListItemLabel: {
-    fontSize: 13,
-    lineHeight: 30,
+    fontSize: computeSize(13),
+    lineHeight: computeSize(30),
     textAlign: "center",
     fontWeight: "bold",
     color: "#fff"
   },
   headerListItemValue: {
-    fontSize: 18,
+    fontSize: computeSize(18),
     fontWeight: "bold",
     textAlign: "center",
     color: "#e47b2c"
   },
   choose: {
-    height: 40,
-    margin: 4,
+    height: computeSize(40),
+    margin: computeSize(4),
     marginBottom: 0,
     backgroundColor: "#fff"
   },
@@ -83,29 +84,29 @@ export default {
     alignItems: "center"
   },
   chooseLabelWrapper: {
-    width: 80,
+    width: computeSize(80),
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center"
   },
   chooseBorder: {
     height: "80%",
-    width: 2,
+    width: computeSize(2),
     backgroundColor: "#f9f9f9"
   },
   chooseInputContainer: {
     flex: 1,
-    paddingTop: 6,
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingBottom: 6
+    paddingTop: computeSize(6),
+    paddingLeft: computeSize(10),
+    paddingRight: computeSize(10),
+    paddingBottom: computeSize(6)
   },
   chooseInputContent: {
     flexDirection: "row",
     flex: 1,
     alignItems: "center"
-    // borderRadius: 8,
-    // borderWidth: 1.5,
+    // borderRadius: computeSize(8),
+    // borderWidth: 1.computeSize(5),
     // borderColor: "#23cdfd"
   },
   chooseLabel: {
@@ -113,7 +114,7 @@ export default {
   },
   chooseInput: {
     flex: 1,
-    paddingLeft: 30
+    paddingLeft: computeSize(30)
   },
   chooseInputBorder: {
     width: 1,
@@ -121,35 +122,35 @@ export default {
     backgroundColor: "#f9f9f9"
   },
   chooseInputIcon: {
-    padding: 6
+    padding: computeSize(6)
   },
   listContainer: {
     flex: 1,
-    margin: 4,
+    margin: computeSize(4),
     backgroundColor: "#fff"
   },
   item: {
-    //height: 66,
+    //height: computeSize(66),
     flexDirection: "row",
-    padding: 6,
-    paddingLeft: 12,
-    paddingRight: 12,
+    padding: computeSize(6),
+    paddingLeft: computeSize(12),
+    paddingRight: computeSize(12),
     backgroundColor: "#f4f4f4"
   },
   itemSeparator: {
-    height: 4
+    height: computeSize(4)
   },
   portraitWrapper: {
-    borderRadius: 56,
+    borderRadius: computeSize(56),
     overflow: "hidden"
   },
   portrait: {
-    width: 56,
-    height: 56
+    width: computeSize(56),
+    height: computeSize(56)
   },
   itemContent: {
     flex: 1,
-    paddingLeft: 15
+    paddingLeft: computeSize(15)
   },
   itemContentTop: {
     flexDirection: "row",
@@ -160,22 +161,22 @@ export default {
   },
   itemTitle: {
     flexDirection: "row",
-    height: 20,
+    height: computeSize(20),
     alignItems: "center"
   },
 
   itemName: {
-    fontSize: 14,
+    fontSize: computeSize(14),
     fontWeight: "bold",
 
     color: "#686868"
   },
   warn: {
-    marginLeft: 4,
-    width: 50,
-    height: 16,
+    marginLeft: computeSize(4),
+    width: computeSize(50),
+    height: computeSize(16),
 
-    borderRadius: 6,
+    borderRadius: computeSize(6),
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#fa4145"
@@ -183,20 +184,20 @@ export default {
   warnText: {
     fontWeight: "bold",
 
-    fontSize: 10,
+    fontSize: computeSize(10),
     color: "#fff"
   },
   itemId: {
-    fontSize: 12,
-    lineHeight: 20,
+    fontSize: computeSize(12),
+    lineHeight: computeSize(20),
     color: "#9f9f9f"
   },
   stopButton: {
-    width: 100,
-    height: 25,
+    width: computeSize(100),
+    height: computeSize(25),
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 6,
+    borderRadius: computeSize(6),
     backgroundColor: "#f1b248"
   },
   stopButtonText: {
@@ -212,11 +213,11 @@ export default {
     justifyContent: "space-between"
   },
   itemStartTime: {
-    fontSize: 12,
+    fontSize: computeSize(12),
     color: "#9f9f9f"
   },
   itemDuration: {
-    fontSize: 12,
+    fontSize: computeSize(12),
     color: "#9f9f9f"
   }
 };

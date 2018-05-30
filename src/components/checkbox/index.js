@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import styles from "./style";
 import { Icon } from "src/components";
+import { computeSize } from "src/common";
 
 const selectedImg = require("./img/selected.png");
 const unSelectImg = require("./img/unSelect.png");
@@ -29,13 +30,14 @@ const CheckBox = ({
   selectedComponent,
   unSelectComponent
 }) => {
-  const dataCount = data.length - 1;
+  const cloneData = Object.assign([], data);
+  const dataCount = cloneData.length - 1;
   for (let i = 0; i < dataCount; i++) {
-    data.splice(i + (i + 1), 0, "border");
+    cloneData.splice(i + (i + 1), 0, "border");
   }
   return (
     <View style={[styles.container, style]}>
-      {data.map((item, i) => {
+      {cloneData.map((item, i) => {
         const { label, value } = item;
         const isActive = value === selected;
         if (item === "border") {
@@ -64,7 +66,7 @@ const CheckBox = ({
               )
             ) : (
               <Icon
-                size={20}
+                size={computeSize(20)}
                 source={isActive ? selectedImg : unSelectImg}
                 style={[styles.icon, iconStyle]}
               />
@@ -77,7 +79,7 @@ const CheckBox = ({
 };
 CheckBox.propTypes = {
   data: PropTypes.array.isRequired,
-  selected: PropTypes.number.isRequired,
+  selected: PropTypes.any.isRequired,
   onChangeValue: PropTypes.func,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   iconStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),

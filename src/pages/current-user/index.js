@@ -4,14 +4,19 @@ import moment from "moment";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
+import { computeSize } from "src/common";
 import api from "src/api";
 import { Button, Icon, Input, DataView } from "src/components";
 import { Tip } from "src/common";
 import action from "src/action";
 import styles from "./style";
 
-const navigationIcon = <Icon size={30} source={require("./img/u85.png")} />;
-const sortIcon = <Icon size={14} source={require("./img/u41.png")} />;
+const navigationIcon = (
+  <Icon size={computeSize(30)} source={require("./img/u85.png")} />
+);
+const sortIcon = (
+  <Icon size={computeSize(14)} source={require("./img/u41.png")} />
+);
 const portraitIcon = (
   <Image style={styles.portrait} source={require("./img/u45.png")} />
 );
@@ -220,7 +225,7 @@ export default class CurrentUser extends Component {
               />
               <Button>
                 <Icon
-                  size={20}
+                  size={computeSize(20)}
                   source={require("./img/u36.png")}
                   style={styles.chooseInputIcon}
                 />

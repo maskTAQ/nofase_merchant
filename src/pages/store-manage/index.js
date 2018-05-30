@@ -3,6 +3,7 @@ import { View, FlatList, Text, ScrollView, Switch } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
+import { computeSize } from "src/common";
 import { Button, Icon, Alert, Input } from "src/components";
 import action from "src/action";
 import api from "src/api";
@@ -65,7 +66,7 @@ class ModifMobile extends Component {
       <Alert isVisible={isVisible} close={close}>
         <View style={styles.modalContianer}>
           <View style={styles.modalItemWrapper}>
-            <Icon size={24} source={require("./img/u16.png")} />
+            <Icon size={computeSize(24)} source={require("./img/u16.png")} />
             <Input
               value={mobile}
               onChangeText={v => {
@@ -148,7 +149,11 @@ export default class StoreManage extends Component {
         <View style={styles.itemLabel}>
           <Text style={styles.itemLabelText}>{label}</Text>
           {isReadonly ? (
-            <Icon size={20} source={icon} style={styles.itemIcon} />
+            <Icon
+              size={computeSize(20)}
+              source={icon}
+              style={styles.itemIcon}
+            />
           ) : null}
         </View>
         <Text style={styles.itemValue}>{value}</Text>
@@ -238,7 +243,7 @@ export default class StoreManage extends Component {
       }
     ];
     return (
-      <View style={[styles.list, { marginTop: 5 }]}>
+      <View style={[styles.list, { marginTop: computeSize(5) }]}>
         <FlatList
           data={editable}
           keyExtractor={item => item.label}
@@ -260,7 +265,7 @@ export default class StoreManage extends Component {
           <View style={styles.content}>
             {this.renderTop()}
             {this.renderBottom()}
-            <View style={[styles.item, { marginTop: 10 }]}>
+            <View style={[styles.item, { marginTop: computeSize(10) }]}>
               <View style={styles.itemLabel}>
                 <Text style={styles.itemLabelText}>
                   新用户首次免费:{IsFristFree ? "开启" : "关闭"}

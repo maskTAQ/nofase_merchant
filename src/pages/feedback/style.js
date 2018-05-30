@@ -1,5 +1,5 @@
 import { Dimensions } from "react-native";
-
+import { computeSize } from "src/common";
 const { width, height } = Dimensions.get("window");
 export default {
   container: {
@@ -7,17 +7,17 @@ export default {
     backgroundColor: "#f9f9f9"
   },
   header: {
-    padding: 15,
+    padding: computeSize(15),
     backgroundColor: "#1b9de6"
   },
   title: {
-    fontSize: 20,
-    paddingBottom: 10,
+    fontSize: computeSize(20),
+    paddingBottom: computeSize(10),
     fontWeight: "bold",
     color: "#fff"
   },
   subtitle: {
-    fontSize: 14,
+    fontSize: computeSize(14),
     fontWeight: "bold",
     color: "#fff"
   },
@@ -25,32 +25,32 @@ export default {
     backgroundColor: "#f4f4f4"
   },
   listTitleWrapper: {
-    height: 40,
-    marginTop: 5,
-    marginBottom: 5,
+    height: computeSize(40),
+    marginTop: computeSize(5),
+    marginBottom: computeSize(5),
     justifyContent: "center",
-    paddingLeft: 15,
+    paddingLeft: computeSize(15),
     backgroundColor: "#fff"
   },
   listTitle: {
-    fontSize: 14,
+    fontSize: computeSize(14),
     fontWeight: "bold",
     color: "#333"
   },
   listContent: {
-    // paddingLeft:12,
-    // paddingRight:12,
+    // paddingLeft:computeSize(12),
+    // paddingRight:computeSize(12),
   },
   item: {
-    height: 40,
+    height: computeSize(40),
     justifyContent: "center",
-    paddingLeft: 15,
+    paddingLeft: computeSize(15),
     backgroundColor: "#fff"
   },
   itemSeparatorBox: {
     height: 1,
-    paddingLeft: 15,
-    paddingRight: 15,
+    paddingLeft: computeSize(15),
+    paddingRight: computeSize(15),
     backgroundColor: "#fff"
   },
   itemSeparator: {
@@ -58,20 +58,20 @@ export default {
     backgroundColor: "#aaa"
   },
   itemLabel: {
-    fontSize: 14,
+    fontSize: computeSize(14),
     fontWeight: "bold",
     color: "#999"
   },
   feedback: {
-    marginTop: 10,
-    marginBottom: 10,
-    height: 40,
-    paddingLeft: 10,
+    marginTop: computeSize(10),
+    marginBottom: computeSize(10),
+    height: computeSize(40),
+    paddingLeft: computeSize(10),
     justifyContent: "center",
     backgroundColor: "#fff"
   },
   feedbackText: {
-    fontSize: 14,
+    fontSize: computeSize(14),
     fontWeight: "bold",
     color: "#333"
   },
@@ -79,14 +79,14 @@ export default {
     backgroundColor: "#fff"
   },
   contactItem: {
-    padding: 15,
+    padding: computeSize(15),
     flexDirection: "row"
   },
   contactItemLabel: {
     flex: 1
   },
   contactItemLabelText: {
-    fontSize: 14,
+    fontSize: computeSize(14),
     fontWeight: "bold",
     color: "#999"
   },
@@ -95,8 +95,8 @@ export default {
     alignItems: "center"
   },
   callText: {
-    marginRight: 10,
-    fontSize: 14,
+    marginRight: computeSize(10),
+    fontSize: computeSize(14),
     fontWeight: "bold",
     color: "#039DEC"
   },
@@ -107,22 +107,22 @@ export default {
     justifyContent: "flex-end"
   },
   modalContent: {
-    padding: 10,
+    padding: computeSize(10),
     paddingTop: 0,
     borderWidth: 1,
     borderColor: "#fff",
-    // borderTopLeftRadius: 6,
-    // borderTopRightRadius: 6,
+    // borderTopLeftRadius: computeSize(6),
+    // borderTopRightRadius: computeSize(6),
     backgroundColor: "#fff"
   },
   modalHeader: {
-    height: 40,
+    height: computeSize(40),
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center"
   },
   modalTitle: {
-    fontSize: 14,
+    fontSize: computeSize(14),
     fontWeight: "bold",
     color: "#868686"
   },
@@ -132,17 +132,17 @@ export default {
   },
   modalDetailsWrapper: {
     height: height - 182
-    //padding: 10,
+    //padding: computeSize(10),
     //paddingTop: 15
   },
   modalDetails: {
-    lineHeight: 20,
+    lineHeight: computeSize(20),
     color: "#999"
   },
   modalImg: {
     width: "100%",
     height: width * 0.4,
-    marginTop: 10,
-    marginBottom: 10
+    marginTop: computeSize(10),
+    marginBottom: computeSize(10)
   }
 };

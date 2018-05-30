@@ -1,3 +1,4 @@
+import { computeSize } from "src/common";
 export default {
   container: {
     flex: 1,
@@ -5,30 +6,30 @@ export default {
     backgroundColor: "#efefef"
   },
   title: {
-    height: 60,
-    paddingTop: 20,
+    height: computeSize(60),
+    paddingTop: computeSize(20),
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#1b9ce4"
   },
   titleText: {
-    fontSize: 16,
+    fontSize: computeSize(16),
     fontWeight: "bold",
-    lineHeight: 40,
+    lineHeight: computeSize(40),
     color: "#fff"
   },
   list: {},
   item: {
-    height: 50,
-    paddingLeft: 15,
-    paddingRight: 15,
+    height: computeSize(50),
+    paddingLeft: computeSize(15),
+    paddingRight: computeSize(15),
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "#fff"
   },
   itemBorder: {
-    height: 5,
+    height: computeSize(5),
     backgroundColor: "#efefef"
   },
   itemLabel: {
@@ -36,7 +37,7 @@ export default {
     alignItems: "center"
   },
   itemLabelText: {
-    fontSize: 14,
+    fontSize: computeSize(14),
     color: "#666666"
   },
   itemIcon: {
@@ -44,23 +45,23 @@ export default {
     alignItems: "center"
   },
   itemValue: {
-    fontSize: 14,
+    fontSize: computeSize(14),
     color: "#666"
   },
   nav: {
-    marginTop: 10,
-    marginBottom: 30,
+    marginTop: computeSize(10),
+    marginBottom: computeSize(30),
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center"
   },
   navItemText: {
-    fontSize: 14,
+    fontSize: computeSize(14),
     color: "#3a9bfc"
   },
   navBorder: {
-    marginLeft: 2,
-    marginRight: 2,
+    marginLeft: computeSize(2),
+    marginRight: computeSize(2),
     width: 1,
     height: "100%",
     backgroundColor: "#3a9bfc"
@@ -70,14 +71,14 @@ export default {
   modalContianer: {
     width: "100%",
     borderWidth: 1,
-    borderRadius: 8,
-    padding: 10,
+    borderRadius: computeSize(8),
+    padding: computeSize(10),
 
     borderColor: "#157ffb",
     backgroundColor: "#fff"
   },
   modalItemWrapper: {
-    height: 36,
+    height: computeSize(36),
     alignItems: "center",
 
     flexDirection: "row",
@@ -87,7 +88,7 @@ export default {
   modalItemInput: {
     flex: 1,
     height: "100%",
-    paddingLeft: 15,
+    paddingLeft: computeSize(15),
     color: "#1b9cfe"
   },
   codeButotn: {
@@ -97,22 +98,22 @@ export default {
     backgroundColor: "#1b9cfe"
   },
   codeButotnText: {
-    paddingLeft: 15,
-    paddingRight: 15,
-    fontSize: 14,
+    paddingLeft: computeSize(15),
+    paddingRight: computeSize(15),
+    fontSize: computeSize(14),
     fontWeight: "bold",
     color: "#fff"
   },
   sumbit: {
-    height: 40,
+    height: computeSize(40),
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 30,
-    borderRadius: 8,
+    marginTop: computeSize(30),
+    borderRadius: computeSize(8),
     backgroundColor: "#1a9af7"
   },
   sumbitText: {
-    fontSize: 14,
+    fontSize: computeSize(14),
     fontWeight: "bold",
     color: "#fff"
   }

@@ -1,15 +1,15 @@
+import { Platform } from "react-native";
 export default {
   layer: {
     flex: 1,
+    width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderWidth: 1,
-    borderColor: "red"
+    backgroundColor: "rgba(0,0,0,0.4)"
   },
   container: {
     width: "100%",
+    // height:360,
     position: "relative"
   },
   bg: {
@@ -21,28 +21,51 @@ export default {
   },
   content: {
     width: "100%",
-    borderRadius: 6,
-    paddingBottom: 30
+    borderRadius: 6
   },
   headerWrapper: {
     flexDirection: "row",
-    padding: 10,
+    padding: 6,
     paddingTop: 20
   },
   userInfoWrapper: {
     flex: 1,
     alignItems: "center"
   },
+  usernameWrapper: {
+    position: "relative",
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  lvImg: {
+    marginLeft: 4,
+    width: 50 * 0.7,
+    height: 22 * 0.7
+  },
   username: {
     lineHeight: 30,
     fontWeight: "bold",
     color: "#fff"
   },
+  userLvWrapper: {
+    position: "absolute",
+    top: Platform.select({
+      ios: 11,
+      android: 10
+    }),
+    right: 8
+  },
+  userLv: {
+    fontSize: 10,
+    color: "#fff"
+  },
   closeWrapper: {
-    width: 60,
+    width: 40,
     alignItems: "center"
   },
   centerContainer: {
+    marginTop: 35,
+    marginBottom: 35,
     flexDirection: "row",
     alignItems: "center"
   },
@@ -56,38 +79,64 @@ export default {
   },
   Discount: {
     marginLeft: 6,
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: "bold",
-    color: "#FF6600"
+    color: "#ed3e67"
   },
   centerItemValue: {
     fontSize: 20,
+    lineHeight: 20,
     fontWeight: "bold",
-    color: "#666"
+    color: "#fff"
   },
   centerBorder: {
     width: 1,
-    height: "60%",
-    backgroundColor: "#666"
+    height: "80%",
+    backgroundColor: "#fff"
   },
   centerItemLabel: {
-    fontSize: 14,
-    color: "#999"
+    fontSize: 12,
+    lineHeight: 20,
+    color: "#fff"
   },
   storeInfo: {
+    marginTop: 15,
     flexDirection: "row",
-    paddingTop: 20,
-
+    paddingTop: 15,
     paddingLeft: 20,
-    paddingRight: 20
+    paddingRight: 20,
+    paddingBottom: 20,
+    backgroundColor: "rgba(0,0,0,0.3)"
   },
   storeInfoWrapper: {
     flex: 1,
     paddingLeft: 15
   },
+  storeImgWrapper: {
+    position: "relative",
+    width: 70,
+    height: 70
+  },
+  storePeople: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    height: 16,
+    paddingLeft: 4,
+    paddingRight: 4,
+    backgroundColor: "#f8b84a",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  storePeopleText: {
+    fontSize: 10,
+    color: "#fff"
+  },
   storeName: {
-    fontSize: 14,
-    color: "#333"
+    height: 20,
+    lineHeight: 20,
+    fontSize: 16,
+    color: "#fff"
   },
   storeInfoCenter: {
     flexDirection: "row",
@@ -95,31 +144,45 @@ export default {
     alignItems: "center",
     justifyContent: "space-between"
   },
+  storeInfoBottom: {
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  navgation: {
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  navgationText: {
+    fontSize: 10,
+    color: "#1995dc"
+  },
   onlinePeople: {
     fontSize: 12,
-    color: "#333"
+    color: "#fff"
   },
   storeAddr: {
+    height: 20,
+    lineHeight: 20,
     fontSize: 12,
-    color: "#333"
+    color: "#fff"
   },
   lession: {
     flexDirection: "row",
     alignItems: "center",
+    //flex: 1,
     height: 22,
     paddingLeft: 8,
     paddingRight: 8,
     borderRadius: 8,
-    backgroundColor: "#fc7d26"
+    backgroundColor: "#f8b84a"
   },
   lessionText: {
-    fontSize: 12,
+    fontSize: 10,
     color: "#fff"
   },
   share: {
-    width: "90%",
-    marginLeft: 18,
-    marginRight: 18,
+    marginTop: 10,
+    width: "100%",
     height: 40,
     justifyContent: "center",
     alignItems: "center",

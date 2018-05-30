@@ -9,12 +9,11 @@ export default class Wv extends Component {
   static defaultProps = {};
   static propTypes = {
     url: PropTypes.string,
-    title: PropTypes.string
+    title: PropTypes.string,
+    onPress: PropTypes.func
   };
   state = {};
-  onNavigationStateChange(event) {
-    console.log(222);
-  }
+  onNavigationStateChange(event) {}
   onMessage(event) {
     console.log(event, 1);
   }
@@ -26,7 +25,7 @@ export default class Wv extends Component {
     `;
   }
   render() {
-    const { url, title, ...others } = this.props;
+    const { url, title, onPress, ...others } = this.props;
     /* eslint-disable */
     const patchPostMessageFunction = function() {
       var originalPostMessage = window.postMessage;
@@ -58,7 +57,7 @@ export default class Wv extends Component {
     };
     if (Platform.OS === "ios") {
       return (
-        <Page title={title}>
+        <Page title={title} onPress={onPress}>
           <View style={{ flex: 1 }}>
             <WebView
               source={{ uri: url }}
@@ -70,7 +69,7 @@ export default class Wv extends Component {
       );
     } else {
       return (
-        <Page title={title}>
+        <Page title={title} onPress={onPress}>
           <View style={{ flex: 1 }}>
             <WebViewAndroid
               javaScriptEnabled={true}
@@ -78,7 +77,7 @@ export default class Wv extends Component {
               style={{ flex: 1 }}
               geolocationEnabled={false}
               builtInZoomControls={false}
-              //injectedJavaScript={patchPostMessageJsCode}
+              injectedJavaScript={patchPostMessageJsCode}
               injectedJavaScript={javascriptToInject()}
               onMessage={e => {
                 console.log(e);

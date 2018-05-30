@@ -4,6 +4,7 @@ import ScrollableTabView from "react-native-scrollable-tab-view";
 import PropTypes from "prop-types";
 import moment from "moment";
 
+import { computeSize } from "src/common";
 import api from "src/api";
 import { Page, DataView } from "src/components";
 import styles from "./style";
@@ -98,7 +99,10 @@ export default class Detail extends Component {
           <Text
             style={[
               styles.itemText,
-              { color: Flag === 2 ? "#008000" : "#fc6722", marginLeft: 6 }
+              {
+                color: Flag === 2 ? "#008000" : "#fc6722",
+                marginLeft: computeSize(6)
+              }
             ]}
           >
             {map[Flag]}
@@ -110,7 +114,7 @@ export default class Detail extends Component {
   render() {
     const tabProps = {
       tabBarUnderlineStyle: {
-        height: 2,
+        height: computeSize(2),
         backgroundColor: "#1a99e2"
       },
       tabBarBackgroundColor: "#fff",

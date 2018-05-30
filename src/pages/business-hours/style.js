@@ -1,3 +1,4 @@
+import { computeSize } from "src/common";
 const color = "#1b9ee7";
 
 export default {
@@ -6,78 +7,78 @@ export default {
     backgroundColor: "#f2f2f2"
   },
   header: {
-    height: 50,
+    height: computeSize(50),
     flexDirection: "row",
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingLeft: computeSize(10),
+    paddingRight: computeSize(10),
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "#fff"
   },
   headerLabel: {
-    fontSize: 16,
+    fontSize: computeSize(16),
     color: "#666666"
   },
   notif: {
-    height: 20,
-    paddingLeft: 15,
+    height: computeSize(20),
+    paddingLeft: computeSize(15),
     justifyContent: "center",
     backgroundColor: "#f8b84a"
   },
   notifText: {
-    fontSize: 12,
+    fontSize: computeSize(12),
     color: "#fff"
   },
   center: {
-    marginTop: 10,
-    padding: 10,
+    marginTop: computeSize(10),
+    padding: computeSize(10),
     paddingTop: 0,
     backgroundColor: "#fff"
   },
   centerTitle: {
-    fontSize: 16,
-    lineHeight: 60,
+    fontSize: computeSize(16),
+    lineHeight: computeSize(60),
     color: "#666666"
   },
   chooseDayWrapper: {
-    height: 30,
-    marginBottom: 15,
+    height: computeSize(30),
+    marginBottom: computeSize(15),
     flexDirection: "row"
   },
   chooseDayButton: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 6,
+    borderRadius: computeSize(6),
     backgroundColor: color
   },
   chooseDayButtonText: {
-    fontSize: 14,
+    fontSize: computeSize(14),
     fontWeight: "bold",
     color: "#fff"
   },
   zhi: {
-    width: 20,
-    lineHeight: 30,
+    width: computeSize(20),
+    lineHeight: computeSize(30),
     color: "#333",
     textAlign: "center"
   },
   chooseTimeButton: {
-    height: 30,
+    height: computeSize(30),
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
     borderColor: color,
-    borderRadius: 6
+    borderRadius: computeSize(6)
   },
   chooseTimeButtonText: {
-    fontSize: 12,
+    fontSize: computeSize(12),
     color: color
   },
   timeZhi: {
-    lineHeight: 30,
+    lineHeight: computeSize(30),
     textAlign: "center",
-    fontSize: 12,
+    fontSize: computeSize(12),
     color: "#333"
   },
   bottom: {
@@ -88,46 +89,46 @@ export default {
   },
   saveButton: {
     width: "80%",
-    height: 40,
+    height: computeSize(40),
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 6,
+    borderRadius: computeSize(6),
     backgroundColor: color
   },
   saveButtonText: {
-    fontSize: 16,
+    fontSize: computeSize(16),
     fontWeight: "bold",
     color: "#fff"
   },
   info: {
-    fontSize: 12,
-    lineHeight: 20,
+    fontSize: computeSize(12),
+    lineHeight: computeSize(20),
     fontWeight: "bold",
     color: "#999"
   },
 
   switchWrapper: {
-    width: 60,
-    height: 30,
+    width: computeSize(60),
+    height: computeSize(30),
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingLeft: 3,
-    paddingRight: 3,
-    borderRadius: 6,
+    paddingLeft: computeSize(3),
+    paddingRight: computeSize(3),
+    borderRadius: computeSize(6),
     backgroundColor: "#1b9ee7"
   },
   switchPoint: {
-    width: 28,
-    height: 24,
-    borderRadius: 4,
+    width: computeSize(28),
+    height: computeSize(24),
+    borderRadius: computeSize(4),
     backgroundColor: "#fff"
   },
   switchLabel: {
     flex: 1,
     textAlign: "center",
-    lineHeight: 30,
-    fontSize: 16,
+    lineHeight: computeSize(30),
+    fontSize: computeSize(16),
     fontWeight: "bold",
     color: "#fff"
   }

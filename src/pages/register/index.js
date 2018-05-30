@@ -14,8 +14,8 @@ export default class Register extends Component {
   };
   state = {
     username: "user",
-    phone: "13696526122",
-    code: "123456"
+    phone: "",
+    code: ""
   };
   handleValueChange(type, value) {
     this.setState({

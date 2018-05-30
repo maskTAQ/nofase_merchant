@@ -3,6 +3,7 @@ import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
+import { computeSize } from "src/common";
 import { Page, Button, Input, Icon } from "src/components";
 import api from "src/api";
 import action from "src/action";
@@ -17,7 +18,7 @@ const CheckBox = ({ checked, onChangeChecked }) => (
     style={styles.checkbox}
   >
     <Icon
-      size={20}
+      size={computeSize(20)}
       source={
         checked ? require("./img/dl_xz.png") : require("./img/dl_wxz.png")
       }
@@ -45,21 +46,21 @@ export default class DeviceManage extends Component {
       { label: "储物", value: "", key: "Storage", checked: true },
       {
         label: "有氧器材",
-        value: "11",
+        value: "0",
         key: "IsAerobic",
         valueKey: "Aerobic",
         checked: true
       },
       {
         label: "力量器材",
-        value: "12",
+        value: "0",
         key: "IsPower",
         valueKey: "Power",
         checked: true
       },
       {
         label: "康体设备",
-        value: "13",
+        value: "0",
         key: "IsHealthCare",
         valueKey: "HealthCare",
         checked: true

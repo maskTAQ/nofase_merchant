@@ -8,15 +8,33 @@ const renderChildren = (children, textStyle, disabled) => {
     return children;
   }
   return (
-    <Text style={[textStyle, disabled ? { color: "#fff" } : null]}>
+    <Text
+      style={[
+        { color: "#fff", fontSize: 14 },
+        textStyle,
+        disabled ? { color: "#fff" } : null
+      ]}
+    >
       {children}
     </Text>
   );
 };
-const Button = ({ children, style, onPress, textStyle, disabled = false }) => {
+const Button = ({
+  children,
+  style,
+  onPress,
+  textStyle,
+  disabled = false,
+  disabledStyle
+}) => {
   return (
     <TouchableOpacity
-      style={[style, disabled ? { backgroundColor: "#ccc" } : null]}
+      style={[
+        style,
+        disabled
+          ? Object.assign({ backgroundColor: "#ccc" }, disabledStyle)
+          : null
+      ]}
       onPress={onPress}
       disabled={disabled}
     >
@@ -30,7 +48,8 @@ Button.propTypes = {
   children: PropTypes.any,
   onPress: PropTypes.func,
   textStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  disabledStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
 };
 
 export default Button;

@@ -5,6 +5,7 @@ import moment from "moment";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
+import { computeSize } from "src/common";
 import { Page, Button, Icon, DataView } from "src/components";
 import api from "src/api";
 import styles from "./style";
@@ -202,7 +203,7 @@ export default class BusinessStatistics extends Component {
           </Button>
         </View>
         <View style={styles.chooseTimeButton}>
-          <Icon size={24} source={require("./img/u33.png")} />
+          <Icon size={computeSize(24)} source={require("./img/u33.png")} />
         </View>
       </View>
     );
@@ -305,7 +306,9 @@ export default class BusinessStatistics extends Component {
           getData={this.getData}
           ref={e => (this.dataRef = e)}
           isPulldownLoadMore={false}
-          ItemSeparatorComponent={() => <View style={{ height: 5 }} />}
+          ItemSeparatorComponent={() => (
+            <View style={{ height: computeSize(5) }} />
+          )}
           renderItem={({ item }) => this.renderItem(item)}
           keyExtractor={(item, i) => i}
           ListEmptyComponent={

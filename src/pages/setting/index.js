@@ -3,6 +3,7 @@ import { View, Text, Switch, AsyncStorage, Alert } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
+import { computeSize } from "src/common";
 import {
   Button,
   Icon,
@@ -108,7 +109,7 @@ class ModifMobile extends Component {
       <AlertModal isVisible={isVisible} close={close}>
         <View style={styles.modalContianer}>
           <View style={styles.modalItemWrapper}>
-            <Icon size={24} source={require("./img/u16.png")} />
+            <Icon size={computeSize(24)} source={require("./img/u16.png")} />
             <Input
               value={currentMobile}
               onChangeText={v => {
@@ -121,7 +122,7 @@ class ModifMobile extends Component {
             />
           </View>
           <View style={[styles.modalItemWrapper, { marginTop: 10 }]}>
-            <Icon size={24} source={require("./img/u36.png")} />
+            <Icon size={computeSize(24)} source={require("./img/u36.png")} />
             <Input
               value={code}
               onChangeText={v => {
@@ -164,7 +165,7 @@ export default class Setting extends Component {
     storeInfo: { StoreName: "-", Id: "-", LegalName: "-", Location: "-" },
     verifySetp: 0, //0 未验证 1验证完当前手机号 2验证完绑定手机号
     //是否开启提醒
-    isRemind: false
+    isRemind: true
   };
   componentWillMount = async () => {
     const isRemind = await this.getRemind();
@@ -184,10 +185,14 @@ export default class Setting extends Component {
           if (e) {
             resolve(false);
           } else {
-            if (result && result === "1") {
-              resolve(true);
-            } else {
-              resolve(false);
+            switch (result) {
+              case "0":
+                resolve(false);
+                break;
+              case "1":
+              default:
+                resolve(true);
+                break;
             }
           }
         });

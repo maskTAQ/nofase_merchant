@@ -1,3 +1,4 @@
+import { computeSize } from "src/common";
 export default {
   container: {
     flex: 1,
@@ -16,26 +17,26 @@ export default {
     borderColor: "#999999"
   },
   laberText: {
-    fontSize: 16,
-    width: 100,
+    fontSize: computeSize(16),
+    width: computeSize(100),
     color: "#333333"
   },
   formItemInput: {
-    height: 55,
+    height: computeSize(55),
     flex: 1,
-    paddingLeft: 15
+    paddingLeft: computeSize(15)
   },
   save: {
-    marginTop: 20,
+    marginTop: computeSize(20),
     backgroundColor: "#019af4",
-    height: 45,
+    height: computeSize(45),
     width: "50%",
-    borderRadius: 5,
+    borderRadius: computeSize(5),
     alignItems: "center",
     justifyContent: "center"
   },
   saveText: {
-    fontSize: 17,
+    fontSize: computeSize(17),
     color: "#fff"
   }
 };

@@ -3,6 +3,7 @@ import { View, Text, FlatList, Image } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
+import { computeSize } from "src/common";
 import { Button } from "src/components";
 import styles from "./style";
 
@@ -27,7 +28,9 @@ export default class AccountAdmin extends Component {
     return (
       <Button onPress={onPress}>
         <View style={styles.item}>
-          <Text style={{ color: "#0399e7", fontSize: 15 }}>{type}</Text>
+          <Text style={{ color: "#0399e7", fontSize: computeSize(15) }}>
+            {type}
+          </Text>
         </View>
       </Button>
     );

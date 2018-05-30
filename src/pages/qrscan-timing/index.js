@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import moment from "moment";
 
+import { computeSize } from "src/common";
 import { Page, Button, Icon } from "src/components";
 import api from "src/api";
 import { Tip } from "src/common";
@@ -125,7 +126,7 @@ export default class QRScanTiming extends Component {
               <Text style={styles.headerItemValue}>{data[OrderType][0]}</Text>
             </View>
           </View>
-          <Icon size={30} source={require("./img/u17.png")} />
+          <Icon size={computeSize(30)} source={require("./img/u17.png")} />
           <View style={styles.headerItemWrapper}>
             <View style={styles.headerItem}>
               <Text style={styles.headerItemLabel}>结束时间</Text>
@@ -215,7 +216,7 @@ export default class QRScanTiming extends Component {
                   <Text style={styles.starScoreExpend}>支出:{SaleAmont}元</Text>
                 </View>
               </View>
-              <View style={{ height: 15 }} />
+              <View style={{ height: computeSize(15) }} />
             </ScrollView>
           </View>
         );
@@ -234,7 +235,11 @@ export default class QRScanTiming extends Component {
           <View style={styles.userInfoContainer}>
             <View style={styles.portraitWrapper}>
               <Image
-                style={{ width: 80, height: 80, backgroundColor: "#fff" }}
+                style={{
+                  width: computeSize(80),
+                  height: computeSize(80),
+                  backgroundColor: "#fff"
+                }}
                 resizeMode="stretch"
                 source={
                   UserPhoto ? { uri: UserPhoto } : require("./img/u196.png")

@@ -1,42 +1,43 @@
+import { computeSize } from "src/common";
 export default {
   container: {
     flex: 1
   },
   modalContainer: {
-    padding: 10
+    padding: computeSize(10)
   },
   modalContent: {
     width: "100%",
     borderWidth: 1,
     borderColor: "#333",
-    borderRadius: 6,
+    borderRadius: computeSize(6),
     backgroundColor: "#fff"
   },
   modalIconWrapper: {
-    height: 100,
+    height: computeSize(100),
     alignItems: "center",
     justifyContent: "center"
   },
   modalIcon: {
-    width: 60,
-    height: 60
+    width: computeSize(60),
+    height: computeSize(60)
   },
   modalLabel: {
-    fontSize: 14,
+    fontSize: computeSize(14),
     textAlign: "center",
     fontWeight: "bold",
     color: "#999"
   },
   modalButtonGroup: {
-    padding: 15,
+    padding: computeSize(15),
     flexDirection: "row"
   },
   modalButton: {
     flex: 1,
-    height: 48,
+    height: computeSize(48),
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 6,
+    borderRadius: computeSize(6),
     borderWidth: 1,
     borderColor: "#289ee3",
     backgroundColor: "#fff"
@@ -45,7 +46,7 @@ export default {
     backgroundColor: "#289ee3"
   },
   modalButtonText: {
-    fontSize: 14,
+    fontSize: computeSize(14),
     fontWeight: "bold",
     color: "#289ee3"
   },

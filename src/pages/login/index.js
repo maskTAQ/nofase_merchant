@@ -3,6 +3,7 @@ import { View, Text, Image, AsyncStorage, StatusBar } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
+import { computeSize } from "src/common";
 import styles from "./style";
 import { Input, Button, CodeButton, Icon } from "src/components";
 import action from "src/action";
@@ -67,7 +68,7 @@ export default class Login extends Component {
         />
         <View style={styles.logo}>
           <View style={styles.logoWrapper}>
-            <Icon source={logoSource} size={90} />
+            <Icon source={logoSource} size={computeSize(90)} />
           </View>
           <Text style={styles.logoLabel}>没脸运动</Text>
         </View>
