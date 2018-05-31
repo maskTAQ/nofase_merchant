@@ -41,77 +41,76 @@ export default class CurrentUser extends Component {
     isPositiveSequence: true
   };
 
-  componentWillMount() {
-    this.onRefresh();
-    this.timer = setInterval(this.onRefresh, 3000);
-  }
+  // componentWillMount() {
+  //   //this.onRefresh();
+  //   this.timer = setInterval(this.onRefresh, 3000);
+  // }
   componentWillReceiveProps(nextProps) {
     const { routes } = this.props.nav;
     const { routes: nextRoutes } = nextProps.nav;
     const prevRouteName = routes[routes.length - 1].routeName;
     const nextRouteName = nextRoutes[nextRoutes.length - 1].routeName;
 
-    if (prevRouteName === "QRScan" && nextRouteName === "Home") {
-      this.onRefresh();
+    if (prevRouteName !== "Home" && nextRouteName === "Home") {
+      //this.onRefresh();
+      this.dataView.triggerRefresh();
     }
     return true;
   }
-  componentWillUnmount() {
-    clearInterval(this.timer);
-  }
-  getStoreBusInfo(isLoading) {
+  // componentWillUnmount() {
+  //   clearInterval(this.timer);
+  // }
+  getStoreBusInfo() {
     return this.props.dispatch({
       type: "storeBusInfo",
       api: () => {
-        return api.getStoreBusInfo(isLoading);
+        return api.getStoreBusInfo(false);
       },
       promise: true
     });
   }
-  getStoreUserList = isLoading => {
-    return api
-      .getStoreUserList(isLoading)
-      .then(res => {
-        const { searchValue, isPositiveSequence } = this.state;
-        return res
-          .filter(item => {
-            if (!searchValue) {
-              return true;
-            }
-            const { NickName, UserId } = item;
+  getStoreUserList = () => {
+    console.log("刷新");
+    this.getStoreBusInfo();
+    return api.getStoreUserList().then(res => {
+      const { searchValue, isPositiveSequence } = this.state;
+      return res
+        .filter(item => {
+          if (!searchValue) {
+            return true;
+          }
+          const { NickName, UserId } = item;
 
+          return (
+            NickName.includes(searchValue) ||
+            String(UserId).includes(searchValue)
+          );
+        })
+        .sort((prev, next) => {
+          if (isPositiveSequence) {
             return (
-              NickName.includes(searchValue) ||
-              String(UserId).includes(searchValue)
+              this.getTimestamp(prev.SDate) - this.getTimestamp(next.SDate)
             );
-          })
-          .sort((prev, next) => {
-            if (isPositiveSequence) {
-              return (
-                this.getTimestamp(prev.SDate) - this.getTimestamp(next.SDate)
-              );
-            } else {
-              return (
-                this.getTimestamp(next.SDate) - this.getTimestamp(prev.SDate)
-              );
-            }
-          });
-      })
-      .catch(e => {
-        console.log(e);
-      });
+          } else {
+            return (
+              this.getTimestamp(next.SDate) - this.getTimestamp(prev.SDate)
+            );
+          }
+        });
+    });
   };
   go(routeName) {
     this.props.navigation.dispatch(action.navigate.go({ routeName }));
   }
-  onRefresh = () => {
-    this.setState({ refreshing: true });
-    Promise.all(this.getStoreBusInfo(false), this.getStoreUserList(false)).then(
-      res => {
-        this.setState({ refreshing: false });
-      }
-    );
-  };
+  // onRefresh = () => {
+  //   console.log('刷新');
+  //   this.setState({ refreshing: true });
+  //   Promise.all(this.getStoreBusInfo(false), this.getStoreUserList(false)).then(
+  //     res => {
+  //       this.setState({ refreshing: false });
+  //     }
+  //   );
+  // };
   getDateByMinute(minute) {
     const pad = s => {
       if (String(s).length === 1) {
@@ -135,9 +134,19 @@ export default class CurrentUser extends Component {
         .completeOrder({ OrderId })
         .then(res => {
           Tip.success("结束订单成功");
-          this.onRefresh();
+          //更新商铺 余额和今日营收数据
+          this.props.navigation.dispatch({
+            type: "storeInfo",
+            api: () => {
+              return api.getStoreInfo();
+            },
+            promise: true
+          });
+
+          this.dataView.triggerRefresh();
         })
         .catch(e => {
+          Tip.fail(e);
           console.log(e);
         });
     }
@@ -299,6 +308,7 @@ export default class CurrentUser extends Component {
   renderList() {
     return (
       <DataView
+        ref={e => (this.dataView = e)}
         getData={this.getStoreUserList}
         renderItem={({ item }) => this.renderItem(item)}
         keyExtractor={(item, i) => item.UserId + i}

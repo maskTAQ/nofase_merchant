@@ -39,6 +39,7 @@ const Modal = ({
       label = "扫码失败 请重试!";
       break;
   }
+
   label = errorMessage ? errorMessage : label;
   return (
     <Alert style={styles.modalContainer} isVisible={isModalVisible}>
@@ -154,14 +155,8 @@ export default class QRScan extends Component {
           isModalVisible: true,
           OrderType: res.OrderType,
           orderStatus: "success",
-          currentOrderInfo: res
-        });
-        this.props.navigation.dispatch({
-          type: "storeInfo",
-          api: () => {
-            return api.getStoreInfo();
-          },
-          promise: true
+          currentOrderInfo: res,
+          errorMessage: ""
         });
       })
       .catch(e => {
@@ -244,6 +239,21 @@ export default class QRScan extends Component {
               <Text style={{ color: "#fff" }}>请对准用户扫码页面</Text>
             )}
           </View>
+          <Button
+            onPress={() => {
+              this.barcodeReceived({ data: '{"UserId":1}' });
+            }}
+          >
+            1
+          </Button>
+          <Button
+            onPress={() => {
+              this.barcodeReceived({ data: '{"UserId":11}' });
+            }}
+          >
+            11
+          </Button>
+
           <Modal
             requestRetryScan={this.retryScan}
             requestIntoOrderDetail={this.intoOrderDetail}
