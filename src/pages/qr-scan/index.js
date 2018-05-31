@@ -79,7 +79,7 @@ const Modal = ({
               style={styles.modalButton}
               textStyle={styles.modalButtonText}
             >
-              取消
+              返回
             </Button>
           </View>
         )}
