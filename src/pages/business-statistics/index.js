@@ -49,7 +49,9 @@ export default class BusinessStatistics extends Component {
         SDate: `${moment()
           .subtract({ hours: 24 })
           .format("YYYY-MM-DD")}`,
-        EDate: `${moment().format("YYYY-MM-DD")}`
+        EDate: `${moment()
+          .subtract({ hours: 24 })
+          .format("YYYY-MM-DD")}`
       },
       {
         SDate: `${moment()

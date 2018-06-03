@@ -72,6 +72,13 @@ export default class CurrentUser extends Component {
   getStoreUserList = () => {
     console.log("刷新");
     this.getStoreBusInfo();
+    this.props.navigation.dispatch({
+      type: "storeInfo",
+      api: () => {
+        return api.getStoreInfo(false);
+      },
+      promise: true
+    });
     return api.getStoreUserList().then(res => {
       const { searchValue, isPositiveSequence } = this.state;
       return res

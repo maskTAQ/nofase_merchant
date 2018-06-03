@@ -33,7 +33,7 @@ export default {
         SDate: `${moment().format("YYYY-MM-DD")} 00:00:00`,
         EDate: `${moment().format("YYYY-MM-DD")} 23:59:59`
       },
-      { loading }
+      { loading: false }
     );
   },
   getStoreUserList() {
@@ -52,8 +52,8 @@ export default {
     console.log(params);
     return post("/Store/GetStoreUserListByDate", params, { loading: false });
   },
-  getStoreInfo() {
-    return post("/Store/GetStoreInfo");
+  getStoreInfo(loading) {
+    return post("/Store/GetStoreInfo", {}, { loading });
   },
   bindBank({ BankName, CardNo }) {
     return post("/Store/BindBank", { BankName, CardNo });
