@@ -239,20 +239,6 @@ export default class QRScan extends Component {
               <Text style={{ color: "#fff" }}>请对准用户扫码页面</Text>
             )}
           </View>
-          <Button
-            onPress={() => {
-              this.barcodeReceived({ data: '{"UserId":1}' });
-            }}
-          >
-            1
-          </Button>
-          <Button
-            onPress={() => {
-              this.barcodeReceived({ data: '{"UserId":11}' });
-            }}
-          >
-            11
-          </Button>
 
           <Modal
             requestRetryScan={this.retryScan}

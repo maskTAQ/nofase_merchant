@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import action from "src/action";
 import api from "src/api";
 import { Tip } from "src/common";
+import { computeSize } from "src/common";
 import { Page, Button, Table, Input } from "src/components";
 import styles from "./style";
 
@@ -173,24 +174,45 @@ export default class Timetable extends Component {
 
           switch (true) {
             case !!STime && !!ETime:
-              label = STime + "-" + ETime;
+              label = STime + "至" + ETime;
               break;
             case !!STime:
-              label = STime + "-" + "?";
+              label = STime + "至" + "?";
               break;
             case !!ETime:
-              label = "?" + "-" + ETime;
+              label = "?" + "至" + ETime;
               break;
             default:
-              label = "选择时间段";
+              label = "?至?";
               break;
           }
+          const c = label.split("至");
+          c.splice(1, 0, "——");
+
           return (
             <Button
               onPress={() => this.selectTimeRange(row, index)}
-              textStyle={styles.selectTime}
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center"
+              }}
             >
-              {label}
+              {c.map((item, i) => {
+                return (
+                  <Text
+                    key={i}
+                    style={[
+                      {
+                        fontSize: item === "——" ? 6 : computeSize(10),
+                        color: "#1a97df"
+                      }
+                    ]}
+                  >
+                    {item}
+                  </Text>
+                );
+              })}
             </Button>
           );
         }
@@ -262,12 +284,14 @@ export default class Timetable extends Component {
       dataIndex,
       render: (row, value, columnsIndex, rowIndex) => {
         return (
-          <Input
-            value={value}
-            onChangeText={v => this.handleValueChange(v, rowIndex, dataIndex)}
-            style={styles.input}
-            clearButtonMode="never"
-          />
+          <View style={{ width: "100%", height: "100%" }}>
+            <Input
+              value={value}
+              onChangeText={v => this.handleValueChange(v, rowIndex, dataIndex)}
+              style={styles.input}
+              clearButtonMode="never"
+            />
+          </View>
         );
       }
     };

@@ -15,7 +15,10 @@ export default {
   },
   input: {
     flex: 1,
-    color: "#1a97df"
+    width: "100%",
+    height: "100%",
+    color: "#1a97df",
+    fontSize: computeSize(12)
   },
   deleteButton: {
     flex: 1,
@@ -23,7 +26,8 @@ export default {
     alignItems: "center"
   },
   deleteText: {
-    color: "red"
+    color: "red",
+    fontSize: computeSize(12)
   },
   addButton: {
     marginLeft: computeSize(10),
