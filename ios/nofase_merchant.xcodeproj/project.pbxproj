@@ -40,7 +40,7 @@
 		4F8ED242C38540ACBB0D2489 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EDD277E4961D4C10B684417B /* libz.tbd */; };
 		5C5D27EB20BEE4D400D21A64 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 5C5D27EA20BEE4D400D21A64 /* assets */; };
 		5C7086E0205FFC3A009B3413 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5C7086B9205FFC3A009B3413 /* Default-568h@2x.png */; };
-		5CD1307720C38DFD00F44F7E /* index.ios.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 5CD1307620C38DFD00F44F7E /* index.ios.jsbundle */; };
+		5C8ABD5620C50CEF00AA35D3 /* index.ios.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 5C8ABD5520C50CEF00AA35D3 /* index.ios.jsbundle */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		6067E62B339F4815AE2013C7 /* libRCTJCoreModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B63202E89C1247668077A5DD /* libRCTJCoreModule.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -383,7 +383,7 @@
 		5C0ECC472090BDFE004BD06D /* nofase_merchant.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = nofase_merchant.entitlements; path = nofase_merchant/nofase_merchant.entitlements; sourceTree = "<group>"; };
 		5C5D27EA20BEE4D400D21A64 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = bundle/assets; sourceTree = "<group>"; };
 		5C7086B9205FFC3A009B3413 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		5CD1307620C38DFD00F44F7E /* index.ios.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = index.ios.jsbundle; path = bundle/index.ios.jsbundle; sourceTree = "<group>"; };
+		5C8ABD5520C50CEF00AA35D3 /* index.ios.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = index.ios.jsbundle; path = bundle/index.ios.jsbundle; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		5F48B3B004C440EF9CA25F23 /* CoreTelephony.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		65D3D33EEB3947A2A76A5670 /* CoreFoundation.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -553,7 +553,7 @@
 		13B07FAE1A68108700A75B9A /* nofase_merchant */ = {
 			isa = PBXGroup;
 			children = (
-				5CD1307620C38DFD00F44F7E /* index.ios.jsbundle */,
+				5C8ABD5520C50CEF00AA35D3 /* index.ios.jsbundle */,
 				5C5D27EA20BEE4D400D21A64 /* assets */,
 				5C0ECC472090BDFE004BD06D /* nofase_merchant.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -1217,7 +1217,7 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				5C5D27EB20BEE4D400D21A64 /* assets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				5CD1307720C38DFD00F44F7E /* index.ios.jsbundle in Resources */,
+				5C8ABD5620C50CEF00AA35D3 /* index.ios.jsbundle in Resources */,
 				5C7086E0205FFC3A009B3413 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

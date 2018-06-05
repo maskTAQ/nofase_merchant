@@ -116,7 +116,7 @@ const post = (
     requestWrapper(url, params)
       .then(res => {
         const { data: Data } = res;
-        //console.log('url \n',url,'params: \n',params,' \n res',Data);
+        console.log("url \n", url, "params: \n", params, " \n res", Data);
         const { code, message, data } = Data;
         loading && Tip.dismiss();
         if (code > 0) {

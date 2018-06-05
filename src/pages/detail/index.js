@@ -6,7 +6,7 @@ import moment from "moment";
 
 import { computeSize } from "src/common";
 import api from "src/api";
-import { Page, DataView } from "src/components";
+import { Page, DataView, Icon } from "src/components";
 import styles from "./style";
 
 const portraitImg = (
@@ -27,7 +27,7 @@ export default class Detail extends Component {
     return api.getIncomeInfo({ PageIndex, PageNum: 20 }).then(res => {
       const result = res.sort((prev, next) => {
         const getTimestamp = s => /\/Date\(([0-9]+)\)/.exec(s)[1];
-        return getTimestamp(next.EDate) - getTimestamp(prev.EDate);
+        return getTimestamp(prev.EDate) - getTimestamp(next.EDate);
       });
       return result;
     });
@@ -42,13 +42,13 @@ export default class Detail extends Component {
     });
   }
   renderIncomeInfoItem(item) {
-    const { NickName, UserCode, Amont, EDate, UserPhoto } = item;
+    const { NickName, UserCode, SaleAmont, EDate, UserPhoto } = item;
     const timestamp = +/\/Date\(([0-9]+)\)/.exec(EDate)[1];
     return (
       <View style={styles.item}>
         <View style={styles.portraitWrapper}>
           {UserPhoto ? (
-            <Image style={styles.portrait} source={{ uri: UserPhoto }} />
+            <Icon size={computeSize(56)} source={{ uri: UserPhoto }} />
           ) : (
             portraitImg
           )}
@@ -59,7 +59,7 @@ export default class Detail extends Component {
           </View>
           <View style={styles.itemContentRow}>
             <Text style={styles.itemId}>ID:{UserCode}</Text>
-            <Text style={styles.itemIncome}>+{Amont}</Text>
+            <Text style={styles.itemIncome}>+{SaleAmont}</Text>
           </View>
           <View style={styles.itemContentRow}>
             <Text style={styles.itemTime}>
