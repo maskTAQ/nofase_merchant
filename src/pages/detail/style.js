@@ -1,4 +1,5 @@
 import { computeSize } from "src/common";
+import { Platform } from "react-native";
 export default {
   container: {
     flex: 1,
@@ -39,7 +40,7 @@ export default {
   portraitWrapper: {
     width: computeSize(56),
     height: computeSize(56),
-    borderRadius: computeSize(56),
+    borderRadius: Platform.OS === "ios" ? computeSize(56) : 0,
     overflow: "hidden"
   },
   portrait: {

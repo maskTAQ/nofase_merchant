@@ -42,7 +42,7 @@ export default class Detail extends Component {
     });
   }
   renderIncomeInfoItem(item) {
-    const { NickName, UserCode, SaleAmont, EDate, UserPhoto } = item;
+    const { NickName, UserCode, Amont, EDate, UserPhoto } = item;
     const timestamp = +/\/Date\(([0-9]+)\)/.exec(EDate)[1];
     return (
       <View style={styles.item}>
@@ -59,7 +59,7 @@ export default class Detail extends Component {
           </View>
           <View style={styles.itemContentRow}>
             <Text style={styles.itemId}>ID:{UserCode}</Text>
-            <Text style={styles.itemIncome}>+{SaleAmont}</Text>
+            <Text style={styles.itemIncome}>+{Amont}</Text>
           </View>
           <View style={styles.itemContentRow}>
             <Text style={styles.itemTime}>
